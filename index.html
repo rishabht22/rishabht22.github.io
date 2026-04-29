@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[YOUR NAME]</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #07090f;
+      color: #c8d8ee;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 60px 24px 120px;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 80px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+    }
+
+    nav a {
+      color: #5a7fa8;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    nav a:hover, nav a.active { color: #7eb8ff; }
+
+    /* PAGES */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* HEADINGS */
+    h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      color: #e8f2ff;
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: #3d6a9e;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 48px 0 16px;
+    }
+
+    /* TEXT */
+    p {
+      color: #8aaccf;
+      font-size: 15px;
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+
+    p strong { color: #c8d8ee; font-weight: 400; }
+
+    a { color: #7eb8ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* PROJECT CARD */
+    .project {
+      border-left: 1px solid #1a3a5c;
+      padding: 0 0 0 20px;
+      margin-bottom: 36px;
+    }
+
+    .project-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      color: #c8d8ee;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: #6a90b8;
+      margin-bottom: 8px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #3d6a9e;
+      border: 1px solid #1a3a5c;
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    /* EXPERIENCE ITEM */
+    .exp-item {
+      margin-bottom: 32px;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .exp-role {
+      font-size: 15px;
+      color: #c8d8ee;
+      font-weight: 400;
+    }
+
+    .exp-date {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: #3d6a9e;
+    }
+
+    .exp-org {
+      font-size: 13px;
+      color: #5a7fa8;
+      margin-bottom: 6px;
+    }
+
+    .exp-desc {
+      font-size: 14px;
+      color: #6a90b8;
+    }
+
+    /* DIVIDER */
+    hr {
+      border: none;
+      border-top: 1px solid #111e2e;
+      margin: 40px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 80px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: #2a4060;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="active" onclick="return show('home', this)">hello world</a>
+    <a href="#" onclick="return show('about', this)">about</a>
+    <a href="#" onclick="return show('projects', this)">projects</a>
+    <a href="#" onclick="return show('experience', this)">experience</a>
+    <a href="#" onclick="return show('contact', this)">contact</a>
+  </nav>
+
+  <!-- ═══════════════════════════════════════
+       HOME PAGE
+       Replace the [bracketed] text below
+  ════════════════════════════════════════ -->
+  <div id="home" class="page active">
+    <h1>hello world.</h1>
+    <p>
+      Hey! I'm <strong>[YOUR NAME]</strong>, thanks for stopping by.
+      I'm a student at <strong>[YOUR SCHOOL]</strong> studying <strong>[YOUR MAJOR]</strong>.
+    </p>
+    <p>
+      I'm passionate about <strong>[INTEREST 1]</strong>, <strong>[INTEREST 2]</strong>, and <strong>[INTEREST 3]</strong>.
+    </p>
+    <p>
+      Right now I'm working on <strong>[WHAT YOU'RE BUILDING OR DOING RIGHT NOW]</strong>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       ABOUT PAGE
+  ════════════════════════════════════════ -->
+  <div id="about" class="page">
+    <h1>[YOUR NAME].</h1>
+
+    <p>[Write 2-3 sentences about yourself here. Who are you, what drives you?]</p>
+
+    <p>[What are you focused on right now? What gets you excited?]</p>
+
+    <h2>currently</h2>
+    <p>[What you're doing now. E.g. "Studying EECS at UC Berkeley. Building computer vision systems. Exploring quant finance."]</p>
+
+    <h2>previously</h2>
+    <p>[Past highlights in one paragraph. E.g. "Software intern at XTEN-AV. Co-founded Respiris Inc. FTC Robotics Team Captain. AIME qualifier."]</p>
+
+    <hr>
+
+    <p>linkedin: <a href="https://linkedin.com/in/[YOUR-LINKEDIN]" target="_blank">linkedin.com/in/[YOUR-LINKEDIN]</a></p>
+    <p>email: <a href="mailto:[YOUR-EMAIL]">[YOUR-EMAIL]</a></p>
+    <p>github: <a href="https://github.com/[YOUR-GITHUB]" target="_blank">github.com/[YOUR-GITHUB]</a></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PROJECTS PAGE
+       Copy a <div class="project"> block
+       to add more projects
+  ════════════════════════════════════════ -->
+  <div id="projects" class="page">
+    <h1>projects.</h1>
+
+    <div class="project">
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[One or two sentences about what this project is and what it does.]</p>
+      <div class="project-tags">
+        <span class="tag">[tech]</span>
+        <span class="tag">[tech]</span>
+        <span class="tag">[tech]</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[Description.]</p>
+      <div class="project-tags">
+        <span class="tag">[tech]</span>
+        <span class="tag">[tech]</span>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-title">[Project Name]</div>
+      <p class="project-desc">[Description.]</p>
+      <div class="project-tags">
+        <span class="tag">[tech]</span>
+        <span class="tag">[tech]</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       EXPERIENCE PAGE
+       Copy a <div class="exp-item"> block
+       to add more entries
+  ════════════════════════════════════════ -->
+  <div id="experience" class="page">
+    <h1>experience.</h1>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-role">[Job Title]</span>
+        <span class="exp-date">[Date Range]</span>
+      </div>
+      <div class="exp-org">[Company or Organization]</div>
+      <p class="exp-desc">[One sentence about what you did.]</p>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-role">[Job Title]</span>
+        <span class="exp-date">[Date Range]</span>
+      </div>
+      <div class="exp-org">[Company or Organization]</div>
+      <p class="exp-desc">[Description.]</p>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-role">[Job Title]</span>
+        <span class="exp-date">[Date Range]</span>
+      </div>
+      <div class="exp-org">[Company or Organization]</div>
+      <p class="exp-desc">[Description.]</p>
+    </div>
+
+    <h2>education</h2>
+
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-role">[Degree, e.g. B.S. EECS]</span>
+        <span class="exp-date">[e.g. 2024 – 2028]</span>
+      </div>
+      <div class="exp-org">[School Name]</div>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CONTACT PAGE
+  ════════════════════════════════════════ -->
+  <div id="contact" class="page">
+    <h1>contact.</h1>
+    <p>Feel free to reach out — I'm always happy to chat about <strong>[WHAT YOU LIKE TALKING ABOUT]</strong>.</p>
+
+    <hr>
+
+    <p>email: <a href="mailto:[YOUR-EMAIL]">[YOUR-EMAIL]</a></p>
+    <p>linkedin: <a href="https://linkedin.com/in/[YOUR-LINKEDIN]" target="_blank">linkedin.com/in/[YOUR-LINKEDIN]</a></p>
+    <p>github: <a href="https://github.com/[YOUR-GITHUB]" target="_blank">github.com/[YOUR-GITHUB]</a></p>
+  </div>
+
+  <footer>
+    <p>© 2025 [YOUR NAME].</p>
+  </footer>
+
+  <script>
+    function show(pageId, link) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      link.classList.add('active');
+      return false;
+    }
+  </script>
+
+</body>
+</html>
