@@ -19,47 +19,17 @@
       background: #07090f;
       color: #c8d8ee;
       font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
       max-width: 850px;
       margin: 0 auto;
-      padding: 60px 24px 120px;
-    }
-
-    nav {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-      margin-bottom: 70px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-    }
-
-    nav a {
-      color: #5a7fa8;
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-
-    nav a:hover,
-    nav a.active {
-      color: #7eb8ff;
-    }
-
-    .page {
-      display: none;
-    }
-
-    .page.active {
-      display: block;
+      padding: 60px 24px 100px;
+      line-height: 1.7;
     }
 
     h1 {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 30px;
-      font-weight: 500;
+      font-size: 34px;
       color: #e8f2ff;
-      margin-bottom: 28px;
+      margin-bottom: 10px;
     }
 
     h2 {
@@ -67,8 +37,8 @@
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: #3d6a9e;
-      margin: 48px 0 14px;
+      color: #4d78a8;
+      margin: 50px 0 16px;
     }
 
     p {
@@ -78,7 +48,7 @@
       font-weight: 300;
     }
 
-    p strong {
+    strong {
       color: #d7e6f7;
       font-weight: 500;
     }
@@ -92,333 +62,181 @@
       text-decoration: underline;
     }
 
-    .profile {
+    .hero {
       display: flex;
-      gap: 36px;
+      gap: 40px;
       align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    .profile img {
-      width: 210px;
-      height: 210px;
+    .hero img {
+      width: 220px;
+      height: 220px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid #1a3a5c;
     }
 
-    .profile-text {
+    .hero-text {
       flex: 1;
       min-width: 260px;
     }
 
-    .button-link {
+    .button {
       display: inline-block;
-      margin-right: 10px;
-      margin-top: 10px;
-      padding: 9px 14px;
+      margin-right: 12px;
+      margin-top: 12px;
+      padding: 9px 15px;
       border: 1px solid #1a3a5c;
       border-radius: 5px;
+      color: #7eb8ff;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 12px;
-      color: #7eb8ff;
-      transition: background 0.15s;
     }
 
-    .button-link:hover {
+    .button:hover {
       background: #101826;
       text-decoration: none;
     }
 
-    .project {
+    .card {
       border-left: 1px solid #1a3a5c;
-      padding-left: 20px;
-      margin-bottom: 40px;
+      padding-left: 18px;
+      margin-bottom: 30px;
     }
 
-    .project-title {
+    .card-title {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 15px;
       color: #d7e6f7;
       margin-bottom: 8px;
     }
 
-    .project-desc {
-      font-size: 14px;
-      color: #6a90b8;
-      margin-bottom: 10px;
-    }
-
-    .project-tags {
+    .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 10px;
+      margin-top: 12px;
     }
 
     .tag {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
-      color: #3d6a9e;
       border: 1px solid #1a3a5c;
-      padding: 2px 8px;
       border-radius: 4px;
+      padding: 2px 8px;
+      color: #4d78a8;
     }
 
-    .cert-item {
-      margin-bottom: 18px;
-      padding-left: 16px;
-      border-left: 1px solid #1a3a5c;
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid #111e2e;
-      margin: 40px 0;
+    .cert {
+      margin-bottom: 14px;
+      color: #8aaccf;
     }
 
     footer {
-      margin-top: 80px;
+      margin-top: 70px;
+      color: #35506f;
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
-      color: #2a4060;
     }
   </style>
 </head>
 <body>
 
-  <nav>
-    <a href="#" class="active" onclick="return show('Home', this)">Home</a>
-    <a href="#" onclick="return show('About', this)">About Me</a>
-    <a href="#" onclick="return show('Projects', this)">Projects</a>
-    <a href="#" onclick="return show('Certifications', this)">Certifications</a>
-    <a href="#" onclick="return show('Application', this)">Application Materials</a>
-    <a href="#" onclick="return show('Contact', this)">Contact</a>
-  </nav>
+  <div class="hero">
 
-  <!-- HOME -->
-  <div id="Home" class="page active">
+    <img src="/Users/risha/Downloads/self-picture.png" alt="Rishabh Thakur">
 
-    <div class="profile">
-      <img src="your-photo.jpg" alt="Rishabh Thakur">
-
-      <div class="profile-text">
-        <h1>Rishabh Thakur</h1>
-
-        <p>
-          Incoming <strong>EECS student at UC Berkeley</strong> and
-          <strong>Regents' & Chancellor's Scholar</strong> interested in
-          robotics, engineering design, accessibility technology,
-          and applied AI systems.
-        </p>
-
-        <a class="button-link" href="resume.pdf" target="_blank">Resume</a>
-        <a class="button-link" href="cover-letter.pdf" target="_blank">Cover Letter</a>
-        <a class="button-link" href="job-application.pdf" target="_blank">Job Application</a>
-      </div>
-    </div>
-
-    <h2>Why should you hire me?</h2>
-
-    <p>
-      I combine strong technical knowledge with hands-on experience in
-      CAD, programming, robotics, and rapid prototyping.
-    </p>
-
-    <p>
-      I enjoy solving practical engineering problems and building systems
-      that have real-world impact, especially in accessibility and education.
-    </p>
-
-    <p>
-      I learn quickly, work well independently and in teams, and consistently
-      take initiative on projects.
-    </p>
-
-  </div>
-
-  <!-- ABOUT -->
-  <div id="About" class="page">
-
-    <h1>about me.</h1>
-
-    <p>
-      Hi, I'm <strong>Rishabh Thakur</strong>, an incoming EECS student at
-      <strong>UC Berkeley</strong> and Regents' & Chancellor's Scholar.
-    </p>
-
-    <p>
-      My interests include robotics, embedded systems, assistive technology,
-      computer vision, and engineering design.
-    </p>
-
-    <p>
-      I enjoy creating projects that combine software and hardware to solve
-      real-world problems and improve accessibility.
-    </p>
-
-    <h2>skills</h2>
-
-    <p>
-      Python · MATLAB · Java · HTML/CSS · Fusion 360 · CAD · 3D Printing · Robotics · Electronics · Git
-    </p>
-
-    <h2>currently</h2>
-
-    <p>
-      Studying EECS, building engineering projects, and exploring applied AI systems.
-    </p>
-
-  </div>
-
-  <!-- PROJECTS -->
-  <div id="Projects" class="page">
-
-    <h1>projects.</h1>
-
-    <div class="project">
-      <div class="project-title">Braille Math Blocks</div>
-
-      <p class="project-desc">
-        Designed and developed tactile math learning blocks for visually impaired students using CAD and 3D printing.
-      </p>
+    <div class="hero-text">
+      <h1>Rishabh Thakur</h1>
 
       <p>
-        <a href="https://www.instructables.com/" target="_blank">
-          View Instructables Page
-        </a>
+        Incoming <strong>EECS student at UC Berkeley</strong> and
+        <strong>Regents' & Chancellor's Scholar</strong> interested in robotics,
+        engineering design, accessibility technology, and applied AI systems.
       </p>
 
-      <div class="project-tags">
-        <span class="tag">Fusion 360</span>
-        <span class="tag">3D Printing</span>
-        <span class="tag">Accessibility</span>
-      </div>
-    </div>
-
-    <div class="project">
-      <div class="project-title">FTC Robotics</div>
-
-      <p class="project-desc">
-        Worked on robot design, programming, and engineering strategy for competitive robotics.
-      </p>
-
-      <div class="project-tags">
-        <span class="tag">Robotics</span>
-        <span class="tag">Java</span>
-        <span class="tag">Engineering</span>
-      </div>
-    </div>
-
-    <div class="project">
-      <div class="project-title">Engineering Design Projects</div>
-
-      <p class="project-desc">
-        Created CAD models and prototype systems using mechanical design and rapid prototyping tools.
-      </p>
-
-      <div class="project-tags">
-        <span class="tag">CAD</span>
-        <span class="tag">Mechanical Design</span>
-        <span class="tag">Prototype Design</span>
-      </div>
+      <a class="button" href="resume.pdf" target="_blank">Resume</a>
+      <a class="button" href="cover-letter.pdf" target="_blank">Cover Letter</a>
+      <a class="button" href="job-application.pdf" target="_blank">Job Application</a>
     </div>
 
   </div>
 
-  <!-- CERTIFICATIONS -->
-  <div id="Certifications" class="page">
+  <h2>About Me</h2>
 
-    <h1>certifications.</h1>
+  <p>
+    I enjoy building projects that combine software and hardware to solve
+    real-world problems. My interests include robotics, embedded systems,
+    CAD, assistive technology, and rapid prototyping.
+  </p>
 
-    <div class="cert-item">
-      <p><strong>3D Printing Certification</strong></p>
-    </div>
+  <h2>Why Should You Hire Me?</h2>
 
-    <div class="cert-item">
-      <p><strong>Mechanical Design Certification</strong></p>
-    </div>
+  <p>
+    I combine strong technical skills with hands-on engineering experience
+    in programming, robotics, CAD, and 3D printing. I learn quickly,
+    work well independently and in teams, and consistently take initiative
+    on projects.
+  </p>
 
-    <div class="cert-item">
-      <p><strong>MATLAB Onramp Certification</strong></p>
-    </div>
+  <h2>Projects & Instructables</h2>
 
-    <div class="cert-item">
-      <p><strong>MATLAB Fundamentals Certification</strong></p>
-    </div>
-
-    <div class="cert-item">
-      <p><strong>MATLAB Programming Certification</strong></p>
-    </div>
-
-  </div>
-
-  <!-- APPLICATION -->
-  <div id="Application" class="page">
-
-    <h1>application materials.</h1>
+  <div class="card">
+    <div class="card-title">Braille Math Blocks</div>
 
     <p>
-      You can view my application materials below.
+      Designed tactile math learning blocks for visually impaired students
+      using CAD and 3D printing.
     </p>
 
-    <a class="button-link" href="resume.pdf" target="_blank">View Resume</a>
-    <a class="button-link" href="cover-letter.pdf" target="_blank">View Cover Letter</a>
-    <a class="button-link" href="job-application.pdf" target="_blank">View Job Application</a>
-
-  </div>
-
-  <!-- CONTACT -->
-  <div id="Contact" class="page">
-
-    <h1>contact.</h1>
-
     <p>
-      Feel free to reach out regarding internships, engineering opportunities,
-      collaborations, or projects.
-    </p>
-
-    <hr>
-
-    <p>
-      email:
-      <a href="mailto:your-email@example.com">
-        your-email@example.com
+      <a href="https://www.instructables.com/" target="_blank">
+        View Instructables Page
       </a>
     </p>
 
-    <p>
-      linkedin:
-      <a href="https://linkedin.com/in/YOUR-LINKEDIN" target="_blank">
-        linkedin.com/in/YOUR-LINKEDIN
-      </a>
-    </p>
-
-    <p>
-      github:
-      <a href="https://github.com/YOUR-GITHUB" target="_blank">
-        github.com/YOUR-GITHUB
-      </a>
-    </p>
-
+    <div class="tags">
+      <span class="tag">Fusion 360</span>
+      <span class="tag">3D Printing</span>
+      <span class="tag">Accessibility</span>
+    </div>
   </div>
+
+  <div class="card">
+    <div class="card-title">FTC Robotics</div>
+
+    <p>
+      Worked on robot design, engineering strategy, and programming for competitive robotics.
+    </p>
+
+    <div class="tags">
+      <span class="tag">Robotics</span>
+      <span class="tag">Java</span>
+      <span class="tag">Engineering</span>
+    </div>
+  </div>
+
+  <h2>Certifications</h2>
+
+  <div class="cert">• 3D Printing Certification</div>
+  <div class="cert">• Mechanical Design Certification</div>
+  <div class="cert">• MATLAB Onramp Certification</div>
+  <div class="cert">• MATLAB Fundamentals Certification</div>
+  <div class="cert">• MATLAB Programming Certification</div>
+
+    <h2>Contact</h2>
+
+  <p>
+    <a href="mailto:rishthakur09@gmail.com">
+      rishthakur09@gmail.com
+    </a>
+  </p>
 
   <footer>
-    <p>© 2026 Rishabh Thakur.</p>
+    <p>© 2026 Rishabh Thakur</p>
   </footer>
-
-  <script>
-    function show(pageId, link) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-
-      document.getElementById(pageId).classList.add('active');
-      link.classList.add('active');
-
-      return false;
-    }
-  </script>
 
 </body>
 </html>
