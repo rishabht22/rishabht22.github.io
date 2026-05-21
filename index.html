@@ -4,16 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rishabh Thakur</title>
-
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background: #07090f;
       color: #c8d8ee;
@@ -23,14 +20,12 @@
       padding: 60px 24px 100px;
       line-height: 1.7;
     }
-
     h1 {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 34px;
       color: #e8f2ff;
       margin-bottom: 10px;
     }
-
     h2 {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 13px;
@@ -39,28 +34,23 @@
       color: #4d78a8;
       margin: 50px 0 16px;
     }
-
     p {
       color: #8aaccf;
       font-size: 15px;
       margin-bottom: 16px;
       font-weight: 300;
     }
-
     strong {
       color: #d7e6f7;
       font-weight: 500;
     }
-
     a {
       color: #7eb8ff;
       text-decoration: none;
     }
-
     a:hover {
       text-decoration: underline;
     }
-
     .hero {
       display: flex;
       gap: 40px;
@@ -68,7 +58,6 @@
       flex-wrap: wrap;
       margin-bottom: 30px;
     }
-
     .hero img {
       width: 220px;
       height: 220px;
@@ -76,12 +65,10 @@
       border-radius: 14px;
       border: 1px solid #1a3a5c;
     }
-
     .hero-text {
       flex: 1;
       min-width: 260px;
     }
-
     .button {
       display: inline-block;
       margin-right: 12px;
@@ -93,32 +80,27 @@
       font-family: 'IBM Plex Mono', monospace;
       font-size: 12px;
     }
-
     .button:hover {
       background: #101826;
       text-decoration: none;
     }
-
     .card {
       border-left: 1px solid #1a3a5c;
       padding-left: 18px;
       margin-bottom: 30px;
     }
-
     .card-title {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 15px;
       color: #d7e6f7;
       margin-bottom: 8px;
     }
-
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-top: 12px;
     }
-
     .tag {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 11px;
@@ -127,12 +109,36 @@
       padding: 2px 8px;
       color: #4d78a8;
     }
-
-    .cert {
-      margin-bottom: 14px;
-      color: #8aaccf;
+    
+    /* Certification Grid Styling */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
     }
-
+    .cert-card {
+      background: #0d1527;
+      border: 1px solid #1a3a5c;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cert-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: #d7e6f7;
+    }
+    .cert-media {
+      width: 100%;
+      height: 220px;
+      border-radius: 4px;
+      border: 1px solid #16293f;
+      background: #101826;
+    }
+    
     footer {
       margin-top: 70px;
       color: #35506f;
@@ -141,106 +147,113 @@
     }
   </style>
 </head>
-
 <body>
-
   <div class="hero">
-
     <img src="self-picture.PNG" alt="Rishabh Thakur">
-
     <div class="hero-text">
-
       <h1>Rishabh Thakur</h1>
-
       <p>
         Incoming <strong>EECS student at UC Berkeley</strong> and
         <strong>Regents' & Chancellor's Scholar</strong> interested in
         robotics, engineering design, accessibility technology,
         and applied AI systems.
       </p>
-
       <a class="button" href="https://drive.google.com/file/d/1jIpD_FWD7oKH_1W5qgkud7qghvyLGHfU/view" target="_blank">Resume</a>
-
       <a class="button" href="https://drive.google.com/file/d/1K7rVU4AHNwmMOCuCMq7k4sdGlkQiC72V/view?usp=sharing" target="_blank">CV</a>
-
       <a class="button" href="https://drive.google.com/file/d/12tDol-d5cwV0NN4annAJBOzbF9iCafXz/view?usp=sharing" target="_blank">Job Application</a>
-
     </div>
-
   </div>
-
+  
   <h2>About Me</h2>
-
   <p>
     I enjoy building projects that combine software and hardware to solve
     real-world problems. My interests include robotics, embedded systems,
     CAD, assistive technology, and rapid prototyping.
   </p>
-
+  
   <h2>Why Should You Hire Me?</h2>
-
   <p>
     I combine strong technical skills with hands-on engineering experience
     in programming, robotics, CAD, and 3D printing. I learn quickly,
     work well independently and in teams, and consistently take initiative
     on projects.
   </p>
-
+  
   <h2>Projects & Instructables</h2>
-
   <div class="card">
-
     <div class="card-title">Target Shooter</div>
-
     <p>
       Designed and built a mechanical target shooter capable of launching
       a 5-inch diameter ball using a bevel gear-driven system. The project
       involved CAD design, mechanical engineering, and prototyping.
     </p>
-
     <p>
       <a href="https://www.instructables.com/Target-Shooter/" target="_blank">
         View Instructables Page
       </a>
     </p>
-
     <div class="tags">
       <span class="tag">Mechanical Design</span>
       <span class="tag">Fusion 360</span>
       <span class="tag">Bevel Gears</span>
       <span class="tag">Prototyping</span>
     </div>
-
   </div>
-
   <div class="card">
-
     <div class="card-title">FTC Robotics</div>
-
     <p>
       Worked on robot design, engineering strategy, and programming
       for competitive robotics competitions.
     </p>
-
     <div class="tags">
       <span class="tag">Robotics</span>
       <span class="tag">Java</span>
       <span class="tag">Engineering</span>
     </div>
+  </div>
+  
+  <h2>Certifications</h2>
+  <div class="cert-grid">
+    
+    <div class="cert-card">
+      <div class="cert-title">3D Printing Certification</div>
+      <object class="cert-media" data="Rishabh Thakur_3D Print Technology_04302026.pdf" type="application/pdf">
+        <iframe src="Rishabh Thakur_3D Print Technology_04302026.pdf"></iframe>
+      </object>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-title">Mechanical Design Certification</div>
+      <object class="cert-media" data="Rishabh Thakur_Mechanical Design 1_05212026.pdf" type="application/pdf">
+        <iframe src="Rishabh Thakur_Mechanical Design 1_05212026.pdf"></iframe>
+      </object>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-title">Deep Learning Certification</div>
+      <object class="cert-media" data="deep learning certificate.pdf" type="application/pdf">
+        <iframe src="deep learning certificate.pdf"></iframe>
+      </object>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-title">MATLAB Onramp Certification</div>
+      <object class="cert-media" data="matlab onramp.pdf" type="application/pdf">
+        <iframe src="matlab onramp.pdf"></iframe>
+      </object>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-title">ML Onramp Certification</div>
+      <object class="cert-media" data="ml onramp.pdf" type="application/pdf">
+        <iframe src="ml onramp.pdf"></iframe>
+      </object>
+    </div>
 
   </div>
-
-  <h2>Certifications</h2>
-
-  <div class="cert">• 3D Printing Certification</div>
-  <div class="cert">• Mechanical Design Certification</div>
-  <div class="cert">• MATLAB Onramp Certification</div>
-  <div class="cert">• MATLAB Fundamentals Certification</div>
-  <div class="cert">• MATLAB Programming Certification</div>
 
   <footer>
     <p>© 2026 Rishabh Thakur</p>
   </footer>
-
 </body>
 </html>
