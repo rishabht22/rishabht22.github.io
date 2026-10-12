@@ -1,0 +1,96 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2') format('woff2');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 8px;
+  background: #fff;
+  color: #000;
+  font-family: 'Lato', Verdana, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+a {
+  color: #1772d0;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #f09228;
+}
+
+.profile {
+  width: 100%;
+  max-width: 800px;
+  border: 0;
+  border-spacing: 0;
+  border-collapse: separate;
+  margin: 0 auto;
+}
+
+.biography {
+  width: 63%;
+  padding: 2.5%;
+  vertical-align: middle;
+}
+
+.name {
+  margin: 0;
+  padding-top: 20px;
+  font-size: 32px;
+  font-weight: 400;
+  text-align: center;
+}
+
+p {
+  margin: 14px 0;
+}
+
+.contact-links {
+  text-align: center;
+}
+
+.portrait {
+  width: 37%;
+  padding: 2.5%;
+}
+
+.portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: 50% 43%;
+  border-radius: 50%;
+}
+
+@media (max-width: 600px) {
+  .profile,
+  .profile tbody,
+  .profile tr,
+  .profile td {
+    display: block;
+  }
+
+  .biography {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .portrait {
+    width: 100%;
+    max-width: 296px;
+    margin: 0 auto;
+    padding: 0 20px 20px;
+  }
+}
