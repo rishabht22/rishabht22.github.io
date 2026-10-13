@@ -8,6 +8,14 @@
   src: local('Lato Regular'), local('Lato-Regular'), url('https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lato Bold'), local('Lato-Bold'), url('https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2') format('woff2');
+}
+
 * {
   box-sizing: border-box;
 }
@@ -75,6 +83,54 @@ p {
   object-fit: cover;
   object-position: 50% 43%;
   border-radius: 50%;
+}
+
+.content-section {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.experience-list {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experience-list > li {
+  margin-bottom: 20px;
+}
+
+.experience-list > li:last-child {
+  margin-bottom: 0;
+}
+
+.entry-meta,
+.entry-description {
+  margin: 4px 0 0;
+}
+
+.award-group {
+  margin-top: 20px;
+}
+
+.award-group ul,
+.coursework-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  line-height: 1.7;
 }
 
 @media (max-width: 600px) {
