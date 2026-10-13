@@ -1,9 +1,11 @@
+/* Introductory profile styles adapted from jonbarron/jonbarron.github.io.
+   Mobile stacking is added below. */
 @font-face {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2') format('woff2');
+  src: local('Lato Regular'), local('Lato-Regular'), url('https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2') format('woff2');
 }
 
 * {
@@ -67,6 +69,7 @@ p {
 .portrait img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
