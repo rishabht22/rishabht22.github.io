@@ -50,6 +50,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-
 .wordmark span { color: var(--accent); }
 nav { display: flex; gap: 34px; font-size: 14px; }
 nav a { padding-block: 10px; text-decoration: none; }
+nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 8px; }
 nav a span { margin-left: 3px; color: var(--muted); }
 .introduction {
   display: grid;
@@ -155,6 +156,12 @@ h2 { margin: 0; font-size: 19px; font-weight: 500; letter-spacing: -.3px; line-h
 .detail-divider { color: #7186a1; }
 .notes-heading-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 13px; }
 .notes-heading-row .current-title { margin-bottom: 0; }
+.notes-page { min-height: calc(100svh - 226px); padding-block: 88px 84px; }
+.notes-page-header, .notes-page .notes-placeholder { max-width: 680px; }
+.notes-page .notes-heading-row { justify-content: flex-start; gap: 25px; margin-bottom: 29px; }
+.notes-page h1 { margin-bottom: 0; }
+.notes-page .bio { max-width: 600px; }
+.notes-page .notes-placeholder { margin-top: 42px; }
 .status-label {
   flex-shrink: 0;
   padding: 3px 9px;
@@ -207,6 +214,7 @@ h2 { margin: 0; font-size: 19px; font-weight: 500; letter-spacing: -.3px; line-h
   .site-header { min-height: 83px; }
   nav { gap: 26px; }
   .introduction { grid-template-columns: minmax(0, 1fr); gap: 34px; padding-block: 49px 47px; }
+  .notes-page { min-height: calc(100svh - 192px); padding-block: 49px 47px; }
   .eyebrow { margin-bottom: 20px; }
   h1 { margin-left: -3px; font-size: clamp(62px, 14vw, 80px); letter-spacing: -3.6px; }
   .bio { max-width: 470px; }
