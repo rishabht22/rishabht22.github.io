@@ -67,6 +67,8 @@ a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; }
   min-height: 88px;
 }
 
+.site-title { margin: 0; font: inherit; }
+
 .site-name {
   color: var(--text);
   font-size: 23px;
