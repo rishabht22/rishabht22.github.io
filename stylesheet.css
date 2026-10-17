@@ -135,6 +135,18 @@ p { margin: 0 0 23px; }
 
 .social-links span { color: var(--muted); }
 
+.notes-heading {
+  margin: 0 0 18px;
+  font-size: 28px;
+  line-height: 1.4;
+  letter-spacing: -.5px;
+}
+.notes-divider {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
 .semester-heading {
   margin: 0 0 22px;
   font-family: Georgia, "Times New Roman", serif;
