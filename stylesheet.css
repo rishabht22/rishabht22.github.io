@@ -173,9 +173,9 @@ p { margin: 0 0 23px; }
 .prior-coursework { margin-top: 36px; }
 .prior-coursework summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; cursor: pointer; list-style: none; font-size: 21px; font-weight: 500; }
 .prior-coursework summary::-webkit-details-marker { display: none; }
-.prior-coursework summary::after { content: ""; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 6px; }
-.prior-coursework[open] summary::after { transform: rotate(225deg); }
-.prior-coursework[open] summary { margin-bottom: 22px; }
+.prior-coursework summary::after { content: ""; flex-shrink: 0; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 6px; transition: transform 220ms ease; }
+.prior-coursework[open]:not(.is-closing) summary::after { transform: rotate(225deg); }
+.disclosure-content { padding-top: 22px; }
 .course-list.course-list-names li { display: block; }
 .course-list {
   margin: 0;
@@ -227,6 +227,6 @@ p { margin: 0 0 23px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page, nav a { animation: none; transition: none; }
+  .page, nav a, .prior-coursework summary::after { animation: none; transition: none; }
   .page.is-leaving { opacity: 1; }
 }
