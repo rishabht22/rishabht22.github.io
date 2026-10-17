@@ -149,11 +149,12 @@ p { margin: 0 0 23px; }
 
 .semester-heading {
   margin: 0 0 22px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 500;
   line-height: 1.4;
 }
+.prior-coursework { margin-top: 36px; }
+.course-list.course-list-names li { display: block; }
 .course-list {
   margin: 0;
   padding: 0;
@@ -193,7 +194,7 @@ p { margin: 0 0 23px; }
   .page { padding-block: 30px 40px; }
   .profile { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .portrait { width: min(100%, 280px); }
-  .semester-heading { font-size: 25px; }
+  .semester-heading { font-size: 20px; }
   .course-list li { grid-template-columns: 110px minmax(0, 1fr); gap: 14px; padding-block: 16px; font-size: 18px; }
   .course-code { font-size: 15px; }
 }
