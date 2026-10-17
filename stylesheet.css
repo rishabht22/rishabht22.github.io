@@ -122,6 +122,11 @@ p { margin: 0 0 23px; }
 
 .social-links span { color: var(--muted); }
 
+.semester-heading { margin: 0 0 25px; font-size: 23px; font-weight: 600; letter-spacing: -.4px; }
+.course-list { margin: 0; padding: 0; list-style: none; }
+.course-list li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 18px; margin-bottom: 13px; }
+.course-code { font-weight: 500; white-space: nowrap; }
+
 @media (max-width: 850px) {
   .header-inner, .page { width: calc(100% - 48px); }
   .profile { grid-template-columns: minmax(0, 1fr) 220px; gap: 32px; }
@@ -130,12 +135,13 @@ p { margin: 0 0 23px; }
 @media (max-width: 620px) {
   body { font-size: 16px; }
   .header-inner, .page { width: calc(100% - 40px); }
-  .header-inner { min-height: 76px; gap: 16px; }
+  .header-inner { min-height: 76px; flex-direction: column; align-items: flex-start; gap: 0; padding-block: 13px; }
   .site-name { font-size: 20px; }
   nav { gap: 18px; font-size: 15px; }
   .page { padding-block: 30px 40px; }
   .profile { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .portrait { width: min(100%, 280px); }
+  .course-list li { grid-template-columns: 110px minmax(0, 1fr); gap: 14px; }
 }
 
 @media (max-width: 360px) {
