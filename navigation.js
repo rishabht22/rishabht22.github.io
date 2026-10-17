@@ -2,10 +2,12 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let pendingNavigation;
   let restorePage;
+  let activeRequest;
+  let navigationSequence = 0;
 
   document.addEventListener('click', (event) => {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey ||
-        event.ctrlKey || event.shiftKey || event.altKey || reducedMotion.matches) {
+        event.ctrlKey || event.shiftKey || event.altKey) {
       return;
     }
 
@@ -24,14 +26,33 @@
     event.preventDefault();
     window.clearTimeout(pendingNavigation);
     window.clearTimeout(restorePage);
-    page.classList.add('is-leaving');
-    pendingNavigation = window.setTimeout(() => {
+    activeRequest?.abort();
+    const sequence = ++navigationSequence;
+    const request = new AbortController();
+    activeRequest = request;
+
+    // Refresh the destination's cached HTML so its navigation includes recent updates.
+    const requestTimeout = window.setTimeout(() => request.abort(), 2000);
+    const refreshed = window.fetch(destination.href, {
+      cache: 'reload',
+      credentials: 'same-origin',
+      signal: request.signal,
+    }).then(response => response.arrayBuffer())
+      .catch(() => {})
+      .finally(() => window.clearTimeout(requestTimeout));
+
+    if (!reducedMotion.matches) page.classList.add('is-leaving');
+    restorePage = window.setTimeout(() => page.classList.remove('is-leaving'), 600);
+    pendingNavigation = window.setTimeout(async () => {
+      await refreshed;
+      if (sequence !== navigationSequence) return;
       window.location.assign(destination.href);
-      restorePage = window.setTimeout(() => page.classList.remove('is-leaving'), 600);
-    }, 90);
+    }, reducedMotion.matches ? 0 : 90);
   });
 
   window.addEventListener('pageshow', () => {
+    navigationSequence += 1;
+    activeRequest?.abort();
     window.clearTimeout(pendingNavigation);
     window.clearTimeout(restorePage);
     document.querySelector('main.page')?.classList.remove('is-leaving');
