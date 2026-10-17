@@ -170,11 +170,11 @@ p { margin: 0 0 23px; }
   font-weight: 500;
   line-height: 1.4;
 }
-.prior-coursework { margin-top: 36px; }
-.prior-coursework summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; cursor: pointer; list-style: none; font-size: 21px; font-weight: 500; }
-.prior-coursework summary::-webkit-details-marker { display: none; }
-.prior-coursework summary::after { content: ""; flex-shrink: 0; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 6px; transition: transform 220ms ease; }
-.prior-coursework[open]:not(.is-closing) summary::after { transform: rotate(225deg); }
+.coursework-section + .coursework-section { margin-top: 36px; }
+.coursework-section summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; cursor: pointer; list-style: none; font-size: 21px; font-weight: 500; }
+.coursework-section summary::-webkit-details-marker { display: none; }
+.coursework-section summary::after { content: ""; flex-shrink: 0; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 6px; transition: transform 220ms ease; }
+.coursework-section[open]:not(.is-closing) summary::after { transform: rotate(225deg); }
 .disclosure-content { padding-top: 22px; }
 .course-list.course-list-names li { display: block; }
 .course-list {
@@ -215,7 +215,7 @@ p { margin: 0 0 23px; }
   .bio { font-size: 17px; line-height: 1.8; }
   .contact-list { font-size: 14px; }
   .contact-list > div { flex-direction: row; gap: 16px; }
-  .prior-coursework summary { font-size: 20px; }
+  .coursework-section summary { font-size: 20px; }
   .semester-heading { font-size: 20px; }
   .course-list li { grid-template-columns: 110px minmax(0, 1fr); gap: 14px; padding-block: 9px; font-size: 18px; }
   .course-code { font-size: 15px; }
@@ -227,6 +227,6 @@ p { margin: 0 0 23px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page, nav a, .prior-coursework summary::after { animation: none; transition: none; }
+  .page, nav a, .coursework-section summary::after { animation: none; transition: none; }
   .page.is-leaving { opacity: 1; }
 }

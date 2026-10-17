@@ -1,4 +1,4 @@
-document.querySelectorAll('.prior-coursework').forEach((details) => {
+document.querySelectorAll('.coursework-section').forEach((details) => {
   const summary = details.querySelector('summary');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let animation;
