@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="Termination, truncation, and the two masks needed for bootstrapping and GAE in PPO. A worked example, diagrams, and implementation notes.">
+  <meta name="theme-color" content="#101b2d">
+  <meta name="color-scheme" content="dark">
+  <title>Bootstrapping at Episode Boundaries in PPO — Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/notes/ppo-episode-boundaries/">
+  <link rel="stylesheet" href="../../stylesheet.css?v=20261017-10">
+  <script src="../../navigation.js?v=20261017-3" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+  <script defer src="note.js?v=20261017-10"></script>
+</head>
+<body>
+  <a class="skip-link" href="#note">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="../../">About</a>
+        <a href="../../coursework/">Coursework</a>
+        <a href="../" aria-current="page">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page note-page" id="note">
+    <article>
+      <a class="back-link" href="../">← Notes</a>
+      <header class="note-header">
+        <p class="note-meta"><time datetime="2026-10-17">October 17, 2026</time> <span>reinforcement learning · PPO</span></p>
+        <h1 class="page-heading">Bootstrapping at Episode Boundaries in PPO</h1>
+        <p class="note-deck">Termination, truncation, and why GAE needs two different masks.</p>
+      </header>
+
+      <h2>What does “done” actually mean?</h2>
+      <p>In a PPO rollout, an episode ending feels like it should be one boolean. The environment says it’s done, we reset it, and move on. But there are two questions hiding in that one flag: should we estimate any reward after the last state, and should we keep accumulating advantages from the next transition?</p>
+      <p>These questions can have different answers. That’s the detail I want to work through here. This note follows the time-limit discussion in Pardo et al. <a href="#ref-1">[1]</a> and Gymnasium’s explanation of its step API <a href="#ref-2">[2]</a>, with PPO and GAE as the setting.</p>
+      <p>The short version: a time-limit reset can stop the trajectory without making the last state worthless. Slightly annoying distinction, but it matters :)</p>
+
+      <hr>
+      <h2>Why bootstrap in the first place?</h2>
+      <p>PPO collects a finite batch of experience before updating its policy <a href="#ref-3">[3]</a>. Usually we haven’t observed every future reward from every state in that batch. A value function gives us an estimate of the part we didn’t get to see.</p>
+      <div class="math-block">\[
+        V^\pi(s_t)=\mathbb{E}_\pi\!\left[\sum_{k=0}^{\infty}\gamma^k r_{t+k}\,\middle|\,s_t\right].
+      \]</div>
+      <p>Here, \(r_t\) is the reward on the transition from \(s_t\) to \(s_{t+1}\), and \(0\leq\gamma&lt;1\) is the discount factor. For episodic tasks, take rewards after termination to be zero. We’ll use \(V\) for the critic’s current estimate, held fixed while computing targets.</p>
+      <p>A one-step target is then</p>
+      <div class="math-block">\[y_t=r_t+\gamma V(s_{t+1}).\]</div>
+      <p>This is bootstrapping: using the critic to estimate the unobserved future. It lets us learn from partial trajectories, although an inaccurate critic also introduces error. GAE combines several such temporal-difference residuals to control the bias–variance tradeoff <a href="#ref-4">[4]</a>.</p>
+
+      <h2>Termination vs. truncation</h2>
+      <p><strong>Termination</strong> is an ending defined by the task: reaching a goal, failing, or hitting a deadline that is actually part of the objective. There are no future task rewards after that transition, so the bootstrap term is zero.</p>
+      <p><strong>Truncation</strong> is an external cutoff. Imagine collecting 1,000 steps of a continuing robot-control task and resetting to gather more varied experience. The data stops there, but the task’s return would have continued from that final state. We still bootstrap.</p>
+      <p>Gymnasium exposes these separately <a href="#ref-2">[2]</a>:</p>
+      <pre><code>next_obs, reward, terminated, truncated, info = env.step(action)
+episode_ended = terminated or truncated</code></pre>
+      <p><code>episode_ended</code> is useful for deciding to reset. It doesn’t contain enough information to decide the value target.</p>
+
+      <figure class="note-figure">
+        <div class="diagram-scroll" tabindex="0" role="region" aria-label="Episode boundary diagram; scroll horizontally on narrow screens">
+        <svg viewBox="0 0 620 252" role="img" aria-labelledby="boundary-title boundary-desc">
+          <title id="boundary-title">The final observation and the reset observation are different states</title>
+          <desc id="boundary-desc">A transition goes from the current state to the final observation. At truncation we bootstrap from this final observation. A separate reset leads to a new episode, whose advantage must not enter the previous episode.</desc>
+          <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="#acc9e5"/></marker></defs>
+          <rect x="12" y="44" width="145" height="66" rx="5"/><rect x="225" y="44" width="171" height="66" rx="5"/><rect x="464" y="44" width="144" height="66" rx="5"/>
+          <path d="M158 77 H215" marker-end="url(#arrow)"/><path d="M398 77 H453" stroke-dasharray="5 5" marker-end="url(#arrow)"/>
+          <text x="84" y="72" text-anchor="middle">current state</text><text x="84" y="95" text-anchor="middle" class="diagram-muted">sₜ</text>
+          <text x="310" y="72" text-anchor="middle">final observation</text><text x="310" y="95" text-anchor="middle" class="diagram-muted">sₜ₊₁</text>
+          <text x="536" y="72" text-anchor="middle">reset observation</text><text x="536" y="95" text-anchor="middle" class="diagram-muted">new episode</text>
+          <text x="186" y="31" text-anchor="middle" class="diagram-muted">step</text><text x="426" y="31" text-anchor="middle" class="diagram-muted">reset</text>
+          <path d="M310 112 V146"/>
+          <text x="310" y="171" text-anchor="middle">truncated? keep γV(sₜ₊₁)</text>
+          <text x="310" y="198" text-anchor="middle">terminated? bootstrap = 0</text>
+          <text x="310" y="236" text-anchor="middle" class="diagram-muted">Either way, don’t carry GAE across the reset.</text>
+        </svg>
+        </div>
+        <figcaption>Original diagram. Resetting the simulator and ending the task’s return are separate decisions.</figcaption>
+      </figure>
+
+      <p>One caveat before going further: <strong>a deadline can be a real termination</strong>. If the task is “score as much as possible in 60 seconds,” the clock belongs to the task. For a Markov observation, the policy also needs the remaining time. “Always bootstrap at a time limit” would be the wrong rule here <a href="#ref-1">[1]</a>.</p>
+
+      <hr>
+      <h2>Where this enters GAE</h2>
+      <p>Let \(z_t\) indicate termination and \(u_t\) indicate truncation on transition \(t\). For collected data that resets after either event, define two masks:</p>
+      <div class="math-block">\[
+        b_t=1-z_t,\qquad
+        c_t=1-\mathbb{1}[z_t\lor u_t].
+      \]</div>
+      <p>\(b_t\) controls <em>bootstrapping</em>. \(c_t\) controls whether the <em>GAE trace continues</em> into the next stored transition. They answer the two questions from the intro.</p>
+      <p>With boundary handling made explicit, the TD residual is</p>
+      <div class="math-block">\[
+        \delta_t=r_t+\gamma b_tV(s_{t+1}^{\mathrm{final}})-V(s_t),
+      \]</div>
+      <p>where \(s_{t+1}^{\mathrm{final}}\) means the actual successor of this transition, before any reset. On an ordinary step, it’s just the next observation. GAE’s backward recurrence becomes</p>
+      <div class="math-block">\[
+        \hat A_t=\delta_t+\gamma\lambda c_t\hat A_{t+1}.
+      \]</div>
+      <p>Inside an uninterrupted trajectory, expanding this gives the familiar weighted sum of residuals <a href="#ref-4">[4]</a>:</p>
+      <div class="math-block">\[
+        \hat A_t=\delta_t+\gamma\lambda\delta_{t+1}
+        +(\gamma\lambda)^2\delta_{t+2}+\cdots.
+      \]</div>
+      <p>At a truncation, we keep the next-state value <em>inside</em> \(\delta_t\), but stop the recurrence there. Otherwise \(\hat A_{t+1}\) could belong to a completely different episode. Keeping that value and stopping that trace are both necessary.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Episode boundary masks">
+        <table>
+          <thead><tr><th>Boundary</th><th>Bootstrap \(b_t\)</th><th>Continue trace \(c_t\)</th></tr></thead>
+          <tbody>
+            <tr><td>Ordinary transition</td><td>1</td><td>1</td></tr>
+            <tr><td>True termination</td><td>0</td><td>0</td></tr>
+            <tr><td>External truncation + reset</td><td>1</td><td>0</td></tr>
+            <tr><td>Rollout buffer ends</td><td>1*</td><td>Stop at batch edge</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">*Unless the final transition also terminated. A full rollout buffer doesn’t itself require resetting the environment.</p>
+
+      <h2>A small example</h2>
+      <p>Suppose \(r_t=1\), \(\gamma=0.99\), \(V(s_t)=8\), and \(V(s_{t+1}^{\mathrm{final}})=10\). We’ve reached an external time limit and will reset.</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        y_t^{\mathrm{trunc}}&amp;=1+0.99(10)=10.9,\\
+        \delta_t^{\mathrm{trunc}}&amp;=10.9-8=2.9.
+        \end{aligned}
+      \]</div>
+      <p>If we use <code>1 - done</code> for bootstrapping, we get \(y_t=1\) and \(\delta_t=-7\). Same observed transition, opposite sign. At this boundary \(c_t=0\), so the advantage equals that residual.</p>
+      <p>That can affect the policy update too: before any advantage normalization, PPO sees a positive advantage in one case and a negative one in the other. Its clipped objective uses those advantages; clipping doesn’t fix how they were computed <a href="#ref-3">[3]</a>.</p>
+
+      <aside class="boundary-demo" aria-labelledby="demo-heading">
+        <h3 id="demo-heading">Try the last transition</h3>
+        <p>Keep reward = 1, current value = 8, and γ = 0.99. Change the estimated value of the final observation:</p>
+        <label for="next-value">Final-state value <output id="next-value-label" for="next-value">10</output></label>
+        <input id="next-value" type="range" min="0" max="20" step="1" value="10">
+        <fieldset><legend>Why did the episode end?</legend>
+          <label><input type="radio" name="boundary" value="truncated" checked> External time limit</label>
+          <label><input type="radio" name="boundary" value="terminated"> True termination</label>
+        </fieldset>
+        <div class="demo-results" aria-live="polite" aria-atomic="true">
+          <p id="demo-correct">Correct target: 10.90 · advantage: +2.90</p>
+          <p id="demo-done">Using 1 − done: target 1.00 · advantage −7.00</p>
+          <p id="demo-explanation">The reset stops the GAE trace, but the final state still contributes value.</p>
+        </div>
+      </aside>
+
+      <h2>How far does the mistake travel?</h2>
+      <p>For this truncation, zeroing the bootstrap changes the residual by</p>
+      <div class="math-block">\[
+        \Delta\delta_t
+        =\delta_t^{\mathrm{wrong}}-\delta_t^{\mathrm{correct}}
+        =-\gamma V(s_{t+1}^{\mathrm{final}}).
+      \]</div>
+      <p>Holding the critic and all other residuals fixed, the difference propagates backward through the same episode:</p>
+      <div class="math-block">\[
+        \Delta\hat A_{t-k}
+        =(\gamma\lambda)^k\Delta\delta_t.
+      \]</div>
+      <p>For \(\lambda=0.95\), the error one transition earlier is \(0.9405(-9.9)=-9.31095\). So this isn’t confined to the final action. If the final-state value is negative, the error reverses direction; it isn’t universally a downward bias. These numbers are a toy calculation, not a training result.</p>
+
+      <hr>
+      <h2>A minimal implementation</h2>
+      <p>Here’s the bookkeeping for one environment’s rollout. All arrays have length \(T\). <code>next_values[t]</code> is evaluated on the actual successor observation of transition <code>t</code>, including the final pre-reset observation at truncations.</p>
+      <pre><code id="gae-code">def compute_gae(rewards, values, next_values,
+                terminated, truncated, gamma=0.99, lam=0.95):
+    advantages = [0.0] * len(rewards)
+    gae = 0.0
+
+    for t in reversed(range(len(rewards))):
+        bootstrap = 0.0 if terminated[t] else 1.0
+        continue_trace = 0.0 if (
+            terminated[t] or truncated[t]
+        ) else 1.0
+
+        delta = (
+            rewards[t]
+            + gamma * bootstrap * next_values[t]
+            - values[t]
+        )
+        gae = delta + gamma * lam * continue_trace * gae
+        advantages[t] = gae
+
+    targets = [a + v for a, v in zip(advantages, values)]
+    return advantages, targets</code></pre>
+      <p>Initializing <code>gae = 0</code> stops the recurrence at the end of this batch. We still include its last transition’s bootstrap value. In a tensor implementation, compute these targets without gradients and keep an independent trace for each vectorized environment. Only actual environment transitions belong in these arrays; exclude reset-only steps if your next-step autoreset mode produces them <a href="#ref-6">[6]</a>.</p>
+      <p>The value target here is \(\hat R_t^{\lambda}=\hat A_t+V(s_t)\). Construct it using the <em>unnormalized</em> advantages. If you normalize advantages for PPO’s policy loss, do that afterward.</p>
+
+      <h3>The autoreset gotcha</h3>
+      <p>Some vector environments return a reset observation in the same call that reports an episode ending. In that case, blindly evaluating <code>V(next_obs)</code> bootstraps from the beginning of a new episode. We need the final observation of the old one.</p>
+      <p>Exactly where that observation lives depends on the wrapper and autoreset mode. Check the API you’re actually using, rather than assuming one particular <code>info</code> key works everywhere. Gymnasium documents its modes separately <a href="#ref-6">[6]</a>.</p>
+      <figure class="note-figure">
+        <a href="https://farama.org/Vector-Autoreset-Mode" target="_blank" rel="noopener noreferrer"><img src="https://farama.org/assets/images/blogs/autoreset-modes.svg" alt="Farama Foundation flowchart comparing next-step, same-step, and disabled vector-environment autoreset modes" loading="lazy"></a>
+        <figcaption>Autoreset modes, from the Farama Foundation’s <a href="https://farama.org/Vector-Autoreset-Mode" target="_blank" rel="noopener noreferrer">VectorEnv explanation</a> [6]. The observation returned at a boundary depends on the mode.</figcaption>
+      </figure>
+      <p>You might also see implementations add \(\gamma V(s_{t+1}^{\mathrm{final}})\) to a truncated transition’s stored reward, then use a single episode-end mask. That can encode the same correction. Don’t add it to the reward <em>and</em> bootstrap it again.</p>
+
+      <h2>What to check when reading PPO code</h2>
+      <p>The PPO implementation-details article is useful here because it distinguishes reproducing a particular implementation from choosing the theoretically appropriate time-limit handling <a href="#ref-5">[5]</a>. For a new implementation, I’d trace these three things:</p>
+      <ul>
+        <li>Does the bootstrap mask use <code>terminated</code>, or does every reset zero the value?</li>
+        <li>Does the GAE recurrence stop before the next episode’s residuals?</li>
+        <li>At an autoreset, which observation actually goes into the critic?</li>
+      </ul>
+      <p>For an external cutoff followed by a reset, the combination is: <strong>keep the final-state value, stop the advantage trace</strong>. Two masks, two jobs. That’s the part worth keeping next to the code :)</p>
+
+      <hr>
+      <h2 id="references">References</h2>
+      <ol class="references">
+        <li id="ref-1">Fabio Pardo, Arash Tavakoli, Vitaly Levdik, and Petar Kormushev. <a href="https://arxiv.org/abs/1712.00378" target="_blank" rel="noopener noreferrer">Time Limits in Reinforcement Learning</a>. ICML, 2018.</li>
+        <li id="ref-2">Farama Foundation. <a href="https://farama.org/Gymnasium-Terminated-Truncated-Step-API" target="_blank" rel="noopener noreferrer">Deep Dive: Gymnasium Step API</a>, 2023. See also <a href="https://gymnasium.farama.org/tutorials/gymnasium_basics/handling_time_limits/" target="_blank" rel="noopener noreferrer">Handling Time Limits</a>.</li>
+        <li id="ref-3">John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. <a href="https://arxiv.org/abs/1707.06347" target="_blank" rel="noopener noreferrer">Proximal Policy Optimization Algorithms</a>, 2017.</li>
+        <li id="ref-4">John Schulman, Philipp Moritz, Sergey Levine, Michael I. Jordan, and Pieter Abbeel. <a href="https://arxiv.org/abs/1506.02438" target="_blank" rel="noopener noreferrer">High-Dimensional Continuous Control Using Generalized Advantage Estimation</a>. ICLR, 2016.</li>
+        <li id="ref-5">Shengyi Huang et al. <a href="https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/" target="_blank" rel="noopener noreferrer">The 37 Implementation Details of Proximal Policy Optimization</a>. ICLR Blog Track, 2022.</li>
+        <li id="ref-6">Farama Foundation. <a href="https://farama.org/Vector-Autoreset-Mode" target="_blank" rel="noopener noreferrer">Deep Dive: Autoreset Modes in Gymnasium</a>, 2025.</li>
+      </ol>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
+  </footer>
+</body>
+</html>

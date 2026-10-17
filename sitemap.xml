@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rishabht22.github.io/</loc>
+    <loc>https://rishabht.com/</loc>
   </url>
   <url>
-    <loc>https://rishabht22.github.io/coursework/</loc>
+    <loc>https://rishabht.com/coursework/</loc>
+  </url>
+  <url>
+    <loc>https://rishabht.com/notes/</loc>
+  </url>
+  <url>
+    <loc>https://rishabht.com/notes/ppo-episode-boundaries/</loc>
   </url>
 </urlset>
