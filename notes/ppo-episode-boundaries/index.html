@@ -38,6 +38,10 @@
         <p class="note-deck">Termination, truncation, and why GAE needs two different masks.</p>
       </header>
 
+      <h2>Intro</h2>
+      <p>When reading about PPO, it’s easy to focus on the clipped objective and skim over how the advantages are computed. This note looks at one small part of that bookkeeping: what happens when an episode stops because we ran out of collection time, rather than because the task actually ended?</p>
+      <p>I’ll start with bootstrapping, work through how episode boundaries enter GAE, and then put the two masks into code. The main question is when to keep the final state’s value estimate, even though we’re about to reset the environment.</p>
+
       <h2>What does “done” actually mean?</h2>
       <p>In a PPO rollout, an episode ending feels like it should be one boolean. The environment says it’s done, we reset it, and move on. But there are two questions hiding in that one flag: should we estimate any reward after the last state, and should we keep accumulating advantages from the next transition?</p>
       <p>These questions can have different answers. That’s the detail I want to work through here. This note follows the time-limit discussion in Pardo et al. <a href="#ref-1">[1]</a> and Gymnasium’s explanation of its step API <a href="#ref-2">[2]</a>, with PPO and GAE as the setting.</p>
