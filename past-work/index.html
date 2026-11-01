@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="Interactive CAD and past work by Rishabh Thakur. Explore the Cupid robot assembly in 3D.">
+  <meta name="theme-color" content="#101b2d">
+  <meta name="color-scheme" content="dark">
+  <title>Past Work — Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/past-work/">
+  <link rel="stylesheet" href="../stylesheet.css?v=20261101-1">
+  <script src="../navigation.js?v=20261017-3" defer></script>
+  <script type="module" src="viewer.js?v=20261101-1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#past-work">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="../">About</a>
+        <a href="../coursework/">Coursework</a>
+        <a href="../notes/">Notes</a>
+        <a href="./" aria-current="page">Past Work</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page work-page" id="past-work" aria-labelledby="work-heading">
+    <h1 class="page-heading" id="work-heading">Past Work</h1>
+    <article class="work-entry" aria-labelledby="cupid-heading">
+      <header class="work-entry-header">
+        <div>
+          <h2 id="cupid-heading">Cupid</h2>
+          <p>Interactive CAD assembly</p>
+        </div>
+        <span class="work-type">Robotics</span>
+      </header>
+      <div class="cad-stage" id="cad-stage">
+        <span class="cad-label">3D CAD</span>
+        <model-viewer id="cupid-viewer" data-src="assets/cupid.glb"
+          alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
+          camera-controls touch-action="pan-y" interaction-prompt="auto" interaction-prompt-style="basic"
+          camera-orbit="35deg 65deg 110%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
+          shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="eager">
+          <div slot="progress-bar" class="cad-progress" id="cad-progress">
+            <p id="cad-loading" role="status">Loading CAD…</p>
+            <div class="cad-progress-track"><span id="cad-progress-fill"></span></div>
+          </div>
+        </model-viewer>
+        <div class="cad-toolbar" aria-label="Model controls">
+          <button type="button" id="rotate-model" aria-pressed="false" disabled>Auto-rotate</button>
+          <button type="button" id="reset-model" disabled>Reset view</button>
+          <button type="button" id="expand-model" aria-expanded="false" aria-controls="cad-stage">Full screen</button>
+        </div>
+      </div>
+      <div class="cad-caption">
+        <p>Drag to rotate · Scroll or pinch to zoom · Right-drag to pan</p>
+        <p class="cad-credit">Cupid · CAD exported from Fusion 360</p>
+      </div>
+      <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
+  </footer>
+</body>
+</html>
