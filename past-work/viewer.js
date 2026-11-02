@@ -51,7 +51,7 @@ ModelViewerElement.dracoDecoderLocation = new URL("../vendor/draco/", import.met
     rotate.setAttribute('aria-pressed', 'false');
     rotate.textContent = 'Auto-rotate';
     viewer.resetTurntableRotation();
-    viewer.cameraOrbit = '35deg 65deg 110%';
+    viewer.cameraOrbit = '35deg 65deg 130%';
     viewer.cameraTarget = 'auto auto auto';
     viewer.fieldOfView = '35deg';
     if (reducedMotion.matches) viewer.jumpCameraToGoal();
