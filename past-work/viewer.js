@@ -40,16 +40,18 @@ ModelViewerElement.dracoDecoderLocation = new URL("../vendor/draco/", import.met
     viewer.removeAttribute('src');
     viewer.src = source;
   });
-  rotate.addEventListener('click', () => {
-    const active = rotate.getAttribute('aria-pressed') !== 'true';
-    viewer.autoRotate = active;
+  function setRotation(active) {
+    viewer.autoRotateDelay = 0;
+    viewer.rotationPerSecond = '20deg';
+    viewer.toggleAttribute('auto-rotate', active);
     rotate.setAttribute('aria-pressed', String(active));
     rotate.textContent = active ? 'Stop rotation' : 'Auto-rotate';
+  }
+  rotate.addEventListener('click', () => {
+    setRotation(rotate.getAttribute('aria-pressed') !== 'true');
   });
   reset.addEventListener('click', () => {
-    viewer.autoRotate = false;
-    rotate.setAttribute('aria-pressed', 'false');
-    rotate.textContent = 'Auto-rotate';
+    setRotation(false);
     viewer.resetTurntableRotation();
     viewer.cameraOrbit = '35deg 65deg 130%';
     viewer.cameraTarget = 'auto auto auto';
