@@ -45,7 +45,11 @@ ModelViewerElement.dracoDecoderLocation = new URL("../vendor/draco/", import.met
     viewer.rotationPerSecond = '20deg';
     viewer.toggleAttribute('auto-rotate', active);
     rotate.setAttribute('aria-pressed', String(active));
-    rotate.textContent = active ? 'Stop rotation' : 'Auto-rotate';
+    const label = active ? 'Stop rotation' : 'Auto-rotate';
+    rotate.setAttribute('aria-label', label);
+    rotate.title = label;
+    rotate.querySelector('.rotation-play').toggleAttribute('hidden', active);
+    rotate.querySelector('.rotation-pause').toggleAttribute('hidden', !active);
   }
   rotate.addEventListener('click', () => {
     setRotation(rotate.getAttribute('aria-pressed') !== 'true');
@@ -63,7 +67,11 @@ ModelViewerElement.dracoDecoderLocation = new URL("../vendor/draco/", import.met
     stage.classList.toggle('is-expanded', active);
     document.body.classList.toggle('viewer-open', active);
     expand.setAttribute('aria-expanded', String(active));
-    expand.textContent = active ? 'Close full screen' : 'Full screen';
+    const label = active ? 'Close full screen' : 'Full screen';
+    expand.setAttribute('aria-label', label);
+    expand.title = label;
+    expand.querySelector('.expand-corners').toggleAttribute('hidden', active);
+    expand.querySelector('.collapse-corners').toggleAttribute('hidden', !active);
     if (active) {
       stage.setAttribute('role', 'dialog');
       stage.setAttribute('aria-modal', 'true');

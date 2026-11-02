@@ -296,9 +296,10 @@ p { margin: 0 0 23px; }
 .cad-stage { position: relative; isolation: isolate; height: 480px; overflow: hidden; border: 1px solid var(--line); border-radius: 5px; background: radial-gradient(ellipse at 50% 45%, #26354d 0%, #121e31 72%); }
 .cad-stage model-viewer { display: block; width: 100%; height: 100%; --progress-bar-color: var(--link); outline-offset: -4px; }
 .cad-label { position: absolute; z-index: 2; top: 16px; left: 16px; color: var(--muted); font-size: 12px; letter-spacing: .06em; pointer-events: none; }
-.cad-toolbar { position: absolute; z-index: 2; left: 14px; right: 14px; bottom: 14px; display: flex; justify-content: center; gap: 8px; }
+.cad-toolbar { position: absolute; z-index: 2; top: 12px; right: 12px; display: flex; gap: 6px; }
 .cad-toolbar button, .cad-error button { border: 1px solid var(--semester-line); border-radius: 4px; padding: 8px 12px; color: var(--text); background: #101b2deb; font: inherit; font-size: 13px; cursor: pointer; }
-.cad-toolbar button { white-space: nowrap; }
+.cad-toolbar button { display: grid; place-items: center; width: 36px; height: 36px; padding: 8px; }
+.cad-toolbar svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .cad-toolbar button:hover, .cad-toolbar button[aria-pressed="true"] { background: #2b3d58; border-color: var(--link); }
 .cad-toolbar button:focus-visible, .cad-error button:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 .cad-toolbar button:disabled { opacity: .45; cursor: wait; }
@@ -315,8 +316,8 @@ body.viewer-open { overflow: hidden; }
 [hidden] { display: none !important; }
 @media (max-width: 620px) {
   .cad-stage { height: 420px; }
-  .cad-toolbar { left: 8px; right: 8px; gap: 6px; }
-  .cad-toolbar button { padding: 9px 8px; font-size: 12px; }
+  .cad-toolbar { top: 10px; right: 10px; gap: 6px; }
+  .cad-toolbar button { padding: 8px; }
   .cad-stage.is-expanded { inset: 8px; }
   .work-entry-header { gap: 12px; }
 }
