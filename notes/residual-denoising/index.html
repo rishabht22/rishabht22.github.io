@@ -34,32 +34,32 @@
     <article>
       <a class="back-link" href="../">← Notes</a>
       <header class="note-header">
-        <p class="note-meta"><time datetime="2026-11-02">November 2, 2026</time> <span>robot learning · diffusion policies · 6 min read</span></p>
+        <p class="note-meta"><time datetime="2026-10-16">October 16, 2026</time> <span>robot learning · diffusion policies · 6 min read</span></p>
         <h1 class="page-heading">Residual Denoising vs. Action-Space Residuals in Diffusion Policies</h1>
       </header>
 
       <h2>Intro</h2>
-      <p>A robot can know how to move a tray and still put it back before its teammate finishes wiping the table. The individual skills are there, but getting them to work together takes something more.</p>
-      <p>One way to adapt a pretrained diffusion policy is to freeze it and learn a correction <a href="#ref-5">[5]</a>. What I find interesting is where that correction goes: inside each denoising step. Adding it to the final action seems simpler. I wanted to work through what we actually gain by moving it inside.</p>
+      <p>Suppose two robots are cleaning a table. One moves a tray out of the way while the other wipes underneath it. Both know their part. But if the first puts the tray back too soon, the second can’t finish.</p>
+      <p>We could keep the pretrained policies frozen and learn a correction <a href="#ref-5">[5]</a>. Adding it to the final action seems straightforward enough. Residual denoising puts it inside the sampling process instead, at every step. I was curious how much that difference actually matters.</p>
 
       <h2>Action-space residuals</h2>
-      <p>Let \(o\) be one robot’s local observation and \(x\in\mathbb R^{Hd}\) an \(H\)-step chunk of \(d\)-dimensional actions <a href="#ref-1">[1]</a>. An output residual modifies a completed sample:</p>
+      <p>Let \(o\) be the robot’s local observation and \(x\in\mathbb R^{Hd}\) a chunk of \(H\) actions, each with \(d\) coordinates <a href="#ref-1">[1]</a>. Sample a chunk from the base policy \(p_B\), then add a correction:</p>
       <div class="math-block">\[
         x_B\sim p_B(\cdot\mid o),\qquad x_A=x_B+r_\phi(o,x_B).
       \]</div>
-      <p>This follows the same idea as residual RL: keep a useful controller and learn what to add to it <a href="#ref-2">[2]</a>. We could train this correction with RL or from demonstrations.</p>
-      <p>Suppose the correction only depends on \(o\). At a fixed observation, it’s a constant translation:</p>
+      <p>This is the idea behind residual RL: the controller already does something useful, and we learn what to add to it <a href="#ref-2">[2]</a>. The correction could also be learned from demonstrations.</p>
+      <p>First, give the residual only \(o\). Once we fix the observation, every sampled chunk gets the same correction:</p>
       <div class="math-block">\[
         p_A(x\mid o)=p_B(x-r_\phi(o)\mid o),\qquad
         \operatorname{Cov}(x_A\mid o)=\operatorname{Cov}(x_B\mid o).
       \]</div>
-      <p>We’ve moved the whole distribution over. Its shape stays the same. If the base chooses left or right equally often, adding the same number to both choices cannot turn that into “always right.”</p>
-      <p>But let the residual see the sampled action, and things change. For a toy base that outputs \(x_B\in\{-1,+1\}\), choosing \(r(x_B)=1-x_B\) sends both outcomes to \(+1\). An output residual can change the distribution’s shape too. It depends on what we let it use.</p>
+      <p>The distribution shifts over, but keeps its shape. Say the base samples \(-1\) or \(+1\) equally often. Adding a constant can’t send both to \(+1\); the two outputs stay two units apart.</p>
+      <p>Now let the residual see the sample. Choosing \(r(x_B)=1-x_B\) sends both outputs to \(+1\). So an action-space residual can change the distribution’s shape. We have to be careful about which version we’re comparing.</p>
 
       <hr>
       <h2>From a denoiser to a sampling direction</h2>
-      <p>Start with a clean action chunk and add Gaussian noise: \(y=x+\sigma\epsilon\), where \(\epsilon\sim\mathcal N(0,I)\). Here \(\sigma&gt;0\) measures noise. A denoiser \(D(y,\sigma,o)\) tries to recover \(x\). Under squared-error training, its best possible answer is the mean of the clean chunks that could have produced \(y\) <a href="#ref-3">[3]</a>.</p>
-      <p>To see the connection to the score, differentiate the Gaussian convolution defining the noisy density \(p_\sigma\):</p>
+      <p>Start with a clean chunk and add Gaussian noise: \(y=x+\sigma\epsilon\), where \(\epsilon\sim\mathcal N(0,I)\). The noise level \(\sigma&gt;0\) controls how much we add. A denoiser \(D(y,\sigma,o)\) tries to recover \(x\). With squared-error training, its best answer is the posterior mean: the probability-weighted average of clean chunks that could have produced \(y\) <a href="#ref-3">[3]</a>.</p>
+      <p>Call the noisy density \(p_\sigma\). Differentiating its Gaussian convolution gives</p>
       <div class="math-block">\[
         \begin{aligned}
         s_\sigma(y\mid o)
@@ -68,60 +68,63 @@
         =\frac{D^*(y,\sigma,o)-y}{\sigma^2}.
         \end{aligned}
       \]</div>
-      <p>This gradient is called the <em>score</em>. It points toward more likely noisy chunks. Using a learned \(D\) in place of \(D^*\) gives an estimate of it. We can then sample using the probability-flow ODE <a href="#ref-3">[3]</a>, <a href="#ref-4">[4]</a>:</p>
+      <p>The gradient on the left is the <em>score</em>. It points toward more likely noisy chunks. A learned \(D\) gives us an estimate of it, which we can plug into the probability-flow ODE <a href="#ref-3">[3]</a>, <a href="#ref-4">[4]</a>:</p>
       <div class="math-block">\[
         \frac{dy}{d\sigma}=-\sigma s_\sigma(y\mid o)
         =\frac{y-D(y,\sigma,o)}{\sigma}.
       \]</div>
-      <p>We follow this equation from high noise toward zero, keeping \(o\) fixed. Different starting noise gives different action chunks. These are sampling steps; the robot hasn’t executed the chunk yet.</p>
+      <p>We follow this equation from high noise down toward zero. The observation stays fixed throughout sampling, and different starting noise gives different chunks. All of this happens before the robot executes the actions.</p>
 
-      <h2>What residual denoising changes</h2>
-      <p>Freeze \(D_B\) and learn \(D_R=D_B+\Delta_\phi\), where the residual uses the noisy chunk, noise level, and local observation <a href="#ref-5">[5]</a>. Substitution gives</p>
+      <h2>Putting the residual inside the sampler</h2>
+      <p>Keep the base denoiser \(D_B\) frozen and learn \(D_R=D_B+\Delta_\phi\). The residual uses the noisy chunk, noise level, and local observation <a href="#ref-5">[5]</a>. Put this into the score and ODE equations:</p>
       <div class="math-block">\[
         s_R=s_B+\frac{\Delta_\phi}{\sigma^2},\qquad
         \frac{dy_R}{d\sigma}
         =\frac{y_R-D_B(y_R,\sigma,o)}{\sigma}
         -\frac{\Delta_\phi(y_R,\sigma,o)}{\sigma}.
       \]</div>
-      <p>The residual now changes the direction the sampler follows at each noise level. These equalities hold for the score estimates even when the networks aren’t perfect.</p>
-      <p>The sign is easier to read after discretizing. For decreasing levels \(\sigma_k\), define \(c_k=(\sigma_k-\sigma_{k+1})/\sigma_k\). One Euler step becomes</p>
+      <p>We’re changing the direction the sampler follows as it builds the chunk. This algebra holds for the score estimates even if the networks aren’t perfect.</p>
+      <p>The minus sign is easier to follow in a discrete step. For decreasing noise levels \(\sigma_k\), set \(c_k=(\sigma_k-\sigma_{k+1})/\sigma_k\). An Euler step gives</p>
       <div class="math-block">\[
         y_{k+1}=(1-c_k)y_k+c_kD_B(y_k,\sigma_k,o)
         +c_k\Delta_\phi(y_k,\sigma_k,o).
       \]</div>
-      <p>The actual step correction is scaled by \(c_k\). The minus sign above makes sense because we’re moving toward <em>lower</em> noise. I’m using Euler to keep the math short; higher-order solvers are another option <a href="#ref-3">[3]</a>. Under our corruption rule, a noise predictor instead gives \(D=y-\sigma\hat\epsilon\), so its residual converts as \(\Delta_D=-\sigma\Delta_\epsilon\).</p>
+      <p>The correction enters as \(c_k\Delta_\phi\). It has a plus sign here because the step goes toward lower noise. Euler keeps the math short; we could use a higher-order solver too <a href="#ref-3">[3]</a>. These equations use clean-action predictions. Under the same corruption rule, noise prediction gives \(D=y-\sigma\hat\epsilon\), so \(\Delta_D=-\sigma\Delta_\epsilon\).</p>
 
       <h2>Why the final correction isn’t a simple sum</h2>
-      <p>A correction also changes the input to the next denoising step. To track this, scale the residual by \(\eta\) and start both samplers from the same noise. Define \(v_k=\left.\partial y_k^\eta/\partial\eta\right|_{\eta=0}\), the sensitivity to turning on the residual. Differentiating the Euler update gives</p>
+      <p>After one correction, the next denoising step receives a different input. To track how that builds up, multiply the residual by \(\eta\) and start both samplers from the same noise. At \(\eta=0\), we have the base sampler. Define \(v_k=\left.\partial y_k^\eta/\partial\eta\right|_{\eta=0}\), which measures how the chunk starts changing as we turn the residual on. Differentiating gives</p>
       <div class="math-block">\[
         \begin{aligned}
         v_{k+1}&amp;=J_kv_k+c_k\Delta_k,\\
         J_k&amp;=(1-c_k)I+c_k\nabla_yD_B(y_k^B,\sigma_k,o),
         \end{aligned}
       \]</div>
-      <p>Here \(\Delta_k\) is evaluated on the base path, and \(J_k\) measures how the base step responds to an input change. With \(v_0=0\), two steps give \(v_2=J_1c_0\Delta_0+c_1\Delta_1\). For small \(\eta\), the final change is approximately \(\eta v_K\), where \(K\) is the number of steps. Later steps can amplify, shrink, or rotate an earlier correction.</p>
-      <p>This matters when we say a residual is “small.” Bounding \(\|r\|\leq\varepsilon\) directly bounds the output change before clipping. Bounding \(\Delta_\phi\) gives no such bound by itself; we also need to control how the sampler responds. Neither gives a physical safety guarantee.</p>
+      <p>Both \(\Delta_k\) and \(J_k\) are evaluated on the base path. The matrix \(J_k\) tells us how an input change passes through the next base step. Since \(v_0=0\), two steps give \(v_2=J_1c_0\Delta_0+c_1\Delta_1\). The first correction has already passed through another step before reaching the output. That step can amplify, shrink, or rotate it. For small \(\eta\), the change after \(K\) steps is approximately \(\eta v_K\).</p>
+      <p>So “small residual” needs some care. Bounding \(\|r\|\leq\varepsilon\) directly bounds the output change before clipping. For a denoiser residual, we also need to know how the later steps respond. And a small action change by itself doesn’t guarantee safe robot motion.</p>
 
       <hr>
       <h2>What is the residual learning?</h2>
-      <p>Take collaborative demonstrations \((x,o)\sim\mathcal D_C\), add noise to their action chunks, and train only the adapter:</p>
+      <p>For training, take collaborative demonstrations \((x,o)\sim\mathcal D_C\), add noise to the chunks, and update only the adapter:</p>
       <div class="math-block">\[
         \mathcal L_C=\mathbb E_{\mathcal D_C,\sigma,\epsilon}
         \left[w(\sigma)\left\|D_B(y,\sigma,o)+\Delta_\phi(y,\sigma,o)-x\right\|^2\right],
         \quad y=x+\sigma\epsilon.
       \]</div>
-      <p>Assume \(w(\sigma)&gt;0\) and enough model capacity. The best residual is then \(\Delta^*=\mathbb E_C[x\mid y,\sigma,o]-D_B\). If the base is also an ideal denoiser, subtracting the two score identities gives</p>
+      <p>With \(w(\sigma)&gt;0\) and enough model capacity, the best residual is \(\Delta^*=\mathbb E_C[x\mid y,\sigma,o]-D_B\). If the base is also an ideal denoiser, we can subtract their score identities:</p>
       <div class="math-block">\[
         \Delta^*(y,\sigma,o)=\sigma^2\nabla_y
         \log\frac{p_{C,\sigma}(y\mid o)}{p_{B,\sigma}(y\mid o)}.
       \]</div>
-      <p>I think this is the nicest way to read the residual: it learns how the collaborative score differs from the base score. That can change which action modes the sampler favors. And although training predicts a mean, that mean depends on the noisy example. Sampling can still produce several different behaviors.</p>
-      <p>One catch: freezing the base doesn’t automatically preserve its behavior. We’re still adding something to it! One way to keep the original skills is to penalize \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks <a href="#ref-5">[5]</a>. Zero residual along every source sampling path recovers the base exactly; a small penalty on training examples doesn’t guarantee that.</p>
+      <p>I like this equation because it tells us exactly what the ideal residual corrects: the difference between the collaborative and base scores. That difference can change which action modes the sampler favors. Predicting a mean during training doesn’t force every final sample to be the same, either. The mean depends on the noisy input, which varies between samples.</p>
+      <p>The adapter can still ruin an old skill even though the base weights never moved. One way to discourage that is to penalize \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks <a href="#ref-5">[5]</a>. Zero residual along every source sampling path would recover the base exactly. A small penalty on training examples doesn’t guarantee zero residual on every path.</p>
 
       <h2>Which would I use?</h2>
-      <p>For small execution fixes, I’d start with an action-space residual. It adds one correction pass and can use a fresh observation after sampling. For learning changes to multimodal action chunks from demonstrations, I’d try residual denoising. We can train directly on noisy expert chunks and change how sampling unfolds, though we pay for the adapter at each denoiser evaluation.</p>
-      <p>That’s a choice about what’s easier to learn, not a proof that one can represent more than the other. A powerful sample-dependent output residual can also change the distribution. To find out which works better, we’d need to compare them with the same base policy, training data, and compute budget.</p>
-      <p>And for decentralized robots, both still work with what each robot can see. Moving the correction inside the sampler doesn’t tell it what its teammate is doing behind a box.</p>
+      <p>If the plan is already good and the gripper needs a small position fix, I’d start with an action-space residual. It adds one correction pass and could use a fresh observation after sampling. If coordination changes the whole action chunk, I’d try residual denoising. We can train on noisy expert chunks with the denoising loss, though we pay for the adapter at every denoiser evaluation.</p>
+      <p>I wouldn’t call denoising better from this math alone. A powerful output residual that sees the sample can also change the distribution. I’d want to compare them using the same base policy, data, and compute budget before making that call.</p>
+      <p>Both still depend on the robot’s observations. Moving the correction inside the sampler won’t tell it what its teammate is doing behind a box.</p>
+
+      <h2>Summary</h2>
+      <p>Action-space residuals edit a finished chunk. Residual denoising changes the score by \(\Delta_\phi/\sigma^2\) while the chunk is being sampled, so later steps affect how the correction reaches the output. Both can change the action distribution; the better choice depends on the task and compute budget.</p>
 
       <hr>
       <h2 id="references">References</h2>
