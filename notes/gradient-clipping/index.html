@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="How gradient clipping can reverse an expected gradient, create a biased fixed point, and behave differently depending on when a batch is averaged.">
+  <meta name="theme-color" content="#101b2d">
+  <meta name="color-scheme" content="dark">
+  <title>Bias and Convergence in Gradient-Clipped SGD | Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/notes/gradient-clipping/">
+  <link rel="stylesheet" href="../../stylesheet.css?v=20261102-3">
+  <script src="../../navigation.js?v=20261017-3" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+  <script defer src="../math.js?v=20261102-1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#note">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="../../">About</a>
+        <a href="../../coursework/">Coursework</a>
+        <a href="../../past-work/">Past Work</a>
+        <a href="../" aria-current="page">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page note-page" id="note">
+    <article>
+      <a class="back-link" href="../">← Notes</a>
+      <header class="note-header">
+        <p class="note-meta"><time datetime="2026-09-25">September 25, 2026</time> <span>optimization · SGD · 6 min read</span></p>
+        <h1 class="page-heading">Bias and Convergence in Gradient-Clipped SGD</h1>
+      </header>
+
+      <h2>Intro</h2>
+      <p>A large gradient can produce a step that’s far too large. Gradient clipping puts a limit on it. Each gradient keeps its direction and gets shorter if needed.</p>
+      <p>But SGD uses random gradients. Shrinking some of them more than others changes their average. The average can even end up pointing the other way, so a small update can still go uphill <a href="#ref-1">[1]</a>.</p>
+
+      <h2>Clipping an exact gradient</h2>
+      <p>We’ll use Euclidean norm clipping with threshold \(c&gt;0\). It scales the whole vector, keeping gradients inside the ball of radius \(c\) unchanged.</p>
+      <div class="math-block">\[
+        C_c(g)=g\min\!\left(1,\frac{c}{\|g\|}\right)
+        \quad(g\ne0),\qquad C_c(0)=0.
+      \]</div>
+      <p>The update is \(\theta^+=\theta-\eta C_c(g)\), with learning rate \(\eta&gt;0\). First suppose \(g=\nabla f(\theta)\) is exact. For a nonzero gradient, write \(C_c(g)=\alpha g\), where \(0&lt;\alpha\leq1\). The update direction has</p>
+      <div class="math-block">\[
+        \nabla f(\theta)^\top(-\eta\alpha\nabla f(\theta))
+        =-\eta\alpha\|\nabla f(\theta)\|^2&lt;0.
+      \]</div>
+      <p>So it’s still a descent direction. If \(f\) has an \(L\)-Lipschitz gradient, the descent lemma gives</p>
+      <div class="math-block">\[
+        f(\theta^+)\leq f(\theta)
+        -\eta\alpha\left(1-\frac{L\eta\alpha}{2}\right)
+        \|\nabla f(\theta)\|^2.
+      \]</div>
+      <p>A step satisfying \(0&lt;\eta\alpha&lt;2/L\) lowers the objective. In this setting, clipping works like a smaller learning rate for that step.</p>
+
+      <hr>
+      <h2>A random gradient can behave differently</h2>
+      <p>Now let \(g\) be an unbiased stochastic gradient, so \(\mathbb E[g\mid\theta]=\nabla f(\theta)\). Hold \(\theta\) fixed in the expectations below. Clipping gives each draw a weight \(w(g)=\min(1,c/\|g\|)\), with \(w(0)=1\). Its expected value is</p>
+      <div class="math-block">\[
+        \mathbb E[C_c(g)]=\mathbb E[w(g)g]
+        \ne \mathbb E[w(g)]\,\mathbb E[g]
+        \quad\text{in general}.
+      \]</div>
+      <p>The weight depends on the gradient it multiplies. Large gradients lose more of their contribution. If those gradients tend to point one way, clipping changes the balance between directions. The resulting bias depends on the gradient distribution, not just its mean <a href="#ref-2">[2]</a>.</p>
+
+      <h2>A convex example that moves uphill</h2>
+      <p>Consider these one-dimensional sample objectives.</p>
+      <div class="math-block">\[
+        f_\xi(\theta)=\frac12\theta^2+\xi\theta,
+        \qquad
+        \xi=\begin{cases}
+        1 &amp; \text{with probability }0.9,\\
+        -19 &amp; \text{with probability }0.1.
+        \end{cases}
+      \]</div>
+      <p>The full objective is \(f(\theta)=\mathbb E[f_\xi(\theta)]=\tfrac12\theta^2-\theta\), with minimizer \(\theta^*=1\). Its sample gradient is \(g=\theta+\xi\). At \(\theta=0\), clipping at \(c=1\) gives</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        \mathbb E[g]&amp;=0.9(1)+0.1(-19)=-1,\\
+        \mathbb E[C_1(g)]&amp;=0.9(1)+0.1(-1)=0.8.
+        \end{aligned}
+      \]</div>
+      <p>SGD subtracts the gradient. Before clipping, the expected step goes right, toward the minimizer. After clipping, it goes left. The rare negative gradients were large enough to outweigh the frequent positive ones. Clipping removes that difference in size.</p>
+      <p>We can check the loss itself. Since \(C_1(g)\in\{-1,1\}\), the next parameter is \(\theta^+=-\eta C_1(g)\). Therefore</p>
+      <div class="math-block">\[
+        \mathbb E[f(\theta^+)]-f(0)
+        =\frac{\eta^2}{2}+0.8\eta&gt;0.
+      \]</div>
+      <p>Every positive learning rate raises the expected objective in this example. This is an exact calculation, with no neural network or approximation involved.</p>
+
+      <h2>Why a smaller learning rate doesn’t remove the bias</h2>
+      <p>Smaller steps reduce how far the update goes. They don’t change its expected direction. The same example also has a point where the expected clipped update is zero even though the true gradient isn’t.</p>
+      <p>For \(-2&lt;\theta&lt;0\), the sample gradient \(\theta+1\) stays unclipped while \(\theta-19\) is clipped to \(-1\).</p>
+      <div class="math-block">\[
+        \mathbb E[C_1(g)]=0.9(\theta+1)-0.1
+        =0.9\theta+0.8.
+      \]</div>
+      <p>This is zero at \(\theta=-8/9\). The true minimizer is still \(1\). Making \(\eta\) smaller doesn’t move this zero. It also doesn’t mean a random run stops there, since individual updates still have noise.</p>
+      <p>More generally, clipped SGD can have a convergence error that survives shrinking the learning rate under standard bounded-variance assumptions <a href="#ref-1">[1]</a>.</p>
+
+      <hr>
+      <h2>Averaging before clipping</h2>
+      <p>There are two different ways to use a batch of gradients.</p>
+      <div class="math-block">\[
+        \underbrace{C_c\!\left(\frac1B\sum_{i=1}^B g_i\right)}_{\text{average, then clip}}
+        \qquad\text{and}\qquad
+        \underbrace{\frac1B\sum_{i=1}^B C_c(g_i)}_{\text{clip, then average}}.
+      \]</div>
+      <p>If the samples have the same distribution, the second expression has expectation \(\mathbb E[C_c(g)]\) for every batch size. More samples can reduce its variance, but the clipping bias stays.</p>
+      <p>The first expression behaves differently. Suppose the samples are independent and unbiased, with \(\mathbb E\|g_i-\mu\|^2\leq\sigma^2\), where \(\mu=\nabla f(\theta)\). Let \(\bar g_B\) be their average. Euclidean clipping is a projection onto a ball, so it cannot increase the distance between two vectors. This gives</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        \left\|\mathbb E[C_c(\bar g_B)]-C_c(\mu)\right\|
+        &amp;\leq\mathbb E\|\bar g_B-\mu\|\\
+        &amp;\leq\sqrt{\mathbb E\|\bar g_B-\mu\|^2}
+        \leq\frac{\sigma}{\sqrt B}.
+        \end{aligned}
+      \]</div>
+      <p>As the batch grows, this approaches clipping the exact gradient. The magnitude can still be reduced, but the extra error from clipping noisy samples shrinks. Batch size and gradient alignment are also studied in <a href="#ref-3">[3]</a>.</p>
+      <p>For the example above, averaging ten independent samples before clipping gives an expected clipped gradient of \(2(0.9)^{10}-1\approx-0.303\). Its sign now agrees with the true gradient. Clipping each sample first would still give \(0.8\).</p>
+
+      <h2>Using it in training</h2>
+      <p>Clipping limits the SGD step norm to \(\eta c\). That can be useful when occasional gradients would otherwise produce huge updates. There are also convergence results showing benefits under smoothness conditions that allow curvature to grow with the gradient norm <a href="#ref-4">[4]</a>.</p>
+      <p>The threshold trades off that protection against the bias introduced by shrinking different samples unequally. With a fixed threshold, increasing the batch size before clipping can help under the assumptions above. No single threshold works best for every gradient distribution.</p>
+      <p>The same calculation applies to an unbiased stochastic policy gradient when taking a plain gradient step. For Adam, clipping bounds the gradient passed into the optimizer, not the final update after its adaptive scaling. PPO’s likelihood-ratio clipping is a separate operation from gradient norm clipping.</p>
+
+      <h2>Summary</h2>
+      <p>Clipping an exact gradient preserves a descent direction. Clipping a random gradient can change its mean enough to reverse it or create a zero at the wrong point. A smaller learning rate doesn’t remove that bias. Averaging independent samples before clipping can reduce it, while averaging already clipped samples keeps the same expected bias.</p>
+
+      <hr>
+      <h2 id="references">References</h2>
+      <ol class="references">
+        <li id="ref-1">Anastasia Koloskova, Hadrien Hendrikx, and Sebastian U. Stich. <a href="https://proceedings.mlr.press/v202/koloskova23a.html" target="_blank" rel="noopener noreferrer">Revisiting Gradient Clipping (Stochastic Bias and Tight Convergence Guarantees)</a>. ICML, 2023.</li>
+        <li id="ref-2">Xiangyi Chen, Steven Z. Wu, and Mingyi Hong. <a href="https://papers.nips.cc/paper_files/paper/2020/hash/9ecff5455677b38d19f49ce658ef0608-Abstract.html" target="_blank" rel="noopener noreferrer">Understanding Gradient Clipping in Private SGD (A Geometric Perspective)</a>. NeurIPS, 2020.</li>
+        <li id="ref-3">Jiang Qian, Yuren Wu, Bojin Zhuang, Shaojun Wang, and Jing Xiao. <a href="https://proceedings.mlr.press/v130/qian21a.html" target="_blank" rel="noopener noreferrer">Understanding Gradient Clipping in Incremental Gradient Methods</a>. AISTATS, 2021.</li>
+        <li id="ref-4">Jingzhao Zhang, Tianxing He, Suvrit Sra, and Ali Jadbabaie. <a href="https://arxiv.org/abs/1905.11881" target="_blank" rel="noopener noreferrer">Why Gradient Clipping Accelerates Training (A Theoretical Justification for Adaptivity)</a>. ICLR, 2020.</li>
+      </ol>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
+  </footer>
+</body>
+</html>
