@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
-  <meta name="description" content="The math behind action-space residuals and residual denoising: score corrections, sampling dynamics, training, and when each approach makes sense.">
+  <meta name="description" content="The math behind action-space residuals and residual denoising, including score corrections, sampling dynamics, training, and when each approach makes sense.">
   <meta name="theme-color" content="#101b2d">
   <meta name="color-scheme" content="dark">
   <title>Residual Denoising vs. Action-Space Residuals in Diffusion Policies | Rishabh Thakur</title>
@@ -40,15 +40,15 @@
 
       <h2>Intro</h2>
       <p>Suppose two robots are cleaning a table. One moves a tray out of the way while the other wipes underneath it. Both know their part. But if the first puts the tray back too soon, the second can’t finish.</p>
-      <p>We could keep the pretrained policies frozen and learn a correction <a href="#ref-5">[5]</a>. Adding it to the final action seems straightforward enough. Residual denoising puts it inside the sampling process instead, at every step. I was curious how much that difference actually matters.</p>
+      <p>We could keep the pretrained policies frozen and learn a correction <a href="#ref-5">[5]</a>. Adding it to the final action seems straightforward enough. Residual denoising puts it inside the sampling process instead, at every step. I wanted to see how moving the correction changes the actions we get.</p>
 
       <h2>Action-space residuals</h2>
-      <p>Let \(o\) be the robot’s local observation and \(x\in\mathbb R^{Hd}\) a chunk of \(H\) actions, each with \(d\) coordinates <a href="#ref-1">[1]</a>. Sample a chunk from the base policy \(p_B\), then add a correction:</p>
+      <p>Let \(o\) be the robot’s local observation and \(x\in\mathbb R^{Hd}\) a chunk of \(H\) actions, each with \(d\) coordinates <a href="#ref-1">[1]</a>. Sample a chunk from the base policy \(p_B\), then add a correction.</p>
       <div class="math-block">\[
         x_B\sim p_B(\cdot\mid o),\qquad x_A=x_B+r_\phi(o,x_B).
       \]</div>
-      <p>This is the idea behind residual RL: the controller already does something useful, and we learn what to add to it <a href="#ref-2">[2]</a>. The correction could also be learned from demonstrations.</p>
-      <p>First, give the residual only \(o\). Once we fix the observation, every sampled chunk gets the same correction:</p>
+      <p>This is the idea behind residual RL. The controller already does something useful, and we learn what to add to it <a href="#ref-2">[2]</a>. The correction could also be learned from demonstrations.</p>
+      <p>First, give the residual only \(o\). Once we fix the observation, every sampled chunk gets the same correction.</p>
       <div class="math-block">\[
         p_A(x\mid o)=p_B(x-r_\phi(o)\mid o),\qquad
         \operatorname{Cov}(x_A\mid o)=\operatorname{Cov}(x_B\mid o).
@@ -58,7 +58,7 @@
 
       <hr>
       <h2>From a denoiser to a sampling direction</h2>
-      <p>Start with a clean chunk and add Gaussian noise: \(y=x+\sigma\epsilon\), where \(\epsilon\sim\mathcal N(0,I)\). The noise level \(\sigma&gt;0\) controls how much we add. A denoiser \(D(y,\sigma,o)\) tries to recover \(x\). With squared-error training, its best answer is the posterior mean: the probability-weighted average of clean chunks that could have produced \(y\) <a href="#ref-3">[3]</a>.</p>
+      <p>Add Gaussian noise to a clean chunk to get \(y=x+\sigma\epsilon\), where \(\epsilon\sim\mathcal N(0,I)\). The noise level \(\sigma&gt;0\) controls how much we add. A denoiser \(D(y,\sigma,o)\) tries to recover \(x\). With squared-error training, its best answer is the posterior mean, the probability-weighted average of clean chunks that could have produced \(y\) <a href="#ref-3">[3]</a>.</p>
       <p>Call the noisy density \(p_\sigma\). Differentiating its Gaussian convolution gives</p>
       <div class="math-block">\[
         \begin{aligned}
@@ -68,7 +68,7 @@
         =\frac{D^*(y,\sigma,o)-y}{\sigma^2}.
         \end{aligned}
       \]</div>
-      <p>The gradient on the left is the <em>score</em>. It points toward more likely noisy chunks. A learned \(D\) gives us an estimate of it, which we can plug into the probability-flow ODE <a href="#ref-3">[3]</a>, <a href="#ref-4">[4]</a>:</p>
+      <p>The gradient on the left is the <em>score</em>. It points toward more likely noisy chunks. A learned \(D\) gives us an estimate of it, which we can plug into the probability-flow ODE <a href="#ref-3">[3]</a>, <a href="#ref-4">[4]</a>.</p>
       <div class="math-block">\[
         \frac{dy}{d\sigma}=-\sigma s_\sigma(y\mid o)
         =\frac{y-D(y,\sigma,o)}{\sigma}.
@@ -76,7 +76,7 @@
       <p>We follow this equation from high noise down toward zero. The observation stays fixed throughout sampling, and different starting noise gives different chunks. All of this happens before the robot executes the actions.</p>
 
       <h2>Putting the residual inside the sampler</h2>
-      <p>Keep the base denoiser \(D_B\) frozen and learn \(D_R=D_B+\Delta_\phi\). The residual uses the noisy chunk, noise level, and local observation <a href="#ref-5">[5]</a>. Put this into the score and ODE equations:</p>
+      <p>Keep the base denoiser \(D_B\) frozen and learn \(D_R=D_B+\Delta_\phi\). The residual uses the noisy chunk, noise level, and local observation <a href="#ref-5">[5]</a>. Put this into the score and ODE equations.</p>
       <div class="math-block">\[
         s_R=s_B+\frac{\Delta_\phi}{\sigma^2},\qquad
         \frac{dy_R}{d\sigma}
@@ -104,18 +104,18 @@
 
       <hr>
       <h2>What is the residual learning?</h2>
-      <p>For training, take collaborative demonstrations \((x,o)\sim\mathcal D_C\), add noise to the chunks, and update only the adapter:</p>
+      <p>For training, take collaborative demonstrations \((x,o)\sim\mathcal D_C\), add noise to the chunks, and update only the adapter.</p>
       <div class="math-block">\[
         \mathcal L_C=\mathbb E_{\mathcal D_C,\sigma,\epsilon}
         \left[w(\sigma)\left\|D_B(y,\sigma,o)+\Delta_\phi(y,\sigma,o)-x\right\|^2\right],
         \quad y=x+\sigma\epsilon.
       \]</div>
-      <p>With \(w(\sigma)&gt;0\) and enough model capacity, the best residual is \(\Delta^*=\mathbb E_C[x\mid y,\sigma,o]-D_B\). If the base is also an ideal denoiser, we can subtract their score identities:</p>
+      <p>With \(w(\sigma)&gt;0\) and enough model capacity, the best residual is \(\Delta^*=\mathbb E_C[x\mid y,\sigma,o]-D_B\). If the base is also an ideal denoiser, we can subtract their score identities.</p>
       <div class="math-block">\[
         \Delta^*(y,\sigma,o)=\sigma^2\nabla_y
         \log\frac{p_{C,\sigma}(y\mid o)}{p_{B,\sigma}(y\mid o)}.
       \]</div>
-      <p>I like this equation because it tells us exactly what the ideal residual corrects: the difference between the collaborative and base scores. That difference can change which action modes the sampler favors. Predicting a mean during training doesn’t force every final sample to be the same, either. The mean depends on the noisy input, which varies between samples.</p>
+      <p>I like this equation because it shows the ideal residual correcting the difference between the collaborative and base scores. That difference can change which action modes the sampler favors. Predicting a mean during training doesn’t force every final sample to be the same, either. The mean depends on the noisy input, which varies between samples.</p>
       <p>The adapter can still ruin an old skill even though the base weights never moved. One way to discourage that is to penalize \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks <a href="#ref-5">[5]</a>. Zero residual along every source sampling path would recover the base exactly. A small penalty on training examples doesn’t guarantee zero residual on every path.</p>
 
       <h2>Which would I use?</h2>
@@ -129,7 +129,7 @@
       <hr>
       <h2 id="references">References</h2>
       <ol class="references">
-        <li id="ref-1">Cheng Chi et al. <a href="https://arxiv.org/abs/2303.04137" target="_blank" rel="noopener noreferrer">Diffusion Policy: Visuomotor Policy Learning via Action Diffusion</a>. RSS, 2023.</li>
+        <li id="ref-1">Cheng Chi et al. <a href="https://arxiv.org/abs/2303.04137" target="_blank" rel="noopener noreferrer">Diffusion Policy (Visuomotor Policy Learning via Action Diffusion)</a>. RSS, 2023.</li>
         <li id="ref-2">Tobias Johannink et al. <a href="https://arxiv.org/abs/1812.03201" target="_blank" rel="noopener noreferrer">Residual Reinforcement Learning for Robot Control</a>. ICRA, 2019.</li>
         <li id="ref-3">Tero Karras, Miika Aittala, Timo Aila, and Samuli Laine. <a href="https://arxiv.org/abs/2206.00364" target="_blank" rel="noopener noreferrer">Elucidating the Design Space of Diffusion-Based Generative Models</a>. NeurIPS, 2022.</li>
         <li id="ref-4">Yang Song et al. <a href="https://arxiv.org/abs/2011.13456" target="_blank" rel="noopener noreferrer">Score-Based Generative Modeling through Stochastic Differential Equations</a>. ICLR, 2021.</li>
