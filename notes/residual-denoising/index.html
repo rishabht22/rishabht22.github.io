@@ -9,7 +9,7 @@
   <meta name="color-scheme" content="dark">
   <title>Residual Denoising vs. Action-Space Residuals in Diffusion Policies | Rishabh Thakur</title>
   <link rel="canonical" href="https://rishabht.com/notes/residual-denoising/">
-  <link rel="stylesheet" href="../../stylesheet.css?v=20261101-1">
+  <link rel="stylesheet" href="../../stylesheet.css?v=20261102-3">
   <script src="../../navigation.js?v=20261017-3" defer></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
@@ -36,12 +36,11 @@
       <header class="note-header">
         <p class="note-meta"><time datetime="2026-11-02">November 2, 2026</time> <span>robot learning · diffusion policies · 6 min read</span></p>
         <h1 class="page-heading">Residual Denoising vs. Action-Space Residuals in Diffusion Policies</h1>
-        <p class="note-deck">What changes when we move the correction inside the sampler?</p>
       </header>
 
       <h2>Intro</h2>
-      <p>A robot can know how to move a tray and still put it back before its teammate finishes wiping the table. This is the kind of problem I’ve been thinking about at ICON. The individual skills are there, but getting them to work together takes something more.</p>
-      <p>ALTER adds a learned correction to a frozen diffusion policy <a href="#ref-5">[5]</a>. What I find interesting is where that correction goes: inside each denoising step. Adding it to the final action seems simpler. I wanted to work through what we actually gain by moving it inside.</p>
+      <p>A robot can know how to move a tray and still put it back before its teammate finishes wiping the table. The individual skills are there, but getting them to work together takes something more.</p>
+      <p>One way to adapt a pretrained diffusion policy is to freeze it and learn a correction <a href="#ref-5">[5]</a>. What I find interesting is where that correction goes: inside each denoising step. Adding it to the final action seems simpler. I wanted to work through what we actually gain by moving it inside.</p>
 
       <h2>Action-space residuals</h2>
       <p>Let \(o\) be one robot’s local observation and \(x\in\mathbb R^{Hd}\) an \(H\)-step chunk of \(d\)-dimensional actions <a href="#ref-1">[1]</a>. An output residual modifies a completed sample:</p>
@@ -55,7 +54,7 @@
         \operatorname{Cov}(x_A\mid o)=\operatorname{Cov}(x_B\mid o).
       \]</div>
       <p>We’ve moved the whole distribution over. Its shape stays the same. If the base chooses left or right equally often, adding the same number to both choices cannot turn that into “always right.”</p>
-      <p>But let the residual see the sampled action, and things change. For a toy base that outputs \(x_B\in\{-1,+1\}\), choosing \(r(x_B)=1-x_B\) sends both outcomes to \(+1\). <strong>An output residual can change the distribution’s shape too.</strong> It depends on what we let it use.</p>
+      <p>But let the residual see the sampled action, and things change. For a toy base that outputs \(x_B\in\{-1,+1\}\), choosing \(r(x_B)=1-x_B\) sends both outcomes to \(+1\). An output residual can change the distribution’s shape too. It depends on what we let it use.</p>
 
       <hr>
       <h2>From a denoiser to a sampling direction</h2>
@@ -77,7 +76,7 @@
       <p>We follow this equation from high noise toward zero, keeping \(o\) fixed. Different starting noise gives different action chunks. These are sampling steps; the robot hasn’t executed the chunk yet.</p>
 
       <h2>What residual denoising changes</h2>
-      <p>Freeze \(D_B\) and learn \(D_R=D_B+\Delta_\phi\). ALTER’s adapter also receives the base prediction; I’ll leave that input implicit <a href="#ref-5">[5]</a>. Substitution gives</p>
+      <p>Freeze \(D_B\) and learn \(D_R=D_B+\Delta_\phi\), where the residual uses the noisy chunk, noise level, and local observation <a href="#ref-5">[5]</a>. Substitution gives</p>
       <div class="math-block">\[
         s_R=s_B+\frac{\Delta_\phi}{\sigma^2},\qquad
         \frac{dy_R}{d\sigma}
@@ -90,7 +89,7 @@
         y_{k+1}=(1-c_k)y_k+c_kD_B(y_k,\sigma_k,o)
         +c_k\Delta_\phi(y_k,\sigma_k,o).
       \]</div>
-      <p>The actual step correction is scaled by \(c_k\). The minus sign above makes sense because we’re moving toward <em>lower</em> noise. I’m using Euler to keep the math short; ALTER uses EDM’s higher-order solver <a href="#ref-3">[3]</a>, <a href="#ref-5">[5]</a>. Under our corruption rule, a noise predictor instead gives \(D=y-\sigma\hat\epsilon\), so its residual converts as \(\Delta_D=-\sigma\Delta_\epsilon\).</p>
+      <p>The actual step correction is scaled by \(c_k\). The minus sign above makes sense because we’re moving toward <em>lower</em> noise. I’m using Euler to keep the math short; higher-order solvers are another option <a href="#ref-3">[3]</a>. Under our corruption rule, a noise predictor instead gives \(D=y-\sigma\hat\epsilon\), so its residual converts as \(\Delta_D=-\sigma\Delta_\epsilon\).</p>
 
       <h2>Why the final correction isn’t a simple sum</h2>
       <p>A correction also changes the input to the next denoising step. To track this, scale the residual by \(\eta\) and start both samplers from the same noise. Define \(v_k=\left.\partial y_k^\eta/\partial\eta\right|_{\eta=0}\), the sensitivity to turning on the residual. Differentiating the Euler update gives</p>
@@ -117,11 +116,11 @@
         \log\frac{p_{C,\sigma}(y\mid o)}{p_{B,\sigma}(y\mid o)}.
       \]</div>
       <p>I think this is the nicest way to read the residual: it learns how the collaborative score differs from the base score. That can change which action modes the sampler favors. And although training predicts a mean, that mean depends on the noisy example. Sampling can still produce several different behaviors.</p>
-      <p>One catch: freezing the base doesn’t automatically preserve its behavior. We’re still adding something to it! ALTER penalizes \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks. Zero residual along every source sampling path recovers the base exactly; a small penalty on training examples doesn’t guarantee that <a href="#ref-5">[5]</a>.</p>
+      <p>One catch: freezing the base doesn’t automatically preserve its behavior. We’re still adding something to it! One way to keep the original skills is to penalize \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks <a href="#ref-5">[5]</a>. Zero residual along every source sampling path recovers the base exactly; a small penalty on training examples doesn’t guarantee that.</p>
 
       <h2>Which would I use?</h2>
-      <p><strong>For small execution fixes, I’d start with an action-space residual.</strong> It adds one correction pass and can use a fresh observation after sampling. <strong>For learning changes to multimodal action chunks from demonstrations, I’d try residual denoising.</strong> We can train directly on noisy expert chunks and change how sampling unfolds, though we pay for the adapter at each denoiser evaluation.</p>
-      <p>That’s a choice about what’s easier to learn, not a proof that one can represent more than the other. A powerful sample-dependent output residual can also change the distribution. ALTER’s baselines don’t directly compare these two residual locations, so its results don’t settle which is better.</p>
+      <p>For small execution fixes, I’d start with an action-space residual. It adds one correction pass and can use a fresh observation after sampling. For learning changes to multimodal action chunks from demonstrations, I’d try residual denoising. We can train directly on noisy expert chunks and change how sampling unfolds, though we pay for the adapter at each denoiser evaluation.</p>
+      <p>That’s a choice about what’s easier to learn, not a proof that one can represent more than the other. A powerful sample-dependent output residual can also change the distribution. To find out which works better, we’d need to compare them with the same base policy, training data, and compute budget.</p>
       <p>And for decentralized robots, both still work with what each robot can see. Moving the correction inside the sampler doesn’t tell it what its teammate is doing behind a box.</p>
 
       <hr>
@@ -131,7 +130,7 @@
         <li id="ref-2">Tobias Johannink et al. <a href="https://arxiv.org/abs/1812.03201" target="_blank" rel="noopener noreferrer">Residual Reinforcement Learning for Robot Control</a>. ICRA, 2019.</li>
         <li id="ref-3">Tero Karras, Miika Aittala, Timo Aila, and Samuli Laine. <a href="https://arxiv.org/abs/2206.00364" target="_blank" rel="noopener noreferrer">Elucidating the Design Space of Diffusion-Based Generative Models</a>. NeurIPS, 2022.</li>
         <li id="ref-4">Yang Song et al. <a href="https://arxiv.org/abs/2011.13456" target="_blank" rel="noopener noreferrer">Score-Based Generative Modeling through Stochastic Differential Equations</a>. ICLR, 2021.</li>
-        <li id="ref-5">Dayi Dong, Maulik Bhatt, Aayushi Shrivastava, Lasse Peters, and Negar Mehr. <a href="https://iconlab.negarmehr.com/ALTER/static/papers/ALTER.pdf" target="_blank" rel="noopener noreferrer">Residual Denoising Enables Sample-Efficient Multi-Agent Coordination on Demand</a>. 2026. <a href="https://iconlab.negarmehr.com/ALTER/" target="_blank" rel="noopener noreferrer">Project page</a>.</li>
+        <li id="ref-5">Dayi Dong, Maulik Bhatt, Aayushi Shrivastava, Lasse Peters, and Negar Mehr. <a href="https://arxiv.org/abs/2609.32129" target="_blank" rel="noopener noreferrer">Residual Denoising Enables Sample-Efficient Multi-Agent Coordination on Demand</a>. 2026.</li>
       </ol>
     </article>
   </main>
