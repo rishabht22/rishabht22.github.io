@@ -32,6 +32,13 @@ a {
 a:hover { color: #fff; }
 a:focus-visible { outline: 2px solid var(--link); outline-offset: 5px; }
 
+.llms-link {
+  display: none;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+
 .visually-hidden,
 .skip-link:not(:focus) {
   position: absolute;
