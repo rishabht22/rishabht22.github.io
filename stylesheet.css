@@ -1,11 +1,11 @@
 :root {
   color-scheme: light;
-  --background: #F7F7F2;
-  --text: #252923;
-  --link: #617C68;
-  --muted: #70766C;
-  --surface: #EDEFE8;
-  --line: #E4E7DD;
+  --background: #FAFAF8;
+  --text: #24282B;
+  --link: #526B82;
+  --muted: #6F757A;
+  --surface: #F3F4F3;
+  --line: #E7E9E8;
   --semester-line: var(--line);
   --course-line: var(--line);
 }
