@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="ArmSkillComp is a goal-conditioned skill composition project at UC Berkeley’s ICON Lab. It learns to sequence scripted manipulation skills in MuJoCo.">
+  <meta name="theme-color" content="#FAF4E8">
+  <meta name="color-scheme" content="light">
+  <title>ArmSkillComp — Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/projects/arm-skill-comp/">
+  <link rel="stylesheet" href="../../stylesheet.css?v=projects-3">
+  <link rel="stylesheet" href="project.css">
+  <script src="../../navigation.js?v=20261017-3" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#project-content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="../../">About</a>
+        <a href="../../coursework/">Coursework</a>
+        <a href="../" aria-current="location">Projects</a>
+        <a href="../../notes/">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page research-page" id="project-content" aria-labelledby="project-heading">
+    <a class="project-back" href="../">← Projects</a>
+    <header class="research-header">
+      <h1 class="page-heading" id="project-heading">ArmSkillComp</h1>
+      <p class="project-lead">Goal-conditioned composition of robot manipulation skills</p>
+      <p class="project-meta">UC Berkeley · ICON Lab · Berkeley AI Research</p>
+    </header>
+
+    <figure class="arm-video">
+      <video controls playsinline preload="none" width="1920" height="1080" poster="showcase-side-by-side.webp"
+        aria-label="Side-by-side MuJoCo rollouts from two starting states" aria-describedby="rollout-caption">
+        <source src="showcase-side-by-side.mp4" type="video/mp4">
+        <a href="showcase-side-by-side.mp4">Download the side-by-side MuJoCo demo</a>
+      </video>
+      <figcaption id="rollout-caption"><strong>Same goal, different starting states.</strong> The policy selects seven skills from the feed station and six when the carrier is already loaded. Both runs index carrier B once and return it to feed.</figcaption>
+    </figure>
+
+    <section class="arm-section" aria-labelledby="workcell-heading">
+      <div class="arm-reading">
+        <h2 id="workcell-heading">Aster workcell</h2>
+        <p>I built a MuJoCo workcell with a Panda arm, an optical reader, and a rotary fixture with a mechanical interlock. I trained a PyTorch policy to decide which manipulation skill to run on which carrier. Each goal specifies which carriers to inspect, how many times to index them, and where to leave them. It can also require inspecting one carrier before indexing another.</p>
+      </div>
+
+      <figure class="arm-video">
+        <video controls playsinline preload="none" width="1920" height="1080" poster="aster-inspect-and-index.webp"
+          aria-label="Eleven-skill MuJoCo rollout with a cross-carrier ordering constraint" aria-describedby="aster-caption">
+          <source src="aster-inspect-and-index.mp4" type="video/mp4">
+          <a href="aster-inspect-and-index.mp4">Download the inspect-and-index demo</a>
+        </video>
+        <figcaption id="aster-caption"><strong>Inspect A before indexing B.</strong> In this 11-skill rollout, the arm reads and sorts carrier A by grade, indexes B by 90°, and returns B to feed with the enclosure open and unlocked.</figcaption>
+      </figure>
+    </section>
+
+    <section class="arm-section" aria-labelledby="selector-heading">
+      <div class="arm-reading">
+        <h2 id="selector-heading">Closed-loop skill selection</h2>
+        <p>At each skill boundary, the system reads carrier locations, inspection flags, index counts, and the enclosure state from MuJoCo. It builds a 34-dimensional feature vector for every skill–carrier pair, encoding the candidate skill, the carrier’s observed and desired state, its role in the ordering constraint, and shared fixture occupancy.</p>
+      </div>
+
+      <figure class="arm-figure">
+        <ol class="arm-flow" aria-label="Closed-loop execution">
+          <li><strong>Observe the cell</strong><span>Current state and target outcome</span></li>
+          <li><strong>Score candidates</strong><span>12 skills × 4 carriers</span></li>
+          <li><strong>Run one skill</strong><span>Scripted MuJoCo controller</span></li>
+          <li><strong>Check the outcome</strong><span>Measure the state after motion</span></li>
+        </ol>
+        <figcaption class="arm-feedback"><span aria-hidden="true">↺</span> Re-score from the measured state after each successful skill until the goal is met.</figcaption>
+      </figure>
+
+      <div class="arm-reading">
+        <p>A shared MLP with three 64-unit SiLU layers scores all 48 candidates using 10,625 parameters. With <var>s<sub>t</sub></var> as the observed state, <var>g</var> as the goal, and <var>ϕ</var> as the candidate features, the executed skill is the highest-scoring pair.</p>
+        <div class="arm-equation">
+          <math display="block" aria-label="Action at time t equals the arg max over all candidates of the scorer applied to state, goal, and candidate features.">
+            <msub><mi>a</mi><mi>t</mi></msub><mo>=</mo>
+            <munder><mi mathvariant="normal">arg max</mi><mrow><mi>a</mi><mo>∈</mo><mi>𝒜</mi></mrow></munder>
+            <mspace width="0.2em"></mspace><msub><mi>f</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><mi>ϕ</mi><mo stretchy="false">(</mo><msub><mi>s</mi><mi>t</mi></msub><mo>,</mo><mi>g</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo>
+          </math>
+        </div>
+        <p>All candidates compete at inference time without a planner-provided action mask. The simulator checks preconditions and stops the rollout on a failed skill.</p>
+      </div>
+
+      <figure class="arm-figure arm-scores">
+        <fieldset>
+          <legend>First-decision scores</legend>
+          <input class="visually-hidden" type="radio" name="arm-start" id="start-feed" aria-controls="feed-scores" checked>
+          <label for="start-feed">At feed station</label>
+          <input class="visually-hidden" type="radio" name="arm-start" id="start-loaded" aria-controls="loaded-scores">
+          <label for="start-loaded">Already loaded</label>
+
+          <ul class="arm-score-panel" id="feed-scores" aria-label="Top three scores from the feed station">
+            <li class="is-selected"><span>Load B</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-positive" style="--extent:26.64%"></span></span><strong>+7.46</strong></li>
+            <li><span>Load B into reader</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-negative" style="--extent:15.89%"></span></span><span>−4.45</span></li>
+            <li><span>Reseat B</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-negative" style="--extent:40.82%"></span></span><span>−11.43</span></li>
+          </ul>
+          <ul class="arm-score-panel" id="loaded-scores" aria-label="Top three scores with the carrier loaded">
+            <li class="is-selected"><span>Close enclosure</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-positive" style="--extent:36.75%"></span></span><strong>+10.29</strong></li>
+            <li><span>Unload B</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-negative" style="--extent:14.57%"></span></span><span>−4.08</span></li>
+            <li><span>Reseat B</span><span class="arm-score-track" aria-hidden="true"><span class="arm-score-negative" style="--extent:44.82%"></span></span><span>−12.55</span></li>
+          </ul>
+        </fieldset>
+        <figcaption>The top three of 48 raw scores from each rollout in the opening video. The center line marks zero.</figcaption>
+      </figure>
+    </section>
+
+    <section class="arm-section arm-reading" aria-labelledby="training-heading">
+      <h2 id="training-heading">Training from a symbolic planner</h2>
+      <p>I used breadth-first search over discrete skill effects to label every action that starts a shortest path to the goal. The planner only permits an index operation when the enclosure is latched and any required inspection has happened.</p>
+      <p>Let <var>d<sub>g</sub>(s)</var> be the fewest skills needed to reach goal <var>g</var> from state <var>s</var>, and <var>T<sub>g</sub>(s, a)</var> the predicted state after a valid skill <var>a</var>. A skill is optimal if it reduces the remaining path by exactly one step.</p>
+      <div class="arm-equation">
+        <math display="block" aria-label="The shortest distance from the predicted next state to the goal equals the current distance minus one.">
+          <msub><mi>d</mi><mi>g</mi></msub><mo>(</mo><msub><mi>T</mi><mi>g</mi></msub><mo>(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>)</mo><mo>)</mo>
+          <mo>=</mo><msub><mi>d</mi><mi>g</mi></msub><mo>(</mo><mi>s</mi><mo>)</mo><mo>−</mo><mn>1</mn>
+        </math>
+      </div>
+      <p>Several skills can satisfy that condition at the same state. The ranking term puts probability mass on the full set of optimal actions <var>𝒜<sup>*</sup></var>. With <var>z<sub>a</sub></var> as the network’s raw score for candidate <var>a</var>, the loss is the negative log of their combined softmax probability.</p>
+      <div class="arm-equation">
+        <math display="block" aria-label="Ranking loss equals log sum exp over all candidates minus log sum exp over the optimal candidates.">
+          <msub><mi>ℒ</mi><mtext>rank</mtext></msub><mo>=</mo>
+          <mi>log</mi><munder><mo>∑</mo><mrow><mi>a</mi><mo>∈</mo><mi>𝒜</mi></mrow></munder><msup><mi>e</mi><msub><mi>z</mi><mi>a</mi></msub></msup>
+          <mo>−</mo>
+          <mi>log</mi><munder><mo>∑</mo><mrow><mi>a</mi><mo>∈</mo><msup><mi>𝒜</mi><mo>∗</mo></msup></mrow></munder><msup><mi>e</mi><msub><mi>z</mi><mi>a</mi></msub></msup>
+        </math>
+      </div>
+      <p>The training objective averages this term across the batch and adds a binary term weighted by 0.2. It averages <span class="arm-math-inline">softplus(−<var>z<sub>a</sub></var>)</span> over optimal choices and <span class="arm-math-inline">softplus(<var>z<sub>a</sub></var>)</span> over the other choices, then adds the two means.</p>
+    </section>
+
+    <section class="arm-section" aria-labelledby="benchmark-heading">
+      <div class="arm-reading">
+        <h2 id="benchmark-heading">Benchmark results by task condition</h2>
+        <p>I compared a learned checkpoint, a planner that replans after each skill, and a fixed plan generated from an all-feed state. All three ran from the same 1,024 seeded resets in MuJoCo. On partial starts, the fixture was already loaded and its enclosure was closed or latched. The policy completed all 256 cases. The fixed plan hit a failed precondition in every case.</p>
+      </div>
+
+      <figure class="arm-figure">
+        <table class="arm-benchmark">
+          <caption class="visually-hidden">Completed tasks by benchmark suite out of 256 cases per suite</caption>
+          <thead>
+            <tr><th scope="col">Test suite</th><th scope="col">Learned</th><th scope="col">Planner</th><th scope="col">Fixed plan</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Novel goal combinations</th><td><span style="--completion:99.61%">255</span></td><td><span style="--completion:99.61%">255</span></td><td><span style="--completion:48.44%">124</span></td></tr>
+            <tr><th scope="row">Three goal carriers</th><td><span style="--completion:99.22%">254</span></td><td><span style="--completion:98.83%">253</span></td><td><span style="--completion:44.92%">115</span></td></tr>
+            <tr><th scope="row">Ordering constraints</th><td><span style="--completion:100%">256</span></td><td><span style="--completion:100%">256</span></td><td><span style="--completion:100%">256</span></td></tr>
+            <tr><th scope="row">Partial starts</th><td><span style="--completion:100%">256</span></td><td><span style="--completion:100%">256</span></td><td><span style="--completion:0%">0</span></td></tr>
+          </tbody>
+          <tfoot>
+            <tr><th scope="row">Overall success</th><td><strong>99.7%</strong><span>1,021 / 1,024</span></td><td><strong>99.6%</strong><span>1,020 / 1,024</span></td><td><strong>48.3%</strong><span>495 / 1,024</span></td></tr>
+          </tfoot>
+        </table>
+        <figcaption>Each bar shows completed tasks out of 256 matched starts for its suite.</figcaption>
+      </figure>
+    </section>
+
+    <section class="arm-section arm-reading" aria-labelledby="failure-heading">
+      <h2 id="failure-heading">Carrier seating failures</h2>
+      <p>The transfer controller uses the measured grasp transform to align the carrier with the slot. A successful seat requires position error below 3.8 mm, rotation error below 0.14 rad (about 8°), and contact with the slot floor. The controller can make one guarded recentering pass before releasing the carrier.</p>
+      <p>The learned checkpoint made zero invalid skill requests in this benchmark. All three failures occurred while seating a carrier in its feed slot. In one replay, the policy picked a valid reseat action, but the carrier hit the slot wall with about 9.2° of rotation error.</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
+  </footer>
+</body>
+</html>

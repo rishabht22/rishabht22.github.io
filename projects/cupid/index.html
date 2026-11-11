@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="Explore the interactive 3D CAD assembly of Cupid, the Innov8rz robot for the 2025–2026 FIRST Tech Challenge DECODE season.">
+  <meta name="theme-color" content="#FAF4E8">
+  <meta name="color-scheme" content="light">
+  <title>Cupid — Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/projects/cupid/">
+  <link rel="stylesheet" href="../../stylesheet.css?v=projects">
+  <script src="../../navigation.js?v=20261017-3" defer></script>
+  <script type="module" src="viewer.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#project-content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="../../">About</a>
+        <a href="../../coursework/">Coursework</a>
+        <a href="../" aria-current="location">Projects</a>
+        <a href="../../notes/">Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page project-page" id="project-content" aria-labelledby="project-heading">
+    <a class="project-back" href="../">← Projects</a>
+    <header class="project-header">
+      <h1 class="page-heading" id="project-heading">Cupid</h1>
+      <p class="project-lead">FTC robot · 2025–2026 DECODE season</p>
+    </header>
+
+    <div class="cad-stage" id="cad-stage">
+      <span class="cad-label">3D CAD</span>
+      <model-viewer id="cupid-viewer" data-src="../../past-work/assets/cupid-final.glb" poster="cupid.webp"
+        alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
+        auto-rotate-delay="0" rotation-per-second="20deg"
+        camera-controls touch-action="pan-y" interaction-prompt="auto" interaction-prompt-style="basic"
+        camera-orbit="35deg 65deg 130%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
+        shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="eager">
+        <div slot="progress-bar" class="cad-progress" id="cad-progress">
+          <p id="cad-loading" role="status">Loading CAD…</p>
+          <div class="cad-progress-track"><span id="cad-progress-fill"></span></div>
+        </div>
+      </model-viewer>
+      <div class="cad-toolbar" aria-label="Model controls">
+        <button type="button" id="rotate-model" aria-label="Auto-rotate" title="Auto-rotate" aria-pressed="false" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7a9 9 0 0 0-15-2L3 7m0-4v4h4M4 17a9 9 0 0 0 15 2l2-2m0 4v-4h-4"/><path class="rotation-play" d="m10 8 6 4-6 4Z"/><g class="rotation-pause" hidden><path d="M10 8v8M14 8v8"/></g></svg>
+        </button>
+        <button type="button" id="reset-model" aria-label="Reset view" title="Reset view" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7"/></svg>
+        </button>
+        <button type="button" id="expand-model" aria-label="Full screen" title="Full screen" aria-expanded="false" aria-controls="cad-stage">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="expand-corners" d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><path class="collapse-corners" d="M3 8h5V3m13 5h-5V3M8 21v-5H3m13 5v-5h5" hidden/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="cad-caption">
+      <p>Drag to rotate · Scroll or pinch to zoom · Right-drag to pan</p>
+    </div>
+    <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
+  </footer>
+</body>
+</html>

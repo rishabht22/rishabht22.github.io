@@ -109,7 +109,8 @@ nav a {
   border-bottom: 1px solid transparent;
 }
 
-nav a[aria-current="page"] { color: var(--text); border-bottom-color: var(--text); }
+nav a[aria-current="page"],
+nav a[aria-current="location"] { color: var(--text); border-bottom-color: var(--text); }
 nav a:hover { color: var(--text); }
 
 .page {
@@ -327,9 +328,40 @@ p { margin: 0 0 23px; }
   .boundary-demo { padding: 16px; }
 }
 
-.work-entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; margin-bottom: 20px; }
-.work-entry-header h2 { margin: 0 0 4px; font-size: 25px; font-weight: 550; letter-spacing: -.4px; }
-.work-entry-header p, .work-type { margin: 0; color: var(--muted); font-size: 14px; }
+.project-list { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+.project-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--text);
+  text-decoration: none;
+}
+.project-card:hover,
+.project-card:focus-visible { border-color: var(--link); color: var(--text); }
+.project-card img { display: block; width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.project-card-body { padding: 20px 42px 20px 23px; }
+.project-card h2 { margin: 3px 0 7px; font-size: 23px; font-weight: 600; line-height: 1.25; letter-spacing: -.35px; }
+.project-card-body > p:last-child { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.project-arrow { position: absolute; top: 16px; right: 17px; color: var(--link); line-height: 1; }
+.project-meta { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.project-back { display: inline-block; margin-bottom: 24px; font-size: 14px; }
+.project-header { margin-bottom: 25px; }
+.project-header .page-heading { margin: 6px 0 8px; }
+.project-lead { margin: 0; font-size: 19px; line-height: 1.5; }
+
+@media (max-width: 480px) {
+  .project-card { grid-template-columns: minmax(0, 1fr); }
+  .project-card img { height: auto; aspect-ratio: 16 / 9; object-fit: contain; }
+  .project-card .workcell-preview { background: #000; }
+  .project-card-body { padding: 17px 40px 19px 18px; }
+  .project-arrow { top: auto; bottom: 22px; }
+}
+
 .cad-stage { position: relative; isolation: isolate; height: 480px; overflow: hidden; border: 1px solid var(--line); border-radius: 5px; background: var(--surface); }
 .cad-stage model-viewer { display: block; width: 100%; height: 100%; --progress-bar-color: var(--link); outline-offset: -4px; }
 .cad-label { position: absolute; z-index: 2; top: 16px; left: 16px; color: var(--muted); font-size: 12px; letter-spacing: .06em; pointer-events: none; }
@@ -357,7 +389,6 @@ body.viewer-open::before { content: ""; position: fixed; inset: 0; z-index: 99; 
   .cad-toolbar { top: 10px; right: 10px; gap: 6px; }
   .cad-toolbar button { padding: 8px; }
   .cad-stage.is-expanded { inset: 8px; }
-  .work-entry-header { gap: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cad-progress-track span { transition: none; }

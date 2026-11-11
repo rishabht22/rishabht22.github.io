@@ -2,12 +2,12 @@
 
 > Electrical Engineering and Computer Science undergraduate at UC Berkeley. Research interests include robotics, robot learning, reinforcement learning, and autonomous systems. Currently working on decentralized multi-agent robot learning at ICON Lab and Berkeley AI Research, advised by Professor Negar Mehr and Dayi Ethan Dong. Previously a research intern at UPenn's GRASP Lab and UC Santa Cruz, and software captain of Innov8rz, FIRST Tech Challenge Team 11039.
 
-This is Rishabh Thakur's personal website. It contains an about page, coursework, past work with an interactive robot CAD model, and technical notes on robot learning and optimization. This file is an author-provided overview with direct links to the published material. The Past Work page is still being updated and is not a complete record of his projects.
+This is Rishabh Thakur's personal website. It contains an about page, coursework, robotics projects, and technical notes on robot learning and optimization. This file is an author-provided overview with direct links to the published material.
 
 ## Site
 
 - [Home and about, HTML](https://rishabht.com/): biography, current research, previous research experience, and contact details.
-- [Past Work, HTML](https://rishabht.com/past-work/): Cupid, the 2025-26 FTC robot, with an interactive 3D CAD assembly.
+- [Projects, HTML](https://rishabht.com/projects/): ArmSkillComp robot learning research and Cupid, the 2025–2026 FTC DECODE robot.
 - [Notes, HTML](https://rishabht.com/notes/): technical writing on diffusion policies, robot learning, and optimization.
 - [Coursework, HTML](https://rishabht.com/coursework/): Berkeley courses and college-level courses taken in high school.
 - [This overview, Markdown](https://rishabht.com/llms.txt): plain-text introduction and links for language models.
@@ -21,7 +21,8 @@ This is Rishabh Thakur's personal website. It contains an about page, coursework
 
 ## Projects and media
 
-- [Cupid project and interactive viewer, HTML](https://rishabht.com/past-work/): FTC robot for the 2025-26 season. Rotate, zoom, and pan the CAD assembly in the browser.
+- [ArmSkillComp, HTML](https://rishabht.com/projects/arm-skill-comp/): A goal-conditioned policy sequences scripted manipulation skills in MuJoCo. Includes two demos, the skill scorer and training objective, and a breakdown of the benchmark results.
+- [Cupid project and interactive viewer, HTML](https://rishabht.com/projects/cupid/): FTC robot for the 2025–2026 DECODE season. Rotate, zoom, and pan the CAD assembly in the browser.
 - [Cupid 3D CAD assembly, glTF binary](https://rishabht.com/past-work/assets/cupid-final.glb): the model used by the site's interactive viewer.
 
 ## Technical notes

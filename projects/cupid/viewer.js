@@ -1,6 +1,6 @@
-import { ModelViewerElement } from "../vendor/model-viewer-4.4.0.min.js";
+import { ModelViewerElement } from "../../vendor/model-viewer-4.4.0.min.js";
 
-ModelViewerElement.dracoDecoderLocation = new URL("../vendor/draco/", import.meta.url).href;
+ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.meta.url).href;
 
 (() => {
   const viewer = document.querySelector('#cupid-viewer');
