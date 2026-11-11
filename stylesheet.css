@@ -351,9 +351,20 @@ p { margin: 0 0 23px; }
 .project-arrow { position: absolute; top: 16px; right: 17px; color: var(--link); line-height: 1; }
 .project-meta { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
 .project-back { display: inline-block; margin-bottom: 24px; font-size: 14px; }
-.project-header { margin-bottom: 25px; }
-.project-header .page-heading { margin: 6px 0 8px; }
+.project-detail { width: min(820px, calc(100% - 57px)); padding-top: 30px; }
+.project-header { margin-bottom: 25px; text-align: center; }
+.project-header .page-heading {
+  margin: 0 0 7px;
+  font-size: clamp(34px, 5vw, 48px);
+  letter-spacing: -.045em;
+}
+.project-header .project-meta { margin-top: 11px; }
 .project-lead { margin: 0; font-size: 19px; line-height: 1.5; }
+
+@media (max-width: 620px) {
+  .project-detail { width: calc(100% - 40px); }
+  .project-header .project-lead { font-size: 17px; }
+}
 
 @media (max-width: 480px) {
   .project-card { grid-template-columns: minmax(0, 1fr); }
