@@ -2161,3 +2161,11 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 }
 @media (max-width: 760px) { .nav-indicator { display: none; } }
 .nav-label { display: inline-block; white-space: nowrap; }
+
+/* Spring-driven project preview */
+.row-preview.is-spring {
+  width: 300px;
+  transform-origin: 50% 50%;
+  transition: opacity 200ms var(--ease);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(91, 147, 255, .16);
+}
