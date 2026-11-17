@@ -135,4 +135,52 @@
       row.addEventListener('mouseleave', () => { on = false; ps.target = .86; preview.classList.remove('is-on'); kick(); });
     });
   }
+
+  /* ---------- Rail: a spring marker beside the row you are on ---------- */
+  // y and height are springs, so moving between rows glides with momentum and
+  // the bar stretches a little mid-move. Works with mouse and keyboard focus.
+  if (Spring) {
+    document.querySelectorAll('.rows, .notes3').forEach((list) => {
+      const rail = document.createElement('span');
+      rail.className = 'rail';
+      rail.setAttribute('aria-hidden', 'true');
+      list.classList.add('has-rail');
+      list.append(rail);
+      const y = new Spring(0, { stiffness: 210, damping: 25 });
+      const h = new Spring(0, { stiffness: 210, damping: 25 });
+      const o = new Spring(0, { stiffness: 180, damping: 26 });
+      let raf = 0;
+      let last = 0;
+      let shown = false;
+      const tick = (now) => {
+        const dt = last ? (now - last) / 1000 : 1 / 60;
+        last = now;
+        const moving = [y.step(dt), h.step(dt), o.step(dt)].some(Boolean);
+        // Stretch slightly with speed, like it is being pulled.
+        const stretch = Math.min(18, Math.abs(y.velocity) * .02);
+        rail.style.transform = `translateY(${(y.value - stretch / 2).toFixed(1)}px) scaleY(${Math.max(0, h.value + stretch).toFixed(1)})`;
+        rail.style.opacity = Math.max(0, Math.min(1, o.value)).toFixed(3);
+        if (moving) raf = requestAnimationFrame(tick); else { raf = 0; last = 0; }
+      };
+      const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+      const goTo = (li) => {
+        const top = li.offsetTop + 14;
+        const height = li.offsetHeight - 28;
+        if (!shown) { y.set(top); h.set(height); }
+        y.target = top;
+        h.target = height;
+        o.target = 1;
+        shown = true;
+        kick();
+      };
+      const hide = () => { o.target = 0; shown = false; kick(); };
+      list.querySelectorAll(':scope > li').forEach((li) => {
+        const link = li.querySelector('a');
+        li.addEventListener('mouseenter', () => goTo(li));
+        link?.addEventListener('focus', () => goTo(li));
+      });
+      list.addEventListener('mouseleave', hide);
+      list.addEventListener('focusout', (e) => { if (!list.contains(e.relatedTarget)) hide(); });
+    });
+  }
 })();
