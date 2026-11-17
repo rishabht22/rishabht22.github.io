@@ -36,20 +36,20 @@
 
     const span = origin.width;
     const parts = points.map((pt) => {
-      const delay = (pt.x / span) * 520 + Math.random() * 160;
+      const delay = (pt.x / span) * 300 + Math.random() * 100;
       return {
         tx: pt.x,
         ty: pt.y,
-        sx: pt.x - 140 - Math.random() * 260,
+        sx: pt.x - 90 - Math.random() * 160,
         sy: pt.y + (Math.random() - .5) * 120,
         bend: (Math.random() - .5) * 60,
         delay,
-        dur: 620 + Math.random() * 260,
+        dur: 380 + Math.random() * 180,
       };
     });
-    const total = 520 + 160 + 880;
+    const total = 300 + 100 + 560;
     const fadeStart = total - 120;
-    const fadeLen = 520;
+    const fadeLen = 340;
     const start = performance.now();
     let revealed = false;
     const ease = (t) => 1 - (1 - t) ** 4;
