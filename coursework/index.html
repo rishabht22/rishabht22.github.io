@@ -5,32 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
   <meta name="description" content="Rishabh Thakur's coursework at UC Berkeley. Spring 2027, Fall 2026, and courses taken in high school.">
-  <meta name="theme-color" content="#FBF8F3">
-  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0B1018">
+  <meta name="color-scheme" content="dark">
   <title>Coursework — Rishabh Thakur</title>
   <link rel="canonical" href="https://rishabht.com/coursework/">
-  <link rel="stylesheet" href="../stylesheet.css?v=20261117">
-  <script src="../navigation.js?v=20261017-3" defer></script>
-  <script src="../disclosure.js?v=20261017-9" defer></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/stylesheet.css?v=20261117-4">
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/site.js?v=20261117-4" defer></script>
+  <script src="/disclosure.js?v=20261117-4" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#coursework">Skip to content</a>
   <header class="site-header">
-    <div class="header-inner">
-      <span class="site-name">Rishabh Thakur</span>
-      <nav aria-label="Main navigation">
-        <a href="../">About</a>
-        <a href="./" aria-current="page">Coursework</a>
-        <a href="../projects/">Projects</a>
-        <a href="../notes/">Notes</a>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span>Rishabh Thakur</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#about">About</a>
+        <a href="/notes/">Notes</a>
+        <a class="nav-contact" href="/#contact">Say hello</a>
       </nav>
     </div>
   </header>
 
-  <main class="page coursework-page" id="coursework" aria-labelledby="coursework-heading">
-    <h1 class="page-heading" id="coursework-heading">Coursework</h1>
+  <main class="page page-narrow coursework-page" id="coursework" aria-labelledby="coursework-heading">
+    <header class="page-intro">
+      <p class="section-label"><b>School</b> / Coursework</p>
+      <h1 class="page-heading" id="coursework-heading">Coursework</h1>
+      <p class="page-lead">EECS at UC Berkeley, plus the college-level math and programming I took in high school.</p>
+    </header>
     <details class="coursework-section">
-      <summary>Spring 2027</summary>
+      <summary>Spring 2027 <span class="summary-meta">next term</span></summary>
       <div class="disclosure-content">
         <ul class="course-list">
           <li><span class="course-code">CS 61B</span><span>Data Structures</span></li>
@@ -40,8 +52,8 @@
         </ul>
       </div>
     </details>
-    <details class="coursework-section">
-      <summary>Fall 2026</summary>
+    <details class="coursework-section" open>
+      <summary>Fall 2026 <span class="summary-meta">this term</span></summary>
       <div class="disclosure-content">
         <ul class="course-list">
           <li><span class="course-code">CS 61A</span><span>The Structure and Interpretation of Computer Programs</span></li>
@@ -52,7 +64,7 @@
       </div>
     </details>
     <details class="coursework-section">
-      <summary>Taken in High School</summary>
+      <summary>Taken in high school <span class="summary-meta">college-level</span></summary>
       <div class="disclosure-content">
         <ul class="course-list course-list-names">
           <li>Linear Algebra &amp; Differential Equations</li>
@@ -63,11 +75,15 @@
     </details>
   </main>
   <footer class="site-footer">
-    <div class="footer-links">
-      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <div class="wrap footer-inner">
+      <p>© 2026 Rishabh Thakur</p>
+      <nav class="footer-links" aria-label="Elsewhere">
+        <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:rishabh.thakur@berkeley.edu">Email</a>
+      </nav>
+      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
-    <p>© 2026 Rishabh Thakur</p>
   </footer>
 </body>
 </html>

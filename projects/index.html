@@ -5,61 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
   <meta name="description" content="Robotics projects by Rishabh Thakur, including goal-conditioned skill composition and the Cupid competition robot.">
-  <meta name="theme-color" content="#FBF8F3">
-  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0B1018">
+  <meta name="color-scheme" content="dark">
   <title>Projects — Rishabh Thakur</title>
   <link rel="canonical" href="https://rishabht.com/projects/">
-  <link rel="stylesheet" href="../stylesheet.css?v=20261117">
-  <script src="../navigation.js?v=20261017-3" defer></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/stylesheet.css?v=20261117-4">
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/site.js?v=20261117-4" defer></script>
+  <script type="module" src="/projects/cupid/card.js?v=20261117-4"></script>
 </head>
 <body>
   <a class="skip-link" href="#project-content">Skip to content</a>
   <header class="site-header">
-    <div class="header-inner">
-      <span class="site-name">Rishabh Thakur</span>
-      <nav aria-label="Main navigation">
-        <a href="../">About</a>
-        <a href="../coursework/">Coursework</a>
-        <a href="./" aria-current="page">Projects</a>
-        <a href="../notes/">Notes</a>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span>Rishabh Thakur</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#work" aria-current="location">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#about">About</a>
+        <a href="/notes/">Notes</a>
+        <a class="nav-contact" href="/#contact">Say hello</a>
       </nav>
     </div>
   </header>
 
   <main class="page projects-page" id="project-content" aria-labelledby="projects-heading">
-    <h1 class="page-heading" id="projects-heading">Projects</h1>
-    <p class="small-note">Need to update</p>
+    <header class="page-intro">
+      <p class="section-label"><b>Work</b> / Projects</p>
+      <h1 class="page-heading" id="projects-heading">Projects</h1>
+      <p class="page-lead">Robot learning research and competition robotics. Each one has a page with the details, demos, and what I actually did.</p>
+    </header>
+
     <ul class="project-list">
       <li>
-        <a class="project-card" href="./arm-skill-comp/" aria-labelledby="arm-card-title" aria-describedby="arm-card-description">
-          <img class="workcell-preview" src="arm-skill-comp/workcell.webp" alt="" width="800" height="600" fetchpriority="high">
-          <div class="project-card-body">
-            <p class="project-meta">UC Berkeley · ICON Lab</p>
-            <h2 id="arm-card-title">ArmSkillComp</h2>
-            <p id="arm-card-description">A learned policy that sequences reusable robot-arm skills from the current state and goal.</p>
+        <a class="feature" href="/projects/arm-skill-comp/" data-hover-video>
+          <div class="feature-media is-contain">
+            <img src="/projects/arm-skill-comp/showcase-side-by-side.webp" alt="Two MuJoCo rollouts side by side: a Panda arm moving carriers between a feed station, an optical reader, and a rotary fixture." width="1920" height="1080" fetchpriority="high" decoding="async">
+            <video muted loop playsinline preload="none" data-src="/projects/arm-skill-comp/showcase-side-by-side.mp4" aria-hidden="true" tabindex="-1"></video>
+            <span class="media-chip">MuJoCo · Panda arm</span>
           </div>
-          <span class="project-arrow" aria-hidden="true">→</span>
+          <div class="feature-body">
+            <p class="feature-kicker"><b>Research</b> · ICON Lab, Berkeley AI Research</p>
+            <h2 class="feature-title">ArmSkillComp</h2>
+            <p class="feature-summary">A small learned policy that decides which manipulation skill to run next, and on which carrier, from the current state and the goal. It learns from a symbolic planner’s labels and re-scores after every skill.</p>
+            <dl class="stats">
+              <div><dt>success over 1,024 seeded resets</dt><dd>99.7%</dd></div>
+              <div><dt>skill–carrier candidates</dt><dd>48</dd></div>
+              <div><dt>parameters</dt><dd>10.6k</dd></div>
+            </dl>
+            <div class="feature-foot">
+              <ul class="tags" aria-label="Tools and topics"><li>MuJoCo</li><li>PyTorch</li><li>Skill composition</li></ul>
+              <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
+            </div>
+          </div>
         </a>
       </li>
       <li>
-        <a class="project-card" href="./cupid/" aria-labelledby="cupid-card-title" aria-describedby="cupid-card-description">
-          <img src="cupid/cupid.webp" alt="" width="800" height="600">
-          <div class="project-card-body">
-            <p class="project-meta">FTC DECODE · 2025–2026</p>
-            <h2 id="cupid-card-title">Cupid</h2>
-            <p id="cupid-card-description">Explore our competition robot’s full assembly in interactive 3D.</p>
+        <article class="feature is-reversed is-live" aria-labelledby="cupid-card-title">
+          <div class="feature-media live-media">
+            <model-viewer id="cupid-card-viewer" data-src="/projects/cupid/cupid-final.glb" poster="/projects/cupid/cupid-dark.webp"
+              alt="Interactive 3D CAD assembly of Cupid. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
+              camera-controls touch-action="pan-y" interaction-prompt="none"
+              camera-orbit="35deg 65deg 150%" field-of-view="35deg" min-camera-orbit="auto 5deg 30%" max-camera-orbit="auto 175deg 300%"
+              shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="lazy" reveal="auto">
+              <div slot="progress-bar" class="live-progress"><span></span></div>
+            </model-viewer>
+            <span class="media-chip">Live 3D · drag to rotate · scroll to zoom</span>
           </div>
-          <span class="project-arrow" aria-hidden="true">→</span>
-        </a>
+          <div class="feature-body">
+            <p class="feature-kicker"><b>Robotics</b> · Innov8rz, FTC Team 11039</p>
+            <h2 class="feature-title" id="cupid-card-title"><a class="feature-title-link" href="/projects/cupid/">Cupid</a></h2>
+            <p class="feature-summary">Our robot for the 2025–26 FIRST Tech Challenge season, DECODE. That’s the actual CAD assembly next to this text: grab it and spin it around, or open the full viewer for fullscreen, auto-rotate, and panning.</p>
+            <div class="feature-foot">
+              <ul class="tags" aria-label="Topics"><li>FTC DECODE</li><li>Competition robotics</li></ul>
+              <a class="feature-cta" href="/projects/cupid/">Open the full viewer <span class="arrow" aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+        </article>
       </li>
     </ul>
   </main>
   <footer class="site-footer">
-    <div class="footer-links">
-      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <div class="wrap footer-inner">
+      <p>© 2026 Rishabh Thakur</p>
+      <nav class="footer-links" aria-label="Elsewhere">
+        <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:rishabh.thakur@berkeley.edu">Email</a>
+      </nav>
+      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
-    <p>© 2026 Rishabh Thakur</p>
   </footer>
 </body>
 </html>

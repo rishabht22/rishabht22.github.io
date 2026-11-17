@@ -5,31 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
   <meta name="description" content="Notes by Rishabh Thakur on reinforcement learning, robotics, and things worth working through.">
-  <meta name="theme-color" content="#FBF8F3">
-  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0B1018">
+  <meta name="color-scheme" content="dark">
   <title>Notes — Rishabh Thakur</title>
   <link rel="canonical" href="https://rishabht.com/notes/">
-  <link rel="stylesheet" href="../stylesheet.css?v=20261117">
-  <script src="../navigation.js?v=20261017-3" defer></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/stylesheet.css?v=20261117-4">
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/site.js?v=20261117-4" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#notes">Skip to content</a>
   <header class="site-header">
-    <div class="header-inner">
-      <span class="site-name">Rishabh Thakur</span>
-      <nav aria-label="Main navigation">
-        <a href="../">About</a>
-        <a href="../coursework/">Coursework</a>
-        <a href="../projects/">Projects</a>
-        <a href="./" aria-current="page">Notes</a>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span>Rishabh Thakur</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#work">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#about">About</a>
+        <a href="/notes/" aria-current="location">Notes</a>
+        <a class="nav-contact" href="/#contact">Say hello</a>
       </nav>
     </div>
   </header>
 
-  <main class="page notes-page" id="notes">
-    <h1 class="page-heading">Notes</h1>
-    <p>Things I think are cool, mostly for my own reference. The writing’s a work in progress.</p>
-    <hr class="notes-divider">
+  <main class="page page-narrow notes-page" id="notes" aria-labelledby="notes-heading">
+    <header class="page-intro">
+      <p class="section-label"><b>Writing</b> / Notes</p>
+      <h1 class="page-heading" id="notes-heading">Notes</h1>
+      <p class="page-lead">Things I think are cool, mostly for my own reference. I write something down when I want to actually understand it. The writing’s a work in progress.</p>
+    </header>
     <article class="note-list-entry">
       <a class="note-card" href="./residual-denoising/">
         <h2>Residual Denoising vs. Action-Space Residuals in Diffusion Policies</h2>
@@ -60,11 +70,15 @@
     </article>
   </main>
   <footer class="site-footer">
-    <div class="footer-links">
-      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <div class="wrap footer-inner">
+      <p>© 2026 Rishabh Thakur</p>
+      <nav class="footer-links" aria-label="Elsewhere">
+        <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:rishabh.thakur@berkeley.edu">Email</a>
+      </nav>
+      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
-    <p>© 2026 Rishabh Thakur</p>
   </footer>
 </body>
 </html>

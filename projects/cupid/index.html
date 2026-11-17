@@ -5,38 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
   <meta name="description" content="Explore the interactive 3D CAD assembly of Cupid, the Innov8rz robot for the 2025–2026 FIRST Tech Challenge DECODE season.">
-  <meta name="theme-color" content="#FBF8F3">
-  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0B1018">
+  <meta name="color-scheme" content="dark">
   <title>Cupid — Rishabh Thakur</title>
   <link rel="canonical" href="https://rishabht.com/projects/cupid/">
-  <link rel="stylesheet" href="../../stylesheet.css?v=20261117">
-  <script src="../../navigation.js?v=20261017-3" defer></script>
-  <script type="module" src="viewer.js"></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/stylesheet.css?v=20261117-4">
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/site.js?v=20261117-4" defer></script>
+  <script type="module" src="viewer.js?v=20261117-4"></script>
 </head>
 <body>
   <a class="skip-link" href="#project-content">Skip to content</a>
   <header class="site-header">
-    <div class="header-inner">
-      <span class="site-name">Rishabh Thakur</span>
-      <nav aria-label="Main navigation">
-        <a href="../../">About</a>
-        <a href="../../coursework/">Coursework</a>
-        <a href="../" aria-current="location">Projects</a>
-        <a href="../../notes/">Notes</a>
+    <div class="wrap header-inner">
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span>Rishabh Thakur</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/#work" aria-current="location">Work</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#about">About</a>
+        <a href="/notes/">Notes</a>
+        <a class="nav-contact" href="/#contact">Say hello</a>
       </nav>
     </div>
   </header>
 
   <main class="page project-detail" id="project-content" aria-labelledby="project-heading">
-    <a class="project-back" href="../">← Projects</a>
+    <a class="project-back" href="../"><span class="arrow-left" aria-hidden="true">←</span> Projects</a>
     <header class="project-header">
+      <p class="project-meta">Robotics · Innov8rz, FTC Team 11039 · 2025–26</p>
       <h1 class="page-heading" id="project-heading">Cupid</h1>
-      <p class="project-lead">FTC Robot for DECODE 25-26 Season</p>
+      <p class="project-lead">Our robot for DECODE, the 2025–26 FIRST Tech Challenge season. This is the full CAD assembly, live in your browser. Grab it and spin it around.</p>
     </header>
 
     <div class="cad-stage" id="cad-stage">
       <span class="cad-label">3D CAD</span>
-      <model-viewer id="cupid-viewer" data-src="cupid-final.glb" poster="cupid.webp"
+      <model-viewer id="cupid-viewer" data-src="cupid-final.glb" poster="cupid-dark.webp"
         alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
         auto-rotate-delay="0" rotation-per-second="20deg"
         camera-controls touch-action="pan-y" interaction-prompt="auto" interaction-prompt-style="basic"
@@ -60,16 +69,20 @@
       </div>
     </div>
     <div class="cad-caption">
-      <p>Drag to rotate · Scroll or pinch to zoom · Right-drag to pan</p>
+      <p>Drag to rotate · Scroll or pinch to zoom · Right-drag to pan · Arrow keys orbit</p>
     </div>
     <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
   </main>
   <footer class="site-footer">
-    <div class="footer-links">
-      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <div class="wrap footer-inner">
+      <p>© 2026 Rishabh Thakur</p>
+      <nav class="footer-links" aria-label="Elsewhere">
+        <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:rishabh.thakur@berkeley.edu">Email</a>
+      </nav>
+      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
-    <p>© 2026 Rishabh Thakur</p>
   </footer>
 </body>
 </html>
