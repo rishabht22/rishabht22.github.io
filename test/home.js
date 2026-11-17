@@ -249,10 +249,49 @@
       wake();
     });
 
-    if (!reducedMotion.matches) {
-      window.setTimeout(() => { ripples.push({ x: width / 2, y: height / 2, t: performance.now() }); wake(); }, 650);
-      window.setTimeout(() => formShape('software'), 1300);
-    }
+    /* Intro: the grid's dots stream into the shape of the name, the real
+       text materializes from them, then they spill back out with a ripple. */
+    const nameEl = document.querySelector('.hero3-name');
+    const formName = () => {
+      if (!nameEl || !window.textPoints) return false;
+      const origin = hero.getBoundingClientRect();
+      let step = 5;
+      let points = window.textPoints(nameEl, origin, step);
+      while (points.length > dots.length * .5 && step < 16) { step += 1; points = window.textPoints(nameEl, origin, step); }
+      if (!points.length) return false;
+      dots.forEach((d) => { d.target = null; });
+      shape.r = 0;
+      for (const t of points) {
+        let best = null;
+        let bestD = Infinity;
+        for (const d of dots) {
+          if (d.target) continue;
+          const dist = (d.px - t.x) ** 2 + (d.py - t.y) ** 2;
+          if (dist < bestD) { bestD = dist; best = d; }
+        }
+        if (best) best.target = { x: t.x, y: t.y };
+      }
+      shapeOn = true;
+      wake();
+      return true;
+    };
+    const showName = () => nameEl?.classList.add('is-ready');
+    const intro = () => {
+      if (reducedMotion.matches) { showName(); startRotator(); return; }
+      if (!formName()) { showName(); startRotator(); return; }
+      window.setTimeout(() => {
+        showName();
+        release();
+        const r = nameEl.getBoundingClientRect();
+        const o = hero.getBoundingClientRect();
+        ripples.push({ x: r.left - o.left + r.width / 2, y: r.top - o.top + r.height / 2, t: performance.now() });
+        wake();
+      }, 1500);
+      window.setTimeout(() => { formShape('software'); startRotator(); }, 2300);
+    };
+    const begin = () => window.setTimeout(intro, 180);
+    if (document.fonts && document.fonts.status !== 'loaded') document.fonts.ready.then(begin);
+    else begin();
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => {
@@ -277,7 +316,9 @@
   }
 
   /* ---------- "I build ___" rotator ---------- */
-  if (rotator && !reducedMotion.matches) {
+  function startRotator() {
+    if (!rotator || reducedMotion.matches || startRotator.started) return;
+    startRotator.started = true;
     const words = ['software', 'ML models', 'AI tools', 'robots'];
     let index = 0;
     window.setInterval(() => {
@@ -300,4 +341,5 @@
       formShape(words[index]);
     }, 2800);
   }
+  if (!canvas) startRotator();
 })();

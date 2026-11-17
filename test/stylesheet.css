@@ -1778,7 +1778,7 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 34% 26% at 50% 50%, rgba(14, 14, 15, .85), rgba(14, 14, 15, 0)),
+    radial-gradient(ellipse 34% 26% at 50% 50%, rgba(14, 14, 15, .55), rgba(14, 14, 15, 0)),
     linear-gradient(to bottom, rgba(14, 14, 15, 0) 72%, var(--bg));
 }
 .hero3-inner { text-align: center; pointer-events: none; }
@@ -2155,3 +2155,26 @@ body.has-spotlight::before {
   transform: scaleX(0);
   pointer-events: none;
 }
+
+/* ==========================================================================
+   v5: dot-assembly intro and headings
+   ========================================================================== */
+
+/* The name is hidden until the dots have assembled it (never longer than 4s). */
+.hero3-name .mag { animation: none; }
+.hero3-name { transition: opacity 700ms var(--ease), filter 700ms var(--ease); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero3-name:not(.is-ready) {
+    opacity: 0;
+    filter: brightness(2.2);
+    animation: name-fallback 1ms 4s forwards;
+  }
+}
+@keyframes name-fallback { to { opacity: 1; filter: none; } }
+
+/* Section titles wait for their particle stream. */
+.js .assemble-pending { opacity: 0; }
+.sec-title, .contact3-title { transition: opacity 520ms var(--ease); }
+.assemble-canvas { position: absolute; z-index: 5; pointer-events: none; }
+.js .sec-title.assemble-pending,
+.js .contact3-title.assemble-pending { opacity: 0 !important; }
