@@ -38,37 +38,25 @@
 
   <main class="page projects-page" id="project-content" aria-labelledby="projects-heading">
     <header class="page-intro">
-      <p class="section-label"><b>Work</b> / Projects</p>
-      <h1 class="page-heading" id="projects-heading">Projects</h1>
-      <p class="page-lead">Robot learning research and competition robotics. Each one has a page with the details, demos, and what I actually did.</p>
+      <h1 class="page-heading" id="projects-heading">Projects<span class="dot">.</span></h1>
     </header>
 
     <ul class="project-list">
       <li>
-        <a class="feature" href="/test/projects/arm-skill-comp/" data-hover-video>
+        <a class="feature feature-min" href="/test/projects/arm-skill-comp/" data-hover-video>
           <div class="feature-media is-contain">
             <img src="/test/projects/arm-skill-comp/showcase-side-by-side.webp" alt="Two MuJoCo rollouts side by side: a Panda arm moving carriers between a feed station, an optical reader, and a rotary fixture." width="1920" height="1080" fetchpriority="high" decoding="async">
             <video muted loop playsinline preload="none" data-src="/test/projects/arm-skill-comp/showcase-side-by-side.mp4" aria-hidden="true" tabindex="-1"></video>
-            <span class="media-chip">MuJoCo · Panda arm</span>
           </div>
           <div class="feature-body">
-            <p class="feature-kicker"><b>Research</b> · ICON Lab, Berkeley AI Research</p>
-            <h2 class="feature-title">ArmSkillComp</h2>
-            <p class="feature-summary">A small learned policy that decides which manipulation skill to run next, and on which carrier, from the current state and the goal. It learns from a symbolic planner’s labels and re-scores after every skill.</p>
-            <dl class="stats">
-              <div><dt>success over 1,024 seeded resets</dt><dd>99.7%</dd></div>
-              <div><dt>skill–carrier candidates</dt><dd>48</dd></div>
-              <div><dt>parameters</dt><dd>10.6k</dd></div>
-            </dl>
-            <div class="feature-foot">
-              <ul class="tags" aria-label="Tools and topics"><li>MuJoCo</li><li>PyTorch</li><li>Skill composition</li></ul>
-              <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
-            </div>
+            <h2 class="feature-title" style="view-transition-name: title-arm">ArmSkillComp</h2>
+            <p class="feature-summary">Learned robot-arm skill sequencing</p>
+            <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
           </div>
         </a>
       </li>
       <li>
-        <article class="feature is-reversed is-live" aria-labelledby="cupid-card-title">
+        <article class="feature feature-min is-reversed is-live" aria-labelledby="cupid-card-title">
           <div class="feature-media live-media">
             <model-viewer id="cupid-card-viewer" data-src="/test/projects/cupid/cupid-final.glb" poster="/test/projects/cupid/cupid-dark.webp"
               alt="Interactive 3D CAD assembly of Cupid. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
@@ -77,16 +65,11 @@
               shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="lazy" reveal="auto">
               <div slot="progress-bar" class="live-progress"><span></span></div>
             </model-viewer>
-            <span class="media-chip">Live 3D · drag to rotate · scroll to zoom</span>
           </div>
           <div class="feature-body">
-            <p class="feature-kicker"><b>Robotics</b> · Innov8rz, FTC Team 11039</p>
-            <h2 class="feature-title" id="cupid-card-title"><a class="feature-title-link" href="/test/projects/cupid/">Cupid</a></h2>
-            <p class="feature-summary">Our robot for the 2025–26 FIRST Tech Challenge season, DECODE. That’s the actual CAD assembly next to this text: grab it and spin it around, or open the full viewer for fullscreen, auto-rotate, and panning.</p>
-            <div class="feature-foot">
-              <ul class="tags" aria-label="Topics"><li>FTC DECODE</li><li>Competition robotics</li></ul>
-              <a class="feature-cta" href="/test/projects/cupid/">Open the full viewer <span class="arrow" aria-hidden="true">↗</span></a>
-            </div>
+            <h2 class="feature-title" id="cupid-card-title" style="view-transition-name: title-cupid"><a class="feature-title-link" href="/test/projects/cupid/">Cupid</a></h2>
+            <p class="feature-summary">2025–26 FTC competition robot</p>
+            <a class="feature-cta" href="/test/projects/cupid/">Read the write-up <span class="arrow" aria-hidden="true">↗</span></a>
           </div>
         </article>
       </li>
