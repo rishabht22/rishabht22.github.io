@@ -99,4 +99,40 @@
     }, 6000));
   }
 
+
+  /* ---------- Project preview on springs ---------- */
+  // x and y each ride a spring toward the pointer; the tilt is read off the
+  // x spring's velocity, so a fast flick leans the card and a slow move doesn't.
+  const preview = document.querySelector('.row-preview');
+  const previewRows = document.querySelectorAll('.row[data-preview]');
+  if (preview && previewRows.length && fine && Spring) {
+    preview.classList.add('is-spring');
+    const px = new Spring(0, { stiffness: 150, damping: 22 });
+    const py = new Spring(0, { stiffness: 150, damping: 22 });
+    const ps = new Spring(.86, { stiffness: 220, damping: 26 });
+    let on = false;
+    let raf = 0;
+    let last = 0;
+    const tick = (now) => {
+      const dt = last ? (now - last) / 1000 : 1 / 60;
+      last = now;
+      const moving = [px.step(dt), py.step(dt), ps.step(dt)].some(Boolean);
+      const tilt = Math.max(-9, Math.min(9, px.velocity * .012));
+      preview.style.transform = `translate(${(px.value + 26).toFixed(1)}px, ${(py.value - 104).toFixed(1)}px) rotate(${tilt.toFixed(2)}deg) scale(${ps.value.toFixed(3)})`;
+      if (moving || on) raf = requestAnimationFrame(tick); else { raf = 0; last = 0; }
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    previewRows.forEach((row) => {
+      row.addEventListener('mouseenter', (e) => {
+        if (preview.getAttribute('src') !== row.dataset.preview) preview.src = row.dataset.preview;
+        if (!on) { px.set(e.clientX); py.set(e.clientY); }
+        on = true;
+        ps.target = 1;
+        preview.classList.add('is-on');
+        kick();
+      });
+      row.addEventListener('mousemove', (e) => { px.target = e.clientX; py.target = e.clientY; kick(); });
+      row.addEventListener('mouseleave', () => { on = false; ps.target = .86; preview.classList.remove('is-on'); kick(); });
+    });
+  }
 })();
