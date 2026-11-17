@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;height:100%;background:radial-gradient(70% 70% at 50% 45%,#1D1D20,#111113)}model-viewer{width:100vw;height:100vh;background:transparent;--poster-color:transparent}</style>
+<script type="module">
+import { ModelViewerElement } from "/test/vendor/model-viewer-4.4.0.min.js";
+ModelViewerElement.dracoDecoderLocation = "/test/vendor/draco/";
+</script></head><body>
+<model-viewer id="mv" camera-orbit="35deg 65deg 130%" field-of-view="35deg" shadow-intensity="0.6" exposure="1.05" environment-image="neutral" loading="eager" interaction-prompt="none"></model-viewer>
+<script>
+const mv = document.getElementById('mv');
+const q = new URLSearchParams(location.search); mv.src = q.get('m'); if (q.get('o')) mv.setAttribute('orientation', q.get('o')); if (q.get('c')) mv.setAttribute('camera-orbit', q.get('c'));
+</script>
+</body></html>
