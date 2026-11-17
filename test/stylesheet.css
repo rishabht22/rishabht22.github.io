@@ -2132,3 +2132,12 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 .feature-min .feature-title { margin: 0; font-family: var(--font-serif); font-size: clamp(34px, 3.4vw, 46px); font-weight: 400; font-style: italic; letter-spacing: -.02em; }
 .feature-min .feature-summary { margin: 0 0 22px; color: var(--muted); font-size: 15px; }
 .feature-min .feature-cta { align-self: flex-start; text-decoration: none; }
+
+/* Cross-page transitions: project titles carry over from the list into their page. */
+@view-transition { navigation: auto; }
+::view-transition-group(*) { animation-duration: 420ms; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 260ms; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
