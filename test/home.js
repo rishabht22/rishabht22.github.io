@@ -37,15 +37,15 @@
 
     const restPoint = () => {
       const R = arm.reach;
-      return { x: arm.base.x - R * .42, y: arm.base.y - R * .58 };
+      return { x: arm.base.x - R * .34, y: arm.base.y - R * .3 };
     };
     const buildArm = () => {
       const wide = width >= 900;
       const scale = wide ? height : Math.min(width * 1.25, height * .72);
       const lengths = wide ? [.24, .2, .085] : [.24, .2, .09];
-      const base = wide ? { x: width * .8, y: height } : { x: width - 18, y: height };
+      const base = wide ? { x: width * .79, y: height - 64 } : { x: width - 22, y: height - 92 };
       const prev = arm;
-      arm = new window.Arm(base, lengths.map((f) => f * scale), { floor: height - 6 });
+      arm = new window.Arm(base, lengths.map((f) => f * scale), { floor: base.y - 4 });
       if (prev) { arm.q = prev.q.slice(); arm.qd = prev.qd.map(() => 0); }
       arm.setTarget(held ? arm.effector() : restPoint());
     };
@@ -95,8 +95,8 @@
       ctx.fill();
       ctx.stroke();
       // Links.
-      ctx.strokeStyle = 'rgba(200, 200, 207, .75)';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(210, 210, 216, .85)';
+      ctx.lineWidth = 2.2;
       ctx.lineCap = 'round';
       ctx.beginPath();
       ctx.moveTo(pts[0].x, pts[0].y);
@@ -141,8 +141,8 @@
       ctx.fillStyle = 'rgba(122, 122, 130, .9)';
       ctx.textAlign = 'right';
       const x = arm.base.x - 34;
-      ctx.fillText(`q = [${arm.q.map(deg).join(' ')} ]`, x, height - 30);
-      ctx.fillText(label, x, height - 15);
+      ctx.fillText(`q = [${arm.q.map(deg).join(' ')} ]`, x, arm.base.y - 16);
+      ctx.fillText(label, x, arm.base.y - 2);
       ctx.textAlign = 'left';
     };
 
