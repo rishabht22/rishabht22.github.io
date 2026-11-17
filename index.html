@@ -21,7 +21,7 @@
   <meta property="og:image" content="https://rishabht.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Rishabh Thakur — building intelligent systems for the physical world.">
+  <meta property="og:image:alt" content="Rishabh Thakur's personal website">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Rishabh Thakur | AI Research &amp; Software Engineering">
   <meta name="twitter:description" content="EECS at UC Berkeley. Robot learning, multi-agent coordination, and building things that work on real hardware.">
@@ -41,338 +41,238 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/stylesheet.css?v=20261117-4">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/stylesheet.css?v=20261117-8">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="/site.js?v=20261117-4" defer></script>
+  <script src="/site.js?v=20261117-8" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span>Rishabh Thakur</span></a>
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
-        <a href="#work" data-section="work">Work</a>
-        <a href="#experience" data-section="experience">Experience</a>
-        <a href="#about" data-section="about">About</a>
-        <a href="/notes/">Notes</a>
-        <a class="nav-contact" href="#contact">Say hello</a>
+        <a href="/" aria-current="page">Home<b>.</b></a>
+        <a href="/projects/">Projects<b>.</b></a>
+        <a href="/notes/">Writing<b>.</b></a>
+        <a href="#contact">Contact<b>.</b></a>
       </nav>
     </div>
   </header>
 
   <main id="main">
-    <!-- Hero ============================================================ -->
-    <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <p class="eyebrow" data-enter style="--d:0ms">Rishabh Thakur<span>/</span>UC Berkeley EECS</p>
-          <h1 class="hero-title" id="hero-title" data-enter style="--d:70ms">Building intelligent systems for the <em>physical world.</em></h1>
-          <p class="hero-lead" data-enter style="--d:160ms">I’m an EECS student at UC Berkeley working on <strong>robot learning</strong>. Right now, that means figuring out how robots that can only see their own surroundings learn to coordinate. Before this: drones, self-driving perception, and nearly six years of competition robots.</p>
-          <div class="hero-actions" data-enter style="--d:240ms">
-            <a class="button button-primary" href="#work">See my work <span class="arrow-right" aria-hidden="true">→</span></a>
-            <a class="button" href="/notes/">Read my notes</a>
-          </div>
-          <ul class="hero-meta" data-enter style="--d:300ms" aria-label="Elsewhere">
-            <li><a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></li>
-            <li><a href="mailto:rishabh.thakur@berkeley.edu">rishabh.thakur@berkeley.edu</a></li>
-          </ul>
-        </div>
+    <!-- 1. Intro ========================================================== -->
+    <section class="intro" aria-labelledby="intro-name">
+      <canvas class="swarm" aria-hidden="true"></canvas>
+      <div class="intro-inner wrap">
+        <p class="intro-hi" data-enter style="--d:0ms">Hi, I’m</p>
+        <h1 class="intro-name" id="intro-name" data-enter style="--d:80ms">Rishabh<span>.</span></h1>
+        <p class="typer" data-enter style="--d:220ms">
+          <span class="typer-prompt" aria-hidden="true">~/berkeley $</span>
+          <span class="typer-text" data-phrases='["I teach robots to work together.", "I train robot policies in MuJoCo.", "I write about the math behind them.", "I built competition robots for six seasons.", "I play soccer and take photos."]'>I teach robots to work together.</span><span class="typer-caret" aria-hidden="true"></span>
+        </p>
+      </div>
+      <p class="swarm-hint" aria-hidden="true">Each dot only sees its neighbors. Your cursor is one too.</p>
+      <a class="scroll-cue" href="#now">Scroll for more <span aria-hidden="true">↓</span></a>
+    </section>
 
-        <figure class="figure-0" data-enter="visual" style="--d:220ms">
-          <div class="figure-0-frame">
-            <svg viewBox="0 0 480 480" role="group" aria-labelledby="fig0-title fig0-desc">
-              <title id="fig0-title">fig. 0: decentralized coordination</title>
-              <desc id="fig0-desc">An illustrative diagram, not experimental data. Three agents move along planned paths toward a shared task. Each one only senses a small radius around itself, and a link lights up when two agents are close enough to communicate.</desc>
-              <g class="grid" aria-hidden="true">
-                <line x1="40" y1="0" x2="40" y2="480"/><line x1="80" y1="0" x2="80" y2="480"/><line x1="120" y1="0" x2="120" y2="480"/><line x1="160" y1="0" x2="160" y2="480"/><line x1="200" y1="0" x2="200" y2="480"/><line class="axis" x1="240" y1="0" x2="240" y2="480"/><line x1="280" y1="0" x2="280" y2="480"/><line x1="320" y1="0" x2="320" y2="480"/><line x1="360" y1="0" x2="360" y2="480"/><line x1="400" y1="0" x2="400" y2="480"/><line x1="440" y1="0" x2="440" y2="480"/>
-                <line x1="0" y1="40" x2="480" y2="40"/><line x1="0" y1="80" x2="480" y2="80"/><line x1="0" y1="120" x2="480" y2="120"/><line x1="0" y1="160" x2="480" y2="160"/><line x1="0" y1="200" x2="480" y2="200"/><line class="axis" x1="0" y1="240" x2="480" y2="240"/><line x1="0" y1="280" x2="480" y2="280"/><line x1="0" y1="320" x2="480" y2="320"/><line x1="0" y1="360" x2="480" y2="360"/><line x1="0" y1="400" x2="480" y2="400"/><line x1="0" y1="440" x2="480" y2="440"/>
-              </g>
-              <g aria-hidden="true">
-                <text class="label" x="20" y="30">fig. 0</text>
-                <text class="label" x="460" y="30" text-anchor="end">local obs only</text>
-                <text class="label" x="20" y="462">comm range 2.05</text>
-                <text class="label" x="460" y="462" text-anchor="end">no central planner</text>
-              </g>
-
-              <g class="task" aria-hidden="true">
-                <rect class="task-fill" x="208" y="214" width="64" height="44" rx="4"/>
-                <rect x="208" y="214" width="64" height="44" rx="4"/>
-                <text class="label" x="240" y="280" text-anchor="middle">shared task</text>
-              </g>
-
-              <g aria-hidden="true">
-                <path class="traj" id="path-0" d="M 84 104 C 120 124, 156 160, 196 204"/>
-                <path class="traj" id="path-1" d="M 408 120 C 372 140, 330 172, 286 208"/>
-                <path class="traj" id="path-2" d="M 230 428 C 246 392, 248 336, 242 300"/>
-                <circle class="sense" id="sense-0" cx="140" cy="150" r="58"/>
-                <circle class="sense" id="sense-1" cx="350" cy="160" r="58"/>
-                <circle class="sense" id="sense-2" cx="244" cy="360" r="58"/>
-                <line class="link" id="link-01" x1="140" y1="150" x2="350" y2="160"/>
-                <line class="link" id="link-02" x1="140" y1="150" x2="244" y2="360"/>
-                <line class="link" id="link-12" x1="350" y1="160" x2="244" y2="360"/>
-                <circle class="pulse" id="pulse-01" r="2.2" cx="0" cy="0"/>
-                <circle class="pulse" id="pulse-02" r="2.2" cx="0" cy="0"/>
-                <circle class="pulse" id="pulse-12" r="2.2" cx="0" cy="0"/>
-              </g>
-
-              <g class="agent" data-agent="0" data-phase="0" data-period="9200" transform="translate(140 150)" tabindex="0" role="button" aria-label="Highlight agent 0 and its links">
-                <circle class="hit" r="20"/>
-                <g class="frame"><line class="ax-x" x1="0" y1="0" x2="17" y2="0"/><line class="ax-y" x1="0" y1="0" x2="0" y2="-17"/></g>
-                <circle class="body" r="7"/><circle class="core" r="2.4"/>
-                <text x="12" y="20">a0</text>
-              </g>
-              <g class="agent" data-agent="1" data-phase=".38" data-period="10400" transform="translate(350 160)" tabindex="0" role="button" aria-label="Highlight agent 1 and its links">
-                <circle class="hit" r="20"/>
-                <g class="frame"><line class="ax-x" x1="0" y1="0" x2="17" y2="0"/><line class="ax-y" x1="0" y1="0" x2="0" y2="-17"/></g>
-                <circle class="body" r="7"/><circle class="core" r="2.4"/>
-                <text x="12" y="20">a1</text>
-              </g>
-              <g class="agent" data-agent="2" data-phase=".7" data-period="11600" transform="translate(244 360)" tabindex="0" role="button" aria-label="Highlight agent 2 and its links">
-                <circle class="hit" r="20"/>
-                <g class="frame"><line class="ax-x" x1="0" y1="0" x2="17" y2="0"/><line class="ax-y" x1="0" y1="0" x2="0" y2="-17"/></g>
-                <circle class="body" r="7"/><circle class="core" r="2.4"/>
-                <text x="12" y="20">a2</text>
-              </g>
-            </svg>
-          </div>
-          <figcaption>
-            <span>fig. 0 — three agents, local views. Illustrative, not data.</span>
-            <span class="readout" aria-live="polite">hover an agent</span>
-          </figcaption>
-        </figure>
+    <!-- 2. Counter + intro ================================================ -->
+    <section class="now wrap" id="now" aria-label="About me" data-reveal>
+      <p class="counter">
+        <span class="counter-value" data-since="2020-08-01T00:00:00-07:00" aria-hidden="true">6.000000000</span>
+        <span class="counter-unit">years of building robots</span>
+      </p>
+      <div class="now-body">
+        <img class="now-portrait" src="/self-picture.jpeg" alt="Portrait of Rishabh Thakur" width="400" height="400" loading="lazy" decoding="async">
+        <p>…and counting. I’m a student at <a class="pill pill-berkeley" href="https://www.berkeley.edu/" target="_blank" rel="noopener noreferrer">UC Berkeley</a> studying <span class="abbr" tabindex="0">EECS<span class="abbr-tip" role="tooltip">Electrical Engineering &amp; Computer Sciences</span></span> as a Regents’ and Chancellor’s Scholar. You’ll find me training robot policies, writing notes on the math, playing soccer, hunting for a new food spot, or taking photos.</p>
       </div>
     </section>
 
-    <!-- Selected work ===================================================== -->
-    <section class="section wrap" id="work" aria-labelledby="work-title">
-      <div class="section-head" data-reveal>
-        <p class="section-label"><b>01</b> / Selected work</p>
-        <h2 class="section-title" id="work-title">Things I’ve built and studied</h2>
-        <a class="section-aside" href="/projects/">All projects <span class="arrow-right" aria-hidden="true">→</span></a>
-      </div>
-
-      <div class="feature-list">
-        <!-- Featured project: ArmSkillComp -->
-        <a class="feature" href="/projects/arm-skill-comp/" data-reveal data-hover-video>
-          <div class="feature-media is-contain">
-            <img src="/projects/arm-skill-comp/showcase-side-by-side.webp" alt="Two MuJoCo rollouts side by side: a Panda arm moving carriers between a feed station, an optical reader, and a rotary fixture." width="1920" height="1080" loading="lazy" decoding="async">
-            <video muted loop playsinline preload="none" data-src="/projects/arm-skill-comp/showcase-side-by-side.mp4" aria-hidden="true" tabindex="-1"></video>
-            <span class="media-chip">MuJoCo · Panda arm</span>
-          </div>
-          <div class="feature-body">
-            <p class="feature-kicker"><b>Research</b> · ICON Lab, Berkeley AI Research</p>
-            <h3>ArmSkillComp</h3>
-            <p class="feature-summary">A small learned policy that decides which manipulation skill to run next, and on which carrier, from the current state and the goal. It learns from a symbolic planner’s labels and re-scores after every skill, so it recovers from starts that a fixed plan can’t handle.</p>
-            <dl class="stats">
-              <div><dt>success over 1,024 seeded resets</dt><dd>99.7%</dd></div>
-              <div><dt>skill–carrier candidates</dt><dd>48</dd></div>
-              <div><dt>parameters</dt><dd>10.6k</dd></div>
-            </dl>
-            <div class="feature-foot">
-              <ul class="tags" aria-label="Tools and topics"><li>MuJoCo</li><li>PyTorch</li><li>Skill composition</li></ul>
-              <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Featured project: Cupid -->
-        <a class="feature is-reversed" href="/projects/cupid/" data-reveal>
-          <div class="feature-media">
-            <img src="/projects/cupid/cupid-dark.webp" alt="Render of Cupid, the Innov8rz FTC robot, holding purple and green game balls." width="1200" height="900" loading="lazy" decoding="async">
-            <span class="media-chip">Interactive 3D</span>
-          </div>
-          <div class="feature-body">
-            <p class="feature-kicker"><b>Robotics</b> · Innov8rz, FTC Team 11039</p>
-            <h3>Cupid</h3>
-            <p class="feature-summary">Our robot for the 2025–26 FIRST Tech Challenge season, DECODE. The full CAD assembly loads right in your browser, so you can spin it around, zoom into the intake, and see how it all fits together.</p>
-            <div class="feature-foot">
-              <ul class="tags" aria-label="Topics"><li>FTC DECODE</li><li>Competition robotics</li></ul>
-              <span class="feature-cta">Open the 3D model <span class="arrow" aria-hidden="true">↗</span></span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Writing -->
-      <div class="writing" data-reveal>
-        <div class="writing-intro">
-          <h3>Notes</h3>
-          <p>I write things down when I want to actually understand them, usually a piece of math that’s easy to skim past.</p>
-          <a href="/notes/">All notes <span class="arrow-right" aria-hidden="true">→</span></a>
-        </div>
-        <ul class="row-list">
-          <li>
-            <a class="row-link" href="/notes/residual-denoising/">
-              <time datetime="2026-10-16">Oct 16, 2026</time>
-              <span class="row-title">Residual Denoising vs. Action-Space Residuals in Diffusion Policies<span class="row-desc">Where a correction should live when you adapt a frozen diffusion policy, and what it does to the samples.</span></span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-          <li>
-            <a class="row-link" href="/notes/gradient-clipping/">
-              <time datetime="2026-09-25">Sep 25, 2026</time>
-              <span class="row-title">Bias and Convergence in Gradient-Clipped SGD<span class="row-desc">How clipping can flip an expected gradient, and why clip-then-average isn’t average-then-clip.</span></span>
-              <span class="arrow" aria-hidden="true">↗</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Experience ======================================================== -->
-    <section class="section wrap" id="experience" aria-labelledby="experience-title">
-      <div class="section-head" data-reveal>
-        <p class="section-label"><b>02</b> / Experience</p>
-        <h2 class="section-title" id="experience-title">Where I’ve been working</h2>
-      </div>
-
-      <ol class="exp-list" data-reveal>
-        <li class="exp">
-          <p class="exp-when">Oct 2026 – now <span class="exp-now">Now</span></p>
-          <div>
-            <h3><a href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab · Berkeley AI Research <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Undergraduate Researcher</p>
-            <p class="exp-desc">Decentralized multi-agent robot learning: how robots that only have local observations can coordinate by reusing pretrained single-agent skills. Advised by <a href="https://negarmehr.com/" target="_blank" rel="noopener noreferrer">Prof. Negar Mehr</a> and <a href="https://dayiethandong.com/" target="_blank" rel="noopener noreferrer">Dayi Ethan Dong</a>.</p>
-            <ul class="tags" aria-label="Focus areas"><li>Multi-agent RL</li><li>Skill composition</li><li>Diffusion policies</li></ul>
-          </div>
-        </li>
-        <li class="exp">
-          <p class="exp-when">Current <span class="exp-now">Now</span></p>
-          <div>
-            <h3><a href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">Berkeley Speech Group · EMBER Center <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Research</p>
-            <p class="exp-desc">Learning conversational facial cues for robotic faces. Advised by <a href="https://people.eecs.berkeley.edu/~sastry/" target="_blank" rel="noopener noreferrer">Prof. Shankar Sastry</a>.</p>
-          </div>
-        </li>
-        <li class="exp">
-          <p class="exp-when">Jul – Aug 2025</p>
-          <div>
-            <h3><a href="https://www.ucsc.edu/" target="_blank" rel="noopener noreferrer">UC Santa Cruz <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Research Intern</p>
-            <p class="exp-desc">Autonomous-driving perception and safety: visual odometry, and detecting adversarial tampering in camera data.</p>
-          </div>
-        </li>
-        <li class="exp">
-          <p class="exp-when">Jan – Jul 2025</p>
-          <div>
-            <h3><a href="https://www.respiris.com/" target="_blank" rel="noopener noreferrer">Respiris <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Software Engineer</p>
-          </div>
-        </li>
-        <li class="exp">
-          <p class="exp-when">Oct 2024 – Apr 2025</p>
-          <div>
-            <h3><a href="https://www.grasp.upenn.edu/" target="_blank" rel="noopener noreferrer">GRASP Lab · University of Pennsylvania <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Research Intern</p>
-            <p class="exp-desc">Autonomous drones for traffic management: vehicle tracking and collision detection with OpenCV, ROS, and Kalman filtering.</p>
-          </div>
-        </li>
-        <li class="exp">
-          <p class="exp-when">Aug 2020 – Apr 2026</p>
-          <div>
-            <h3><a href="https://innov8rz.net/" target="_blank" rel="noopener noreferrer">Innov8rz · FTC Team 11039 <span class="arrow" aria-hidden="true">↗</span></a></h3>
-            <p class="exp-role">Software Captain</p>
-            <p class="exp-desc">Robot software and control for a FIRST Tech Challenge team that ranks #14 all-time in the FTC Hall of Fame, out of 30,000+ teams.</p>
-          </div>
-        </li>
-      </ol>
-    </section>
-
-    <!-- About ============================================================= -->
-    <section class="section wrap" id="about" aria-labelledby="about-title">
-      <div class="section-head" data-reveal>
-        <p class="section-label"><b>03</b> / About</p>
-        <h2 class="section-title" id="about-title">A bit more about me</h2>
-      </div>
-
-      <div class="about-grid" data-reveal>
-        <div class="about-side">
-          <img class="portrait" src="/self-picture.jpeg" alt="Portrait of Rishabh Thakur" width="400" height="400" loading="lazy" decoding="async">
-          <dl class="facts">
-            <div><dt>based in</dt><dd>Berkeley, CA</dd></div>
-            <div><dt>studying</dt><dd>EECS at UC Berkeley</dd></div>
-            <div><dt>this term</dt><dd>CS 61A, CS 70, EE 66 · <a href="/coursework/">all coursework</a></dd></div>
-            <div><dt>off the clock</dt><dd>Soccer, new food spots, hiking, photos</dd></div>
-          </dl>
-        </div>
-        <div class="about-text">
-          <p>I got into robotics the competitive way: nearly six years on Innov8rz, a FIRST Tech Challenge team, eventually as its software captain. That’s where I learned that code only counts once it works on the actual robot.</p>
-          <p>These days I’m studying EECS at UC Berkeley as a <strong>Regents’ and Chancellor’s Scholar</strong>, and most of my time outside class goes to research. At ICON Lab I work on getting robots to coordinate when each one can only see its own surroundings, ideally by reusing skills they already have instead of training everything from scratch. With the Berkeley Speech Group, I’m working on something very different: teaching robotic faces the small cues that make a conversation feel natural.</p>
-          <p>Before Berkeley, I spent time on autonomous drones at Penn’s GRASP Lab and on self-driving perception at UC Santa Cruz. I like problems where the math has to survive contact with real hardware.</p>
-          <p>When I’m not doing any of that, I’m probably playing soccer, hunting for a new place to eat, out on a hike, or taking photos.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Highlights ======================================================== -->
-    <section class="section wrap" id="highlights" aria-labelledby="highlights-title">
-      <div class="section-head" data-reveal>
-        <p class="section-label"><b>04</b> / Highlights</p>
-        <h2 class="section-title" id="highlights-title">A few things I’m proud of</h2>
-      </div>
-
-      <ul class="highlights" data-reveal>
+    <!-- 3. Building things ================================================ -->
+    <section class="block wrap" id="projects" aria-labelledby="build-title">
+      <h2 class="block-title" id="build-title" data-reveal>Building things<span>.</span></h2>
+      <ul class="build-list" data-reveal>
         <li>
-          <span class="highlight-figure">#14</span>
-          <h3>FTC Hall of Fame</h3>
-          <p>Innov8rz ranks 14th all-time out of 30,000+ FIRST Tech Challenge teams.</p>
+          <a class="build-row" href="/projects/arm-skill-comp/" data-preview="/projects/arm-skill-comp/showcase-side-by-side.webp">
+            <span class="build-name">ArmSkillComp</span>
+            <span class="build-desc">A small learned policy that picks which robot-arm skill to run next, and on which part, then re-decides after every step.</span>
+            <span class="badge badge-accent">99.7% success</span>
+          </a>
         </li>
         <li>
-          <span class="highlight-figure">1st</span>
-          <h3>UC Berkeley Integration Bee</h3>
-          <p>First place in 2026: a whole competition of doing integrals, fast.</p>
+          <a class="build-row" href="/projects/cupid/" data-preview="/projects/cupid/cupid-dark.webp">
+            <span class="build-name">Cupid</span>
+            <span class="build-desc">Our 2025–26 FTC robot. The full CAD assembly runs live in your browser: drag it, zoom it.</span>
+            <span class="badge">Live 3D</span>
+          </a>
         </li>
         <li>
-          <span class="highlight-figure">&lt;0.1<small>%</small></span>
-          <h3>Regents’ &amp; Chancellor’s Scholar</h3>
-          <p>UC Berkeley’s most prestigious undergraduate scholarship.</p>
+          <a class="build-row" href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">
+            <span class="build-name">Multi-agent coordination</span>
+            <span class="build-desc">Robots that only see their own surroundings, learning to coordinate by reusing skills they already have. At ICON Lab, BAIR.</span>
+            <span class="badge badge-live">In progress</span>
+          </a>
         </li>
         <li>
-          <span class="highlight-figure">2×</span>
-          <h3>AIME qualifier</h3>
-          <p>Qualified for the American Invitational Mathematics Examination twice.</p>
+          <a class="build-row" href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">
+            <span class="build-name">Robotic facial cues</span>
+            <span class="build-desc">Teaching robotic faces the small conversational cues that make talking to them feel natural. With the Berkeley Speech Group.</span>
+            <span class="badge badge-live">In progress</span>
+          </a>
         </li>
       </ul>
-      <p class="highlights-more" data-reveal>Also: <span>2024 FTC world record (since broken)</span> · <span>2024 NorCal Regional Champion</span> · <span>2024 World Championship divisional semifinalist</span> · <span>Jacobs Scholar</span></p>
+      <a class="more-link" href="/projects/" data-reveal>See all projects <span class="arrow-right" aria-hidden="true">→</span></a>
+      <img class="row-preview" alt="" aria-hidden="true" width="320" height="200">
     </section>
 
-    <!-- Contact =========================================================== -->
-    <section class="section wrap contact" id="contact" aria-labelledby="contact-title">
-      <div class="section-head" data-reveal>
-        <p class="section-label"><b>05</b> / Contact</p>
-      </div>
-      <div data-reveal>
-        <h2 class="contact-title" id="contact-title">Let’s build something interesting.</h2>
-        <p class="contact-lead">I’m always happy to talk about robot learning, multi-agent systems, or an ambitious idea that needs building. Email is the best way to reach me.</p>
-        <div class="email-row">
-          <a class="email-link" href="mailto:rishabh.thakur@berkeley.edu">rishabh.thakur@berkeley.edu</a>
-          <button class="copy-button" type="button" data-copy="rishabh.thakur@berkeley.edu" aria-describedby="copy-status">
-            <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
-            <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-            <span class="copy-label">Copy</span>
-          </button>
-          <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
-        </div>
-        <ul class="contact-links">
-          <li><a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub <span class="arrow" aria-hidden="true">↗</span></a></li>
-          <li><a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></li>
-          <li><a href="/notes/">Notes <span class="arrow-right" aria-hidden="true">→</span></a></li>
-          <li><a href="/coursework/">Coursework <span class="arrow-right" aria-hidden="true">→</span></a></li>
+    <!-- 4. Experience ===================================================== -->
+    <section class="block wrap" id="experience" aria-labelledby="exp-title">
+      <h2 class="block-label" id="exp-title" data-reveal>Experience</h2>
+      <ul class="chip-rows" data-reveal>
+        <li>
+          <a class="chip-org" href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab · BAIR</a>
+          <span class="chip">Multi-agent RL</span><span class="chip">Skill composition</span><span class="chip">Diffusion policies</span>
+          <span class="badge badge-accent">Started Oct 2026</span>
+        </li>
+        <li>
+          <a class="chip-org" href="https://ember-lab.eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer">Speech Group · EMBER</a>
+          <span class="chip">Robotic faces</span><span class="chip">Conversational cues</span>
+          <span class="badge badge-live">Now</span>
+        </li>
+        <li>
+          <a class="chip-org" href="https://www.ucsc.edu/" target="_blank" rel="noopener noreferrer">UC Santa Cruz</a>
+          <span class="chip">Visual odometry</span><span class="chip">Adversarial camera data</span>
+          <span class="badge">Summer 2025</span>
+        </li>
+        <li>
+          <a class="chip-org" href="https://www.respiris.com/" target="_blank" rel="noopener noreferrer">Respiris</a>
+          <span class="chip">Software engineer</span>
+          <span class="badge">Jan – Jul 2025</span>
+        </li>
+        <li>
+          <a class="chip-org" href="https://www.grasp.upenn.edu/" target="_blank" rel="noopener noreferrer">Penn GRASP Lab</a>
+          <span class="chip">Traffic drones</span><span class="chip">OpenCV</span><span class="chip">ROS</span><span class="chip">Kalman filtering</span>
+          <span class="badge">Oct 2024 – Apr 2025</span>
+        </li>
+      </ul>
+      <p class="aside-line" data-reveal>Advised by <a href="https://negarmehr.com/" target="_blank" rel="noopener noreferrer">Prof. Negar Mehr</a>, <a href="https://dayiethandong.com/" target="_blank" rel="noopener noreferrer">Dayi Ethan Dong</a>, and <a href="https://people.eecs.berkeley.edu/~sastry/" target="_blank" rel="noopener noreferrer">Prof. Shankar Sastry</a>.</p>
+    </section>
+
+    <!-- 5. Toolbox marquee ================================================ -->
+    <section class="block toolbox" aria-labelledby="tools-title">
+      <h2 class="block-label wrap" id="tools-title" data-reveal>Things I build with</h2>
+      <div class="marquee" data-reveal>
+        <ul class="marquee-track">
+          <li><b>PyTorch</b><span>policies</span></li>
+          <li><b>MuJoCo</b><span>simulation</span></li>
+          <li><b>ROS</b><span>robots</span></li>
+          <li><b>OpenCV</b><span>vision</span></li>
+          <li><b>Kalman filters</b><span>tracking</span></li>
+          <li><b>Diffusion policies</b><span>imitation</span></li>
+          <li><b>C++</b><span>classes</span></li>
+          <li><b>KaTeX</b><span>these notes</span></li>
         </ul>
+        <ul class="marquee-track" aria-hidden="true">
+          <li><b>PyTorch</b><span>policies</span></li>
+          <li><b>MuJoCo</b><span>simulation</span></li>
+          <li><b>ROS</b><span>robots</span></li>
+          <li><b>OpenCV</b><span>vision</span></li>
+          <li><b>Kalman filters</b><span>tracking</span></li>
+          <li><b>Diffusion policies</b><span>imitation</span></li>
+          <li><b>C++</b><span>classes</span></li>
+          <li><b>KaTeX</b><span>these notes</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. Robotics ======================================================= -->
+    <section class="block wrap robotics" aria-labelledby="robotics-title">
+      <h2 class="visually-hidden" id="robotics-title">Competition robotics</h2>
+      <div class="stat-line" data-reveal>
+        <p class="stat"><span class="stat-big">#14</span><span class="stat-text">all-time in the FTC Hall of Fame<small>out of 30,000+ teams</small></span></p>
+        <p class="stat"><span class="stat-big">2×</span><span class="stat-text">World Championship qualifier<small>divisional semifinalist ’24</small></span></p>
+        <p class="stat"><span class="stat-big">’24</span><span class="stat-text">world record<small>since broken, still proud</small></span></p>
+      </div>
+      <p class="roles" data-reveal><span>Software Captain</span> <em>Innov8rz, FTC 11039 (’20–’26)</em> <span class="roles-sep" aria-hidden="true"></span> <span>NorCal Regional Champion</span> <em>2024</em></p>
+      <p class="callout" data-reveal>Our last robot is on here in full 3D. <a class="pill-link" href="/projects/cupid/">Spin Cupid around <span class="arrow" aria-hidden="true">↗</span></a></p>
+    </section>
+
+    <!-- 7. Writing ======================================================== -->
+    <section class="block wrap" id="writing" aria-labelledby="writing-title">
+      <h2 class="block-title" id="writing-title" data-reveal>I write things<span>.</span></h2>
+      <p class="block-lead" data-reveal>Mostly notes to myself. When something in a paper or lecture feels a little too easy, I work through the math until I actually believe it, then write it down so future me doesn’t have to do it again.</p>
+      <h3 class="block-label" data-reveal>Recent notes</h3>
+      <ul class="article-list" data-reveal>
+        <li>
+          <a href="/notes/residual-denoising/">
+            <span class="article-title">Residual Denoising vs. Action-Space Residuals in Diffusion Policies</span>
+            <span class="article-desc">Where should a correction live when you adapt a frozen diffusion policy? Score corrections, sampling dynamics, and when I’d use each.</span>
+            <time datetime="2026-10-16">Oct 16, 2026 · 6 min</time>
+          </a>
+        </li>
+        <li>
+          <a href="/notes/gradient-clipping/">
+            <span class="article-title">Bias and Convergence in Gradient-Clipped SGD</span>
+            <span class="article-desc">Clipping can flip the direction of an expected gradient. Also: why clip-then-average isn’t average-then-clip.</span>
+            <time datetime="2026-09-25">Sep 25, 2026 · 6 min</time>
+          </a>
+        </li>
+      </ul>
+      <a class="more-link" href="/notes/" data-reveal>See all notes <span class="arrow-right" aria-hidden="true">→</span></a>
+    </section>
+
+    <!-- 8. Math =========================================================== -->
+    <section class="block wrap" aria-labelledby="math-title">
+      <h2 class="block-title" id="math-title" data-reveal>Also, math<span>.</span></h2>
+      <ul class="math-grid" data-reveal>
+        <li><span class="math-big">1st</span><span>UC Berkeley Integration Bee</span><small>2026</small></li>
+        <li><span class="math-big">2×</span><span>AIME qualifier</span><small>high school</small></li>
+        <li><span class="math-big">4th</span><span>BMT Power Round</span><small>2025</small></li>
+        <li><span class="math-big">7×</span><span>SMT Distinguished Honor Roll</span><small>2025</small></li>
+      </ul>
+      <p class="aside-line" data-reveal>This term: CS 61A, CS 70, and EE 66. <a href="/coursework/">Full coursework <span class="arrow-right" aria-hidden="true">→</span></a></p>
+    </section>
+
+    <!-- 9. Contact ======================================================== -->
+    <section class="block wrap contact-block" id="contact" aria-labelledby="contact-title">
+      <h2 class="block-title" id="contact-title" data-reveal>Say hi<span>.</span></h2>
+      <p class="block-lead" data-reveal>I’m always up for talking about robot learning, multi-agent systems, or an ambitious idea that needs building. Email is the fastest way to reach me.</p>
+      <div class="email-row" data-reveal>
+        <a class="email-link" href="mailto:rishabh.thakur@berkeley.edu">rishabh.thakur@berkeley.edu</a>
+        <button class="copy-button" type="button" data-copy="rishabh.thakur@berkeley.edu" aria-describedby="copy-status">
+          <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+          <span class="copy-label">Copy</span>
+        </button>
+        <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap footer-inner">
-      <p>© 2026 Rishabh Thakur</p>
-      <p>Hand-written HTML, CSS, and a little JavaScript.</p>
+      <p>© 2026 Rishabh Thakur · hand-written HTML, CSS, and a little JS</p>
       <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
   </footer>
+
+  <!-- Floating dock -->
+  <nav class="dock" aria-label="Elsewhere">
+    <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+    </a>
+    <a href="mailto:rishabh.thakur@berkeley.edu" aria-label="Email" title="Email">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+    </a>
+    <span class="dock-sep" aria-hidden="true"></span>
+    <a href="#main" class="dock-top" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+    </a>
+  </nav>
 </body>
 </html>
