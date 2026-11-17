@@ -183,4 +183,33 @@
       list.addEventListener('focusout', (e) => { if (!list.contains(e.relatedTarget)) hide(); });
     });
   }
+
+  /* ---------- Decode motif on small labels ---------- */
+  if (decode) {
+    // Column labels decode in once, when they first come into view.
+    const labels = document.querySelectorAll('.col-label');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          io.unobserve(entry.target);
+          const text = entry.target.textContent;
+          entry.target.style.minWidth = `${entry.target.getBoundingClientRect().width}px`;
+          decode(entry.target, text, { duration: 520, stagger: 40, jitter: 80 });
+        });
+      }, { threshold: 1 });
+      labels.forEach((l) => io.observe(l));
+    }
+    // Note dates re-decode when you land on the row.
+    document.querySelectorAll('.notes3 a').forEach((a) => {
+      const time = a.querySelector('time');
+      if (!time) return;
+      const text = time.textContent;
+      time.style.display = 'inline-block';
+      time.style.minWidth = `${time.getBoundingClientRect().width}px`;
+      const run = () => decode(time, text, { duration: 300, stagger: 30, jitter: 40 });
+      a.addEventListener('mouseenter', run);
+      a.addEventListener('focus', run);
+    });
+  }
 })();
