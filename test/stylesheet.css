@@ -2090,3 +2090,6 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 @media (max-width: 620px) { .courses { grid-template-columns: minmax(0, 1fr); } }
 /* Only clip vertically, so a word can never get cut off at the side. */
 .rotator { overflow: visible; overflow-y: clip; transition: none; }
+.work-list .work-under { margin-top: 2px; color: var(--muted); font-size: 13.5px; }
+.work-list .work-under a { align-self: auto; color: var(--text-2); font-size: inherit; font-weight: 400; letter-spacing: 0; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.work-list .work-under a:hover { color: var(--accent-hover); text-decoration-color: var(--accent); }
