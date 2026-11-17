@@ -1,0 +1,250 @@
+INSTRUCTIONS FOR CONTINUING rishabht.com/test
+================================================
+
+Everything an AI coding assistant (Codex, Claude, etc.) needs to keep building
+this site the way Rishabh wants it. Read all of it before changing anything.
+
+
+1. WHAT THIS IS
+---------------
+- Repo: rishabht22/rishabht22.github.io, served by GitHub Pages at rishabht.com.
+- The ROOT of the repo is the original, plain light-colored site. DO NOT TOUCH IT.
+  It must stay byte-for-byte as it was at commit 35fed28.
+- /test is the redesign in progress, at rishabht.com/test.
+  - It is NOT linked from the main site. You only get there by typing the URL.
+  - Every /test page has <meta name="robots" content="noindex, nofollow">.
+  - /test is fully self-contained: every file it uses (HTML, CSS, JS, images,
+    videos, 3D models, the model-viewer library in test/vendor) lives inside
+    /test. Never reference anything outside /test (no "/stylesheet.css", only
+    "/test/stylesheet.css" or relative paths that stay inside /test).
+- Plain HTML + CSS + vanilla JS. No framework, no build step, no bundler.
+  Edit a file, refresh, done.
+
+
+2. HOW TO WORK (Rishabh's preferences)
+--------------------------------------
+- Commit often in small, real steps. Messages are short, all lowercase, casual,
+  prefixed "test: " for /test work, e.g. "test: spring nav indicator".
+  No attribution / co-author lines in commits.
+- Push to origin main yourself at the end of a chunk of work.
+- When giving Rishabh shell commands, give them as ONE single bash block
+  (chain with &&), never several separate blocks.
+- Before calling anything done, actually render and check it (see section 8).
+- Never invent facts about Rishabh (jobs, dates, awards, results). Only use
+  the verified facts in section 4. If something is unknown, leave it out and
+  say so.
+- Ask before downloading tools/packages. Never put raw CAD exports (huge) in
+  the repo; only compressed .glb files.
+- Local preview: from the repo root run
+      python3 -m http.server 8765
+  then open http://localhost:8765/test/
+  (.claude/launch.json already has this as the "site" config.)
+- Bump the ?v=NN query string on CSS/JS <script>/<link> tags in the HTML
+  whenever you change those files, so browsers fetch the new version.
+
+
+3. DESIGN DIRECTION (current, agreed)
+-------------------------------------
+- Feel: like borisn.com / borisnezlobin.com in personality and simplicity, but
+  a completely different look. Simple and minimal at first glance; surprising,
+  real engineering when you interact.
+- Colors: solid matte black background (#0E0E0F) with a faint grain overlay.
+  ONE accent: electric blue #5B93FF (hover #8DB4FF). No lime, no orange.
+  Tokens are the CSS variables at the top of test/stylesheet.css.
+- Type: "Instrument Serif" (italic) for the name, section titles and project
+  titles; "Geist" for body; "Geist Mono" for small technical labels.
+  All loaded from Google Fonts.
+- Positioning: Rishabh is recruiting for SWE, MLE, AI engineering AND robotics
+  roles equally. The site must not read as only robotics/research.
+- Minimal: short phrases, not paragraphs. No tags/pills on projects. No long
+  descriptions.
+
+HARD RULES FROM RISHABH
+- Do NOT modify the cursor in any way: no custom cursor, no crosshair, no
+  cursor: grab, no cursor: help, no spotlight following the pointer, no cursor
+  trails, no magnetic cursor. Interactions may RESPOND to pointer position but
+  the cursor itself is untouched.
+- No generic portfolio animations: no plain fade-ins as a "feature", no
+  parallax, no glowing trails, no floating particles, no hover scale-ups, no
+  random-letter scramble on big headings, no constantly animating background.
+- Text decoding/scrambling IS wanted, but only as a restrained motif on small
+  labels (nav links on hover, the "I build ___" word, small mono labels,
+  dates, Copy -> Copied). Never on paragraphs or big headings.
+- Motion must be physics-based (springs), restrained, never bouncy.
+- Respect prefers-reduced-motion everywhere (everything must still be visible
+  and usable with motion off).
+- Animations must stop when offscreen / tab hidden. No CPU burn when idle.
+- No layout shift from animations (lock widths when decoding text).
+
+
+4. VERIFIED CONTENT (the only facts you may use)
+------------------------------------------------
+Name: Rishabh Thakur. Email: rishabh.thakur@berkeley.edu
+GitHub: https://github.com/rishabht22  LinkedIn: https://www.linkedin.com/in/rishabhthakur0
+UC Berkeley, EECS, Regents' and Chancellor's Scholar.
+
+Work (homepage "Work." section, two columns):
+  CURRENT
+  - ICON Lab · Berkeley AI Research — Decentralized multi-agent robot learning
+    — under Prof. Negar Mehr (https://negarmehr.com/). Started Oct 2026.
+  - Berkeley Speech Group & EMBER Center · Berkeley AI Research — Conversational
+    facial cues for robots — under Prof. Shankar Sastry
+    (https://people.eecs.berkeley.edu/~sastry/) and Prof. Gopala Anumanchipalli
+    (https://people.eecs.berkeley.edu/~gopala/).
+  PAST
+  - UC Santa Cruz AIEA Lab — Research intern · 2025 (Jul–Aug 2025)
+  - Respiris — Software engineer · 2025 (Jan–Jul 2025)
+  - XTEN-AV — Software engineer · 2024–25 (no link known)
+  - UPenn GRASP Lab — Research intern · 2024–25 (Oct 2024–Apr 2025)
+  - Innov8rz · FTC Team 11039 — Software captain · 2020–26
+
+Projects ("Things I've built" + /test/projects/):
+  - ArmSkillComp — "Learned robot-arm skill sequencing" (page has the full
+    write-up, videos, benchmark: 99.7% success over 1,024 seeded resets)
+  - Cupid — "2025–26 FTC competition robot" (live 3D CAD viewer)
+  - Purple Emperor — "2024–25 FTC competition robot", FTC INTO THE DEEP season
+    (live 3D CAD viewer; the CAD shows team number 26216)
+  Do NOT show "Innov8rz, FTC Team 11039" on the project cards/pages.
+  Rishabh will add more write-up text to Cupid / Purple Emperor pages later.
+
+Notes: "Residual Denoising vs. Action-Space Residuals in Diffusion Policies"
+(Oct 2026), "Bias and Convergence in Gradient-Clipped SGD" (Sep 2026).
+There is also an unlisted PPO note (notes/ppo-episode-boundaries), noindex.
+
+Coursework (one flat list, not by term): CS 189, EECS 127, CS 61B, CS 61A,
+CS 70, EE 66, BIOE 100, ANTHRO 2AC, Linear Algebra & Differential Equations,
+Calculus 3, Intermediate Programming Methodologies in C++.
+
+Highlights (verified from the old site's history): FTC Hall of Fame #14
+all-time of 30,000+ teams; 1st UC Berkeley Integration Bee 2026; 2x AIME
+qualifier; 2x World Championship qualifier, 2024 divisional semifinalist;
+2024 world record (since broken); 2024 NorCal Regional Champion; Jacobs
+Scholar; BMT 2025 Power Round 4th; SMT 2025 Distinguished Honor Roll 7x.
+Hobbies: soccer, finding new food spots, hiking, taking photos.
+No resume PDF exists in the repo yet.
+
+
+5. FILE MAP (test/)
+-------------------
+index.html            Homepage: hero (dot field + arm + name), Work, Things
+                      I've built, Personal notes, Let's talk, footer, dock.
+stylesheet.css        All styles for every /test page. Newer sections are
+                      appended at the bottom (v3, v4, v5 blocks...).
+motion.js             Shared on every page. Spring class (spring-mass-damper,
+                      semi-implicit Euler, fixed 1/240s sub-steps), decode()
+                      (per-character text decoding, seeded PRNG, cancellable),
+                      and the spring-driven nav indicator + nav label decode.
+site.js               Older shared helpers: sticky header, mobile menu, scroll
+                      reveal ([data-reveal]), hover video on cards, copy email,
+                      footer Berkeley clock. (Also contains old unused code
+                      for .figure-0 and .build-row; safe to clean up.)
+arm.js                Pure math, no DOM: planar serial arm. FABRIK inverse
+                      kinematics from the current pose -> relative joint
+                      angles -> per-joint spring dynamics -> forward
+                      kinematics. Tested: sub-pixel tip error, exact link
+                      lengths, ~1.5s settle.
+home.js               Homepage hero: dot grid (leans away from pointer), intro
+                      where dots assemble the name "Rishabh." then hand off to
+                      the real text, the robot arm state machine
+                      (rest/track/reach/carry/place: click a dot to pick it
+                      up, click elsewhere to place it; the grid remembers),
+                      live joint-angle readout, "I build ___" word decode.
+                      ?debug in the URL exposes window.__hero for testing.
+textpoints.js         window.textPoints(el, originRect, step): redraws an
+                      element's text on an offscreen canvas at its real
+                      position/font and samples it into points. Used by the
+                      name intro and section-title particle assembly.
+fx.js                 Homepage-only effects. SEE SECTION 6: still contains
+                      things that must be removed.
+projects/             index.html (3 minimal cards), arm-skill-comp/,
+                      cupid/ (viewer.js = full viewer, card.js = lazy live
+                      previews for all .live-media cards), purple-emperor/
+                      (uses ../cupid/viewer.js).
+notes/, coursework/   Subpages.
+vendor/               model-viewer 4.4.0 + Draco decoder.
+_render.html          Scratch page for rendering 3D posters. Do not link it.
+                      Untracked; delete when done.
+
+
+6. STATUS: DONE vs. STILL TO DO
+-------------------------------
+DONE
+- Matte black + blue redesign, minimal sections, nav "Home. Projects. Notes.
+  Coursework. Contact." on every page, floating social dock.
+- Cursor customizations removed from CSS (crosshair, grab, help, spotlight).
+- Minimal project cards (title + short phrase + "Read the write-up").
+- View Transitions: project titles morph between list and page
+  (view-transition-name: title-arm / title-cupid / title-purple; CSS
+  @view-transition { navigation: auto }).
+- Spring nav indicator + nav label decode (tested: lands within 1px, no
+  layout shift).
+- Purple Emperor: FBX -> GLB (FBX2glTF), rotated Z-up -> Y-up, centered,
+  Draco-compressed with gltf-transform (165 MB -> 4.35 MB), poster rendered,
+  page + card + homepage row added.
+- Hero robot arm with pick-and-place, tested end to end.
+
+STILL TO DO (Rishabh's three signature interactions + cleanup)
+1. Rewrite test/fx.js:
+   - REMOVE: magnetic name letters, copy-email particle burst, magnetic copy
+     button, cursor spotlight (adds body.has-spotlight), scroll progress bar,
+     the old lerp-based project preview. These violate the rules in section 3.
+   - KEEP but SHORTEN: section titles assembling from a stream of blue
+     particles (currently ~1.6s; make it ~0.9s so it never delays reading).
+   - ADD: a spring "rail" beside the project list and notes list: a thin
+     accent bar that springs (window.Motion.Spring) to the hovered/focused
+     row's y and height.
+   - ADD: project preview image driven by springs (x, y) with tilt from
+     spring velocity, instead of lerp.
+   - ADD decode motif on small labels: "CURRENT"/"PAST" column labels when
+     they scroll in, note dates on row hover, Copy -> Copied.
+2. Notes that demonstrate themselves (the "surprising discovery" interaction):
+   on hover/keyboard focus of each note row, a small canvas (~180x56) appears
+   on the right of the row and computes the note's idea live:
+   - Diffusion note: ~24 samples from N(0,1) integrated along the
+     probability-flow ODE dx/dsigma = -sigma * score(x, sigma) of a two-
+     Gaussian mixture (modes at about +/-0.6, std ~0.08), sigma from 1 down
+     to ~0.01 (step in log sigma). Score of the noised mixture:
+     sum_k w_k N(x; mu_k, s^2+sigma^2) (mu_k - x)/(s^2+sigma^2) / sum_k w_k N(...).
+     Draw trajectories left->right converging into two modes.
+   - Gradient-clipping note: SGD on f(x)=x^2/2 with skewed zero-mean noise
+     (mostly small negative, rarely large positive). Plot unclipped (grey,
+     noisy around 0) vs clipped (blue, settles at a biased point != 0), dashed
+     line at x* = 0. Seeded RNG so it's repeatable.
+   Animate once (~1.2s) then hold; stop when not visible; skip on touch-only
+   and reduced motion (or draw the final frame statically).
+3. Remove leftover dead CSS for removed effects (.row-preview.is-physics etc.)
+   and dead JS in site.js (figure-0, build-row preview).
+4. Re-render Cupid's poster (cupid-dark.webp) on the new matte black
+   background (current one has a slightly blue background from the old
+   palette). Use test/_render.html + headless Chrome like Purple Emperor.
+5. Test everything (section 8), then commit + push.
+
+
+7. 3D MODEL PIPELINE (for future robots)
+----------------------------------------
+- From Fusion 360: File -> Export -> FBX, refinement Medium. Don't commit it.
+- Tools (installed once in a temp folder, NOT in the repo):
+    npm install fbx2gltf @gltf-transform/cli
+- Convert:  FBX2glTF --binary --input robot.fbx --output robot-raw
+- Fusion is Z-up; the web viewer is Y-up. Wrap the scene in a node rotated
+  -90deg about X (quaternion [-0.7071, 0, 0, 0.7071]), then center x/z and
+  set min y = 0 (see the @gltf-transform/core script approach used for
+  Purple Emperor). Check orientation by finding the drivetrain node's bounds.
+- Compress:  gltf-transform optimize in.glb out.glb --compress draco
+             --texture-compress false --simplify-error 0.0008
+- Put the .glb + a rendered .webp poster in test/projects/<name>/.
+
+
+8. HOW TO TEST (be rigorous)
+----------------------------
+- The in-app browser pane is often throttled, so use headless Chrome over the
+  DevTools protocol for real frame-rate checks (launch Chrome with
+  --headless=new --remote-debugging-port, connect with Node's built-in
+  WebSocket, Runtime.evaluate a test script, Page.captureScreenshot).
+- Check on every change: desktop 1440x900 and 1280x800, tablet ~900px, phone
+  390x844; prefers-reduced-motion: reduce; keyboard focus; no horizontal
+  overflow (document.documentElement.scrollWidth === innerWidth); no console
+  errors; every /test link resolves inside /test; nav has all five links on
+  every page.
+- Add ?debug to the homepage URL to get window.__hero (step, state, click,
+  dotNear) for testing the arm deterministically.
