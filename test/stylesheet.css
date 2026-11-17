@@ -1799,7 +1799,7 @@ body::after {
   line-height: .9;
   letter-spacing: -.035em;
 }
-.hero3-name span { color: var(--accent); font-style: normal; }
+.hero3-name > span:not(.mag) { color: var(--accent); font-style: normal; }
 .hero3-line {
   margin: 22px 0 0;
   color: var(--text-2);
@@ -2093,3 +2093,65 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 .work-list .work-under { margin-top: 2px; color: var(--muted); font-size: 13.5px; }
 .work-list .work-under a { align-self: auto; color: var(--text-2); font-size: inherit; font-weight: 400; letter-spacing: 0; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
 .work-list .work-under a:hover { color: var(--accent-hover); text-decoration-color: var(--accent); }
+
+/* ==========================================================================
+   v4 effects
+   ========================================================================== */
+
+/* Magnetic name letters */
+.hero3-name .mag {
+  display: inline-block;
+  color: color-mix(in srgb, var(--text), var(--accent-hover) calc(var(--heat, 0) * 100%));
+  will-change: transform;
+  animation: letter-in 900ms var(--ease) both;
+  animation-delay: calc(120ms + var(--i) * 55ms);
+}
+@keyframes letter-in {
+  from { opacity: 0; transform: translateY(.35em) rotate(6deg); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* Project preview with physics */
+.row-preview.is-physics {
+  width: 300px;
+  transform-origin: 50% 50%;
+  transition: opacity 220ms var(--ease);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(91, 147, 255, .18);
+}
+
+/* Copy burst */
+.spark {
+  position: fixed;
+  z-index: 200;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(91, 147, 255, .8);
+  pointer-events: none;
+}
+.copy-button { transition: background-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease), transform 260ms var(--ease); }
+
+/* Cursor spotlight */
+body.has-spotlight::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--sx, -999px) var(--sy, -999px), rgba(91, 147, 255, .065), transparent 70%);
+}
+
+/* Scroll progress */
+.progress {
+  position: fixed;
+  z-index: 70;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(91, 147, 255, 0), var(--accent));
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+}
