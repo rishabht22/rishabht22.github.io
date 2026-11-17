@@ -117,7 +117,7 @@
       const dt = last ? (now - last) / 1000 : 1 / 60;
       last = now;
       const moving = [px.step(dt), py.step(dt), ps.step(dt)].some(Boolean);
-      const tilt = Math.max(-9, Math.min(9, px.velocity * .012));
+      const tilt = Math.max(-6, Math.min(6, px.velocity * .01));
       preview.style.transform = `translate(${(px.value + 26).toFixed(1)}px, ${(py.value - 104).toFixed(1)}px) rotate(${tilt.toFixed(2)}deg) scale(${ps.value.toFixed(3)})`;
       if (moving || on) raf = requestAnimationFrame(tick); else { raf = 0; last = 0; }
     };
