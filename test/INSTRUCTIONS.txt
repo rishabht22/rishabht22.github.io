@@ -183,42 +183,19 @@ DONE
   page + card + homepage row added.
 - Hero robot arm with pick-and-place, tested end to end.
 
-STILL TO DO (Rishabh's three signature interactions + cleanup)
-1. Rewrite test/fx.js:
-   - REMOVE: magnetic name letters, copy-email particle burst, magnetic copy
-     button, cursor spotlight (adds body.has-spotlight), scroll progress bar,
-     the old lerp-based project preview. These violate the rules in section 3.
-   - KEEP but SHORTEN: section titles assembling from a stream of blue
-     particles (currently ~1.6s; make it ~0.9s so it never delays reading).
-   - ADD: a spring "rail" beside the project list and notes list: a thin
-     accent bar that springs (window.Motion.Spring) to the hovered/focused
-     row's y and height.
-   - ADD: project preview image driven by springs (x, y) with tilt from
-     spring velocity, instead of lerp.
-   - ADD decode motif on small labels: "CURRENT"/"PAST" column labels when
-     they scroll in, note dates on row hover, Copy -> Copied.
-2. Notes that demonstrate themselves (the "surprising discovery" interaction):
-   on hover/keyboard focus of each note row, a small canvas (~180x56) appears
-   on the right of the row and computes the note's idea live:
-   - Diffusion note: ~24 samples from N(0,1) integrated along the
-     probability-flow ODE dx/dsigma = -sigma * score(x, sigma) of a two-
-     Gaussian mixture (modes at about +/-0.6, std ~0.08), sigma from 1 down
-     to ~0.01 (step in log sigma). Score of the noised mixture:
-     sum_k w_k N(x; mu_k, s^2+sigma^2) (mu_k - x)/(s^2+sigma^2) / sum_k w_k N(...).
-     Draw trajectories left->right converging into two modes.
-   - Gradient-clipping note: SGD on f(x)=x^2/2 with skewed zero-mean noise
-     (mostly small negative, rarely large positive). Plot unclipped (grey,
-     noisy around 0) vs clipped (blue, settles at a biased point != 0), dashed
-     line at x* = 0. Seeded RNG so it's repeatable.
-   Animate once (~1.2s) then hold; stop when not visible; skip on touch-only
-   and reduced motion (or draw the final frame statically).
-3. Remove leftover dead CSS for removed effects (.row-preview.is-physics etc.)
-   and dead JS in site.js (figure-0, build-row preview).
-4. Re-render Cupid's poster (cupid-dark.webp) on the new matte black
-   background (current one has a slightly blue background from the old
-   palette). Use test/_render.html + headless Chrome like Purple Emperor.
-5. Test everything (section 8), then commit + push.
-
+STILL TO DO
+- fx.js rewrite is DONE: removed magnetic name/burst/spotlight/progress;
+  heading assembly shortened to <1s; spring rail on .rows/.notes3; spring
+  project preview; decode on col labels, note dates, Copy->Copied; live note
+  demos (demos.js). All tested in headless Chrome: no errors, no overflow,
+  zero cursor rules.
+1. Remove dead code: old .figure-0 / .build-row code in site.js, unused CSS
+   blocks for removed effects (hero/feature v1 styles, .row::before sweep).
+2. Re-render Cupid's poster (projects/cupid/cupid-dark.webp) on the matte
+   black background using _render.html + headless Chrome, then DELETE
+   test/_render.html from the repo (it was committed by accident).
+3. Re-test phone (390x844) and reduced motion after the latest changes.
+4. Rishabh will add write-up text to the Cupid and Purple Emperor pages.
 
 7. 3D MODEL PIPELINE (for future robots)
 ----------------------------------------
