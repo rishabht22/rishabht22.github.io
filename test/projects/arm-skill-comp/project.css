@@ -1,7 +1,7 @@
 .research-page {
-  --arm-accent: #88ABDF;
-  --arm-accent-light: rgba(136, 171, 223, .13);
-  --arm-track: #1B2939;
+  --arm-accent: #5B93FF;
+  --arm-accent-light: rgba(91, 147, 255, .13);
+  --arm-track: #232326;
 }
 
 .arm-reading { max-width: 660px; margin-inline: auto; }
@@ -107,7 +107,7 @@
 }
 .arm-score-track > span { position: absolute; inset-block: 0; width: var(--extent); }
 .arm-score-positive { left: 50%; background: var(--arm-accent); }
-.arm-score-negative { right: 50%; background: #4A5B72; }
+.arm-score-negative { right: 50%; background: #45454C; }
 
 .arm-benchmark {
   width: 100%;

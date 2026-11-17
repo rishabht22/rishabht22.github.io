@@ -331,7 +331,7 @@
     let x = 0;
     let y = 0;
     const move = () => { preview.style.transform = `translate(${x + 24}px, ${y - 90}px)`; };
-    document.querySelectorAll('.build-row[data-preview]').forEach((row) => {
+    document.querySelectorAll('.build-row[data-preview], .row[data-preview]').forEach((row) => {
       row.addEventListener('mouseenter', () => {
         if (preview.getAttribute('src') !== row.dataset.preview) preview.src = row.dataset.preview;
         preview.classList.add('is-on');
