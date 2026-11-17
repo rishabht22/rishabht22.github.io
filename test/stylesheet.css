@@ -2198,9 +2198,9 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
   top: 50%;
   right: 96px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 3px;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 12px;
   opacity: 0;
   transform: translateY(-50%) translateX(6px);
   transition: opacity 240ms var(--ease), transform 320ms var(--ease);
@@ -2208,5 +2208,5 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 }
 .note-demo.is-on { opacity: 1; transform: translateY(-50%); }
 .note-demo canvas { display: block; border: 1px solid var(--line-soft); border-radius: 8px; background: var(--bg-2); }
-.note-demo-caption { color: var(--muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: .02em; }
-@media (max-width: 1100px), (hover: none) { .note-demo { display: none; } }
+.note-demo-caption { max-width: 150px; color: var(--muted); font-family: var(--font-mono); font-size: 10px; line-height: 1.35; letter-spacing: .02em; text-align: right; }
+@media (max-width: 1180px), (hover: none) { .note-demo { display: none; } }

@@ -220,8 +220,8 @@
     document.querySelectorAll('.notes3 a[data-demo]').forEach((a) => {
       const demo = window.NoteDemos.DEMOS[a.dataset.demo];
       if (!demo) return;
-      const W = 190;
-      const H = 54;
+      const W = 170;
+      const H = 40;
       const wrap = document.createElement('span');
       wrap.className = 'note-demo';
       wrap.setAttribute('aria-hidden', 'true');
