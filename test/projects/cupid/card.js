@@ -1,11 +1,10 @@
-// Live Cupid preview for the project card. The 8.6 MB model only starts
-// downloading once the card is close to the viewport.
+// Live 3D previews for project cards. Each model only starts downloading once
+// its card is close to the viewport, so the page itself stays light.
 import { ModelViewerElement } from "../../vendor/model-viewer-4.4.0.min.js";
 
 ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.meta.url).href;
 
-const viewer = document.querySelector('#cupid-card-viewer');
-if (viewer) {
+document.querySelectorAll('.live-media model-viewer[data-src]').forEach((viewer) => {
   const bar = viewer.querySelector('.live-progress span');
   viewer.addEventListener('progress', (event) => {
     if (bar) bar.style.width = `${Math.round(event.detail.totalProgress * 100)}%`;
@@ -21,4 +20,4 @@ if (viewer) {
   } else {
     load();
   }
-}
+});
