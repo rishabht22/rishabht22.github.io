@@ -1240,11 +1240,9 @@ body.viewer-open::before { content: ""; position: fixed; inset: 0; z-index: 99; 
   width: 100%;
   height: 100%;
   background: transparent;
-  cursor: grab;
   --poster-color: transparent;
   --progress-bar-color: transparent;
 }
-.live-media model-viewer:active { cursor: grabbing; }
 .live-media model-viewer:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
 .live-media .media-chip { pointer-events: none; }
 .live-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--line-soft); }
@@ -1413,7 +1411,6 @@ a.feature-cta:hover { color: var(--accent-hover); }
   position: relative;
   color: var(--text);
   border-bottom: 1px dashed var(--muted);
-  cursor: help;
   outline: none;
 }
 .abbr-tip {
@@ -1768,7 +1765,6 @@ body::after {
   padding-top: var(--header-h);
   overflow: hidden;
   isolation: isolate;
-  cursor: crosshair;
 }
 .dots { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; }
 .hero3::after {
@@ -1829,7 +1825,7 @@ body::after {
   letter-spacing: .04em;
   white-space: nowrap;
 }
-@media (hover: none) { .hero3-hint { display: none; } .hero3 { cursor: auto; } }
+@media (hover: none) { .hero3-hint { display: none; } }
 
 /* Intro */
 .intro3 { padding-top: clamp(80px, 12vw, 150px); }
@@ -2098,19 +2094,6 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
    v4 effects
    ========================================================================== */
 
-/* Magnetic name letters */
-.hero3-name .mag {
-  display: inline-block;
-  color: color-mix(in srgb, var(--text), var(--accent-hover) calc(var(--heat, 0) * 100%));
-  will-change: transform;
-  animation: letter-in 900ms var(--ease) both;
-  animation-delay: calc(120ms + var(--i) * 55ms);
-}
-@keyframes letter-in {
-  from { opacity: 0; transform: translateY(.35em) rotate(6deg); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: none; }
-}
-
 /* Project preview with physics */
 .row-preview.is-physics {
   width: 300px;
@@ -2119,49 +2102,14 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
   box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(91, 147, 255, .18);
 }
 
-/* Copy burst */
-.spark {
-  position: fixed;
-  z-index: 200;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px rgba(91, 147, 255, .8);
-  pointer-events: none;
-}
 .copy-button { transition: background-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease), transform 260ms var(--ease); }
 
-/* Cursor spotlight */
-body.has-spotlight::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(420px circle at var(--sx, -999px) var(--sy, -999px), rgba(91, 147, 255, .065), transparent 70%);
-}
-
-/* Scroll progress */
-.progress {
-  position: fixed;
-  z-index: 70;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(91, 147, 255, 0), var(--accent));
-  transform-origin: 0 50%;
-  transform: scaleX(0);
-  pointer-events: none;
-}
 
 /* ==========================================================================
    v5: dot-assembly intro and headings
    ========================================================================== */
 
 /* The name is hidden until the dots have assembled it (never longer than 4s). */
-.hero3-name .mag { animation: none; }
 .hero3-name { transition: opacity 700ms var(--ease), filter 700ms var(--ease); }
 @media (prefers-reduced-motion: no-preference) {
   .js .hero3-name:not(.is-ready) {
@@ -2178,3 +2126,9 @@ body.has-spotlight::before {
 .assemble-canvas { position: absolute; z-index: 5; pointer-events: none; }
 .js .sec-title.assemble-pending,
 .js .contact3-title.assemble-pending { opacity: 0 !important; }
+
+/* Minimal project cards */
+.feature-min .feature-body { justify-content: center; gap: 6px; }
+.feature-min .feature-title { margin: 0; font-family: var(--font-serif); font-size: clamp(34px, 3.4vw, 46px); font-weight: 400; font-style: italic; letter-spacing: -.02em; }
+.feature-min .feature-summary { margin: 0 0 22px; color: var(--muted); font-size: 15px; }
+.feature-min .feature-cta { align-self: flex-start; text-decoration: none; }
