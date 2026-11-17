@@ -1767,53 +1767,28 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 .note-demo-caption { max-width: 150px; color: var(--muted); font-family: var(--font-mono); font-size: 10px; line-height: 1.35; letter-spacing: .02em; text-align: right; }
 @media (max-width: 1180px), (hover: none) { .note-demo { display: none; } }
 
-/* Compact FTC project pages */
+/* FTC CAD showcases */
 .project-brief { width: min(980px, calc(100% - 2 * var(--gutter))); }
 .brief-overview {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
-  grid-template-areas: "heading model" "copy model";
+  grid-template-areas: "heading model";
   column-gap: clamp(24px, 4vw, 54px);
-  align-items: start;
+  align-items: center;
 }
-.project-brief .project-header { grid-area: heading; margin: 0 0 20px; }
+.project-brief .project-header { grid-area: heading; margin: 0; }
 .project-brief .project-header .page-heading { line-height: 1; }
-.project-brief .project-meta { color: var(--accent-hover); }
 .project-brief .project-lead { margin: 0; line-height: 1.4; }
-.brief-copy { grid-area: copy; }
-.brief-cad { grid-area: model; align-self: center; min-width: 0; }
+.brief-cad { grid-area: model; min-width: 0; }
 .brief-cad .cad-stage:not(.is-expanded) { height: clamp(280px, 36vw, 432px); min-height: 0; background: var(--bg); }
 .brief-cad .cad-caption { margin-top: 8px; color: var(--text-2); }
-.brief-points { margin: 0; padding-left: 1.15em; }
-.brief-points li { margin: 0 0 8px; color: #c6c6cc; font-size: 15px; line-height: 1.55; }
-.brief-points li::marker { color: var(--accent); }
-.brief-points strong { color: var(--text); font-weight: 600; }
-.brief-equation { margin-top: 18px; padding: 6px 0 6px 12px; border-left: 1px solid var(--accent-line); }
-.brief-equation > span { display: block; margin-bottom: 6px; color: var(--text-2); font: 11px/1.4 var(--font-mono); }
-.brief-equation math { color: var(--text); font-size: clamp(15px, 2vw, 19px); }
-.brief-extras { margin: 32px 0 0; border-top: 1px solid var(--line); }
-.brief-details { border-bottom: 1px solid var(--line); }
-.brief-details summary { padding: 10px 0; color: var(--text-2); font-size: 14px; }
-.brief-details summary:hover { color: var(--text); }
-.brief-details summary::marker { color: var(--accent); }
-.brief-details summary small { margin-inline-start: 8px; color: var(--muted); font: 11px var(--font-mono); }
-.brief-details > :last-child { margin-bottom: 20px; }
 
 @media (max-width: 680px) {
-  .brief-overview { grid-template-columns: 1fr; grid-template-areas: "heading" "model" "copy"; }
+  .brief-overview { grid-template-columns: 1fr; grid-template-areas: "heading" "model"; }
   .project-brief { padding-top: 28px; }
   .project-brief .project-back { margin-bottom: 20px; }
   .project-brief .project-header { margin-bottom: 16px; }
-  .project-brief .project-header .project-meta { margin-bottom: 8px; }
   .project-brief .project-header .page-heading { margin-bottom: 8px; }
   .brief-cad { margin-bottom: 18px; }
   .brief-cad .cad-stage:not(.is-expanded) { height: clamp(200px, 62vw, 330px); }
-  .brief-extras { margin-top: 22px; }
-}
-
-.project-showcase .brief-overview { grid-template-areas: "heading model"; align-items: center; }
-.project-showcase .project-header { margin-bottom: 0; }
-@media (max-width: 680px) {
-  .project-showcase .brief-overview { grid-template-areas: "heading" "model"; }
-  .project-showcase .project-header { margin-bottom: 16px; }
 }

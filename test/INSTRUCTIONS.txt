@@ -101,8 +101,7 @@ Work (homepage "Work." section, two columns):
 Projects ("Things I've built" + /test/projects/):
   - ArmSkillComp — "Learned robot-arm skill sequencing" (page has the full
     write-up, videos, benchmark: 99.7% success over 1,024 seeded resets)
-  - Cupid — "FTC Decode Season 2025-2026" (short technical write-up,
-    live CAD, spindexer video, and optional technical demos)
+  - Cupid — "FTC Decode Season 2025-2026" (live 3D CAD)
   - Purple Emperor — "FTC Into the Deep Season 2024-2025" (live 3D CAD)
   Do NOT show "Innov8rz, FTC Team 11039" on the project cards/pages.
   Use one link around each full project card, including its media and title.
@@ -155,21 +154,19 @@ textpoints.js         window.textPoints(el, originRect, step): redraws an
                       position/font and samples it into points. Used by the
                       name intro and section-title particle assembly.
 fx.js                 Homepage section-heading motion, spring rails and previews.
-lab.js / lab.css      Homepage formation, mecanum, and spring response demos.
 projects/             index.html (3 minimal cards), arm-skill-comp/,
-                      cupid/ (shared viewer.js and Cupid-specific demo files),
+                      cupid/ (shared viewer.js),
                       purple-emperor/ (uses ../cupid/viewer.js).
 notes/, coursework/   Subpages.
 vendor/               model-viewer 4.4.0 + Draco decoder.
 
 
 6. STATUS: DONE vs. - Removed dormant homepage code and CSS and the scratch CAD renderer.
-- Both FTC project pages open with live CAD. Cupid has technical bullets, a
-  launch equation, and expandable video, demos, and annotated CAD.
+- Both FTC project pages show the season and live CAD. Cupid’s former
+  write-up and media can be restored from commit 15926f5.
 - Regenerated both CAD posters on the matte background and tuned Purple Emperor's
   web-model materials. The material edit leaves the compressed web geometry intact.
 - Project cards link across their full area. FTC previews use the CAD posters.
-- Homepage includes three additional demos: formation, mecanum drive, and damping.
 
 
 7. 3D MODEL PIPELINE (for future robots)
