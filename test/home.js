@@ -5,7 +5,7 @@
   /* "I build ___" word rotator. */
   const rotator = document.querySelector('.rotator');
   if (rotator && !reducedMotion.matches) {
-    const words = ['software', 'ML models', 'AI tools', 'robots', 'things that work'];
+    const words = ['software', 'ML models', 'AI tools', 'robots'];
     let index = 0;
     window.setInterval(() => {
       const current = rotator.querySelector('.is-in');

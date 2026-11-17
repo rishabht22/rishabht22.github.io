@@ -16,10 +16,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=10">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=11">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="/test/site.js?v=10" defer></script>
-  <script src="/test/home.js?v=10" defer></script>
+  <script src="/test/site.js?v=11" defer></script>
+  <script src="/test/home.js?v=11" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -51,137 +51,57 @@
         </p>
       </div>
       <p class="hero3-hint" aria-hidden="true">move around · click anywhere</p>
-      <a class="scroll-cue" href="#intro">Scroll for more <span aria-hidden="true">↓</span></a>
+      <a class="scroll-cue" href="#work">Scroll for more <span aria-hidden="true">↓</span></a>
     </section>
 
-    <!-- Intro ============================================================= -->
-    <section class="intro3 wrap" id="intro" aria-label="About me" data-reveal>
-      <p class="intro3-lead">I’m a student at <a class="pill pill-berkeley" href="https://www.berkeley.edu/" target="_blank" rel="noopener noreferrer">UC Berkeley</a> studying <span class="abbr" tabindex="0">EECS<span class="abbr-tip" role="tooltip">Electrical Engineering &amp; Computer Sciences</span></span>. I like problems that cross the whole stack: writing the software, training the model, and getting it to work on real hardware.</p>
-      <p class="intro3-sub">Right now I’m looking for <mark>software engineering</mark>, <mark>ML engineering</mark>, <mark>AI engineering</mark>, and <mark>robotics</mark> roles.</p>
+    <!-- Work: current and past ============================================ -->
+    <section class="sec wrap" id="work" aria-labelledby="work-title">
+      <h2 class="sec-title" id="work-title" data-reveal>Work<span class="dot">.</span></h2>
+      <div class="work-cols" data-reveal>
+        <div>
+          <h3 class="col-label">Current</h3>
+          <ul class="work-list">
+            <li><a href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab · Berkeley AI Research</a><span>Undergraduate researcher</span></li>
+            <li><a href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">Berkeley Speech Group · EMBER</a><span>Research</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="col-label">Past</h3>
+          <ul class="work-list">
+            <li><a href="https://www.ucsc.edu/" target="_blank" rel="noopener noreferrer">UC Santa Cruz</a><span>Research intern · 2025</span></li>
+            <li><a href="https://www.respiris.com/" target="_blank" rel="noopener noreferrer">Respiris</a><span>Software engineer · 2025</span></li>
+            <li><a href="https://www.grasp.upenn.edu/" target="_blank" rel="noopener noreferrer">Penn GRASP Lab</a><span>Research intern · 2024–25</span></li>
+            <li><a href="https://innov8rz.net/" target="_blank" rel="noopener noreferrer">Innov8rz · FTC Team 11039</a><span>Software captain · 2020–26</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <!-- Built ============================================================= -->
+    <!-- Things I've built ================================================= -->
     <section class="sec wrap" id="projects" aria-labelledby="built-title">
-      <h2 class="sec-title" id="built-title" data-reveal>Things I’ve <em class="scribble">built<svg viewBox="0 0 120 14" aria-hidden="true"><path d="M2 9 C 30 3, 62 3, 90 7 S 116 11, 118 5"/></svg></em></h2>
+      <h2 class="sec-title" id="built-title" data-reveal>Things I’ve built<span class="dot">.</span></h2>
       <ul class="rows" data-reveal>
         <li>
           <a class="row" href="/test/projects/arm-skill-comp/" data-preview="/test/projects/arm-skill-comp/showcase-side-by-side.webp">
             <span class="row-name">ArmSkillComp</span>
-            <span class="row-desc">A PyTorch policy that decides which robot-arm skill to run next, then re-decides after every step. 99.7% success over 1,024 simulated runs.</span>
-            <span class="row-tags"><span class="tag">ML</span><span class="tag">Robotics</span></span>
+            <span class="row-desc">A learned policy that sequences robot-arm skills. 99.7% success in simulation.</span>
+            <span class="row-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
         <li>
           <a class="row" href="/test/projects/cupid/" data-preview="/test/projects/cupid/cupid-dark.webp">
             <span class="row-name">Cupid</span>
-            <span class="row-desc">Our 2025–26 FTC competition robot. The full CAD assembly runs live in your browser.</span>
-            <span class="row-tags"><span class="tag">Robotics</span><span class="tag">3D web</span></span>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://github.com/rishabht22/rishabht22.github.io" target="_blank" rel="noopener noreferrer">
-            <span class="row-name">This website</span>
-            <span class="row-desc">Hand-written HTML, CSS, and JavaScript with no framework: the dot field up top, a WebGL 3D viewer, and every animation.</span>
-            <span class="row-tags"><span class="tag">Software</span><span class="tag">Frontend</span></span>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">
-            <span class="row-name">Multi-agent coordination</span>
-            <span class="row-desc">Research at ICON Lab, BAIR: robots with only local views learning to coordinate by reusing skills they already have.</span>
-            <span class="row-tags"><span class="tag">ML</span><span class="tag">Research</span></span>
-          </a>
-        </li>
-        <li>
-          <a class="row" href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">
-            <span class="row-name">Conversational facial cues</span>
-            <span class="row-desc">Research with the Berkeley Speech Group: teaching robotic faces the small cues that make conversation feel natural.</span>
-            <span class="row-tags"><span class="tag">AI</span><span class="tag">Research</span></span>
+            <span class="row-desc">Our 2025–26 FTC robot, with the full CAD running live in your browser.</span>
+            <span class="row-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
       </ul>
-      <a class="more" href="/test/projects/" data-reveal>All projects <span class="arrow-right" aria-hidden="true">→</span></a>
       <img class="row-preview" alt="" aria-hidden="true" width="320" height="200">
     </section>
 
-    <!-- Experience ======================================================== -->
-    <section class="sec wrap" id="experience" aria-labelledby="exp-title">
-      <h2 class="sec-title" id="exp-title" data-reveal>Where I’ve <em class="scribble">worked<svg viewBox="0 0 120 14" aria-hidden="true"><path d="M2 8 C 28 12, 58 2, 86 6 S 112 10, 118 4"/></svg></em></h2>
-      <ol class="jobs" data-reveal>
-        <li class="job">
-          <span class="job-when">Oct 2026 – now</span>
-          <div class="job-main">
-            <h3><a href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab · Berkeley AI Research</a></h3>
-            <p>Undergraduate researcher. Multi-agent reinforcement learning, skill composition, and diffusion policies.</p>
-          </div>
-          <span class="job-tag">ML · Robotics</span>
-        </li>
-        <li class="job">
-          <span class="job-when">Now</span>
-          <div class="job-main">
-            <h3><a href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">Berkeley Speech Group · EMBER Center</a></h3>
-            <p>Research on conversational facial cues for robotic faces.</p>
-          </div>
-          <span class="job-tag">AI</span>
-        </li>
-        <li class="job">
-          <span class="job-when">Jul – Aug 2025</span>
-          <div class="job-main">
-            <h3><a href="https://www.ucsc.edu/" target="_blank" rel="noopener noreferrer">UC Santa Cruz</a></h3>
-            <p>Research intern. Visual odometry and detecting adversarial tampering in self-driving camera data.</p>
-          </div>
-          <span class="job-tag">Computer vision</span>
-        </li>
-        <li class="job">
-          <span class="job-when">Jan – Jul 2025</span>
-          <div class="job-main">
-            <h3><a href="https://www.respiris.com/" target="_blank" rel="noopener noreferrer">Respiris</a></h3>
-            <p>Software engineer.</p>
-          </div>
-          <span class="job-tag">Software</span>
-        </li>
-        <li class="job">
-          <span class="job-when">Oct 2024 – Apr 2025</span>
-          <div class="job-main">
-            <h3><a href="https://www.grasp.upenn.edu/" target="_blank" rel="noopener noreferrer">Penn GRASP Lab</a></h3>
-            <p>Research intern. Autonomous drones for traffic management: vehicle tracking and collision detection with OpenCV, ROS, and Kalman filters.</p>
-          </div>
-          <span class="job-tag">Robotics · CV</span>
-        </li>
-        <li class="job">
-          <span class="job-when">Aug 2020 – Apr 2026</span>
-          <div class="job-main">
-            <h3><a href="https://innov8rz.net/" target="_blank" rel="noopener noreferrer">Innov8rz · FTC Team 11039</a></h3>
-            <p>Software captain. Robot software and control for a team ranked #14 all-time in the FTC Hall of Fame.</p>
-          </div>
-          <span class="job-tag">Software · Robotics</span>
-        </li>
-      </ol>
-    </section>
-
-    <!-- Toolkit =========================================================== -->
-    <section class="sec wrap" aria-labelledby="kit-title">
-      <h2 class="sec-title" id="kit-title" data-reveal>What I <em class="scribble">use<svg viewBox="0 0 120 14" aria-hidden="true"><path d="M2 7 C 34 2, 70 11, 118 6"/></svg></em></h2>
-      <div class="kit" data-reveal>
-        <div class="kit-col">
-          <h3>Software</h3>
-          <ul><li>Python</li><li>C++</li><li>JavaScript</li><li>HTML &amp; CSS</li><li>Git</li></ul>
-        </div>
-        <div class="kit-col">
-          <h3>ML &amp; AI</h3>
-          <ul><li>PyTorch</li><li>Reinforcement learning</li><li>Imitation learning</li><li>Diffusion policies</li><li>Optimization</li></ul>
-        </div>
-        <div class="kit-col">
-          <h3>Robotics</h3>
-          <ul><li>MuJoCo</li><li>ROS</li><li>OpenCV</li><li>Kalman filters</li><li>FTC robot control</li></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- Writing =========================================================== -->
+    <!-- Personal notes ==================================================== -->
     <section class="sec wrap" id="writing" aria-labelledby="writing-title">
-      <h2 class="sec-title" id="writing-title" data-reveal>I write <em class="scribble">things<svg viewBox="0 0 120 14" aria-hidden="true"><path d="M2 10 C 26 4, 54 4, 80 8 S 110 9, 118 3"/></svg></em></h2>
-      <p class="sec-lead" data-reveal>Mostly notes to myself. When something in a paper or lecture feels too easy, I work through the math until I actually believe it, then write it down.</p>
+      <h2 class="sec-title" id="writing-title" data-reveal>Personal notes<span class="dot">.</span></h2>
       <ul class="notes3" data-reveal>
         <li>
           <a href="/test/notes/residual-denoising/">
@@ -196,24 +116,11 @@
           </a>
         </li>
       </ul>
-      <a class="more" href="/test/notes/" data-reveal>All notes <span class="arrow-right" aria-hidden="true">→</span></a>
-    </section>
-
-    <!-- Highlights ======================================================== -->
-    <section class="sec wrap" aria-labelledby="hl-title">
-      <h2 class="visually-hidden" id="hl-title">Highlights</h2>
-      <ul class="numbers" data-reveal>
-        <li><span class="num">#14</span><span>all-time, FTC Hall of Fame</span></li>
-        <li><span class="num">1st</span><span>UC Berkeley Integration Bee ’26</span></li>
-        <li><span class="num">2×</span><span>AIME qualifier</span></li>
-        <li><span class="num">&lt;0.1%</span><span>Regents’ &amp; Chancellor’s Scholar</span></li>
-      </ul>
     </section>
 
     <!-- Contact =========================================================== -->
     <section class="sec wrap contact3" id="contact" aria-labelledby="contact-title">
       <h2 class="contact3-title" id="contact-title" data-reveal>Let’s <em>talk</em><span>.</span></h2>
-      <p class="sec-lead" data-reveal>Hiring for software, ML, AI, or robotics? Or just want to chat about something you’re building? Email is the fastest way to reach me.</p>
       <div class="email-row" data-reveal>
         <a class="email-link" href="mailto:rishabh.thakur@berkeley.edu">rishabh.thakur@berkeley.edu</a>
         <button class="copy-button" type="button" data-copy="rishabh.thakur@berkeley.edu" aria-describedby="copy-status">
@@ -223,7 +130,6 @@
         </button>
         <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
       </div>
-      <p class="aside3" data-reveal>Off the clock: soccer, finding new food spots, hiking, and taking photos.</p>
     </section>
   </main>
 

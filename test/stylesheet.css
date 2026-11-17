@@ -2028,3 +2028,33 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 /* Serif headings across subpages too */
 .page-heading { font-family: var(--font-serif); font-weight: 400; font-style: italic; letter-spacing: -.02em; }
 .note-header .page-heading { font-style: normal; letter-spacing: -.015em; }
+
+/* v3.1: more minimal */
+.hero3-line { line-height: 1.5; }
+.rotator { vertical-align: top; height: 1.5em; justify-items: start; text-align: left; transition: width 420ms var(--ease); }
+.rotator-word { line-height: 1.5em; }
+.hero3-hint { display: none; }
+
+.sec-title { font-size: clamp(36px, 4.6vw, 56px); margin-bottom: 36px; }
+.sec-title .dot { color: var(--accent); }
+
+.work-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+.col-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.work-list { margin: 0; padding: 0; list-style: none; }
+.work-list li { display: flex; flex-direction: column; gap: 2px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
+.work-list a { align-self: flex-start; color: var(--text); font-size: 17px; font-weight: 500; letter-spacing: -.015em; text-decoration: none; transition: color var(--t-hover) var(--ease); }
+.work-list a:hover { color: var(--accent-hover); }
+.work-list span { color: var(--muted); font-size: 14px; }
+@media (max-width: 760px) { .work-cols { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+
+.row-arrow { color: var(--muted); transition: color var(--t-hover) var(--ease), transform var(--t-hover) var(--ease); }
+.row:hover .row-arrow { color: var(--accent); transform: translate(3px, -3px); }
+@media (max-width: 760px) { .row-arrow { display: none; } }
