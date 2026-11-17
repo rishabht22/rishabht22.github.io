@@ -5,6 +5,7 @@ ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.
 (() => {
   const viewer = document.querySelector('#cupid-viewer');
   const stage = document.querySelector('#cad-stage');
+  const defaultOrbit = viewer.getAttribute('camera-orbit');
   const rotate = document.querySelector('#rotate-model');
   const reset = document.querySelector('#reset-model');
   const expand = document.querySelector('#expand-model');
@@ -57,7 +58,7 @@ ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.
   reset.addEventListener('click', () => {
     setRotation(false);
     viewer.resetTurntableRotation();
-    viewer.cameraOrbit = '35deg 65deg 130%';
+    viewer.cameraOrbit = defaultOrbit;
     viewer.cameraTarget = 'auto auto auto';
     viewer.fieldOfView = '35deg';
     if (reducedMotion.matches) viewer.jumpCameraToGoal();

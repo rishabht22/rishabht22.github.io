@@ -5,21 +5,30 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
-  <meta name="description" content="Explore the interactive 3D CAD assembly of Cupid, the Innov8rz robot for the 2025–2026 FIRST Tech Challenge DECODE season.">
+  <meta name="description" content="A technical breakdown of Cupid, an FTC robot combining computer vision, motion-compensated shooting, artifact sorting, and passive mechanical design.">
   <meta name="theme-color" content="#0E0E0F">
   <meta name="color-scheme" content="dark">
-  <title>Cupid — Rishabh Thakur</title>
+  <title>Cupid | Robotics and Control Systems | Rishabh Thakur</title>
+  <meta property="og:title" content="Cupid | Rishabh Thakur">
+  <meta property="og:description" content="The perception, controls, and mechanical design behind our 2025–26 FTC robot.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rishabht.com/test/projects/cupid/">
+  <meta property="og:image" content="https://rishabht.com/test/projects/cupid/cupid-testing-1600.webp">
+  <meta property="og:image:alt" content="Cupid illuminated during robot testing.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://rishabht.com/test/projects/cupid/">
   <link rel="icon" href="/test/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/test/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=29">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=33">
+  <link rel="stylesheet" href="case-study.css?v=32">
+  <script src="case-study.js?v=31" defer></script>
   <script>document.documentElement.classList.add('js');</script>
-  <script src="/test/motion.js?v=29" defer></script>
-  <script src="/test/site.js?v=29" defer></script>
-  <script type="module" src="viewer.js?v=29"></script>
+  <script src="/test/motion.js?v=30" defer></script>
+  <script src="/test/site.js?v=30" defer></script>
+  <script type="module" src="viewer.js?v=31"></script>
 </head>
 <body>
   <a class="skip-link" href="#project-content">Skip to content</a>
@@ -37,43 +46,155 @@
     </div>
   </header>
 
-  <main class="page project-detail" id="project-content" aria-labelledby="project-heading">
+  <main class="page project-detail project-brief cupid-study" id="project-content" aria-labelledby="project-heading">
     <a class="project-back" href="../"><span class="arrow-left" aria-hidden="true">←</span> Projects</a>
-    <header class="project-header">
-      <p class="project-meta">Robotics · 2025–26</p>
-      <h1 class="page-heading" id="project-heading" style="view-transition-name: title-cupid">Cupid</h1>
-      <p class="project-lead">Our robot for DECODE, the 2025–26 FIRST Tech Challenge season. This is the full CAD assembly, live in your browser. Grab it and spin it around.</p>
-    </header>
-
-    <div class="cad-stage" id="cad-stage">
-      <span class="cad-label">3D CAD</span>
-      <model-viewer id="cupid-viewer" data-src="cupid-final.glb" poster="cupid-dark.webp"
-        alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
-        auto-rotate-delay="0" rotation-per-second="20deg"
-        camera-controls touch-action="pan-y" interaction-prompt="auto" interaction-prompt-style="basic"
-        camera-orbit="35deg 65deg 130%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
-        shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="eager">
-        <div slot="progress-bar" class="cad-progress" id="cad-progress">
-          <p id="cad-loading" role="status">Loading CAD…</p>
-          <div class="cad-progress-track"><span id="cad-progress-fill"></span></div>
+    <div class="brief-overview">
+      <header class="project-header">
+        <p class="project-meta">Software Lead</p>
+        <h1 class="page-heading" id="project-heading" style="view-transition-name: title-cupid">Cupid</h1>
+        <p class="project-lead">FTC Decode Season 2025-2026</p>
+      </header>
+        <div class="brief-cad">
+          <div class="cad-stage" id="cad-stage">
+            <span class="cad-label">3D CAD</span>
+            <model-viewer id="cupid-viewer" data-src="cupid-final.glb" poster="cupid-dark.webp?v=30"
+              alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
+              auto-rotate-delay="0" rotation-per-second="20deg"
+              camera-controls touch-action="pan-y" interaction-prompt="none"
+              camera-orbit="35deg 65deg 125%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
+              shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="eager">
+              <div slot="progress-bar" class="cad-progress" id="cad-progress">
+                <p id="cad-loading" role="status">Loading CAD…</p>
+                <div class="cad-progress-track"><span id="cad-progress-fill"></span></div>
+              </div>
+            </model-viewer>
+            <div class="cad-toolbar" aria-label="Model controls">
+              <button type="button" id="rotate-model" aria-label="Auto-rotate" title="Auto-rotate" aria-pressed="false" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7a9 9 0 0 0-15-2L3 7m0-4v4h4M4 17a9 9 0 0 0 15 2l2-2m0 4v-4h-4"/><path class="rotation-play" d="m10 8 6 4-6 4Z"/><g class="rotation-pause" hidden><path d="M10 8v8M14 8v8"/></g></svg>
+              </button>
+              <button type="button" id="reset-model" aria-label="Reset view" title="Reset view" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7"/></svg>
+              </button>
+              <button type="button" id="expand-model" aria-label="Full screen" title="Full screen" aria-expanded="false" aria-controls="cad-stage">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path class="expand-corners" d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><path class="collapse-corners" d="M3 8h5V3m13 5h-5V3M8 21v-5H3m13 5v-5h5" hidden/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="cad-caption">
+            <p>Drag to orbit · Scroll or pinch to zoom</p>
+          </div>
+          <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
         </div>
-      </model-viewer>
-      <div class="cad-toolbar" aria-label="Model controls">
-        <button type="button" id="rotate-model" aria-label="Auto-rotate" title="Auto-rotate" aria-pressed="false" disabled>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7a9 9 0 0 0-15-2L3 7m0-4v4h4M4 17a9 9 0 0 0 15 2l2-2m0 4v-4h-4"/><path class="rotation-play" d="m10 8 6 4-6 4Z"/><g class="rotation-pause" hidden><path d="M10 8v8M14 8v8"/></g></svg>
-        </button>
-        <button type="button" id="reset-model" aria-label="Reset view" title="Reset view" disabled>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 7.4M3 4v7h7"/></svg>
-        </button>
-        <button type="button" id="expand-model" aria-label="Full screen" title="Full screen" aria-expanded="false" aria-controls="cad-stage">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="expand-corners" d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><path class="collapse-corners" d="M3 8h5V3m13 5h-5V3M8 21v-5H3m13 5v-5h5" hidden/></svg>
-        </button>
+      <div class="brief-copy">
+        <ul class="brief-points">
+          <li><strong>Vision.</strong> OpenCV ranks collection zones by artifact-center density.</li>
+          <li><strong>Aim.</strong> Pinpoint pose tracks the goal. Velocity compensation adjusts turret, hood, and flywheel commands.</li>
+          <li><strong>Sort.</strong> Color and distance sensors read three slots. Cyclic scoring selects the best motif alignment.</li>
+          <li><strong>Feed.</strong> A sprung intake loads the ring. Reverse rotation pinches artifacts against a flap and guides them into the shooter.</li>
+        </ul>
+        <div class="brief-equation">
+          <span>Horizontal launch velocity · idealized</span>
+          <math aria-label="Relative launch velocity equals horizontal target displacement divided by flight time minus robot velocity">
+            <msub><mi mathvariant="bold">v</mi><mtext>launch, xy</mtext></msub><mo>=</mo>
+            <mfrac><mrow><mi>Δ</mi><msub><mi mathvariant="bold">p</mi><mtext>xy</mtext></msub></mrow><mi>t</mi></mfrac>
+            <mo>−</mo><msub><mi mathvariant="bold">v</mi><mtext>robot, xy</mtext></msub>
+          </math>
+        </div>
       </div>
     </div>
-    <div class="cad-caption">
-      <p>Drag to rotate · Scroll or pinch to zoom · Right-drag to pan · Arrow keys orbit</p>
+    <div class="brief-extras">
+      <details class="brief-details" id="spindexer">
+        <summary>Spindexer video <small>0:26</small></summary>
+        <figure class="study-figure spindexer-video">
+          <video controls playsinline preload="none" poster="spindexer-poster.webp" width="540" height="960" aria-label="Passive spindexer demonstration" aria-describedby="spindexer-caption"><source src="spindexer.mp4" type="video/mp4"><track kind="descriptions" src="spindexer-descriptions.vtt" srclang="en" label="Visual description"><p>Your browser cannot play this video. <a href="spindexer.mp4">Open the spindexer demonstration</a>.</p></video>
+          <figcaption id="spindexer-caption">
+            The same motor sorts and feeds the shooter. Silent, 26 seconds.
+            <span class="mechanism-directions"><span><b>Sort.</b> The flap yields and artifacts circulate.</span><span><b>Transfer.</b> The flap resists and guides an artifact upward.</span></span>
+          </figcaption>
+        </figure>
+      </details>
+      <details class="brief-details" id="demos">
+        <summary>Interactive demos</summary>
+        <figure class="study-figure pose-figure">
+          <svg viewBox="0 0 780 315" role="img" aria-labelledby="pose-title pose-desc"><title id="pose-title">Field bearing and chassis-relative turret angle</title><desc id="pose-desc">A robot at lower left faces upward and right. The displacement vector points farther right to the target. The turret angle is the difference between that bearing and the chassis heading.</desc>
+            <defs><marker id="pose-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z"/></marker></defs>
+            <path class="figure-grid" d="M95 255H710M150 285V35"/>
+            <g class="svg-small"><text x="716" y="260">x</text><text x="145" y="28">y</text></g>
+            <g id="pose-robot" transform="translate(230 220) rotate(-55)"><rect class="robot-body" x="-32" y="-27" width="64" height="54" rx="5"/></g>
+            <path id="heading-vector" class="figure-vector muted-vector" d="M230 220l100-143" marker-end="url(#pose-arrow)"/>
+            <path class="figure-vector" d="M230 220 635 80" marker-end="url(#pose-arrow)"/>
+            <path id="turret-arc" class="figure-angle" d="M268 166A66 66 0 0 1 292 198"/>
+            <circle class="target-point" cx="635" cy="80" r="8"/>
+            <g class="svg-small"><text x="175" y="48">Heading ψ</text><text x="402" y="163" class="svg-accent">d = pₜ − pᵣ</text><text x="180" y="286">Robot pᵣ</text><text x="614" y="51">Target pₜ</text></g>
+          </svg>
+          <div class="heading-control" data-cupid-demo hidden>
+            <label class="velocity-label" for="chassis-heading">Rotate the chassis <output id="heading-output" for="chassis-heading">55°</output></label>
+            <input type="range" id="chassis-heading" min="5" max="85" step="1" value="55">
+          </div>
+          <figcaption>The arc shows the turret’s correction relative to the chassis.</figcaption>
+        </figure>
+        <figure class="study-figure trajectory-demo" id="trajectory-demo" data-cupid-demo hidden>
+          <div class="figure-heading"><span class="diagram-kicker">Illustrative flight model</span><span>8 m range · 0.8 s flight · no drag</span></div>
+          <div class="trajectory-panels" id="trajectory-panels"></div>
+          <template id="trajectory-template">
+            <div class="trajectory-panel">
+              <h4></h4>
+              <svg viewBox="0 0 220 114" aria-hidden="true">
+                <path class="figure-grid" d="M23 95H195V15"/>
+                <path class="launch-axis" d="M178 94l34-48"/>
+                <path class="flight-path"/>
+                <circle class="target-point" cx="195" cy="71" r="5.5"/>
+                <circle class="flight-endpoint" r="3"/>
+              </svg>
+              <p class="trajectory-note"></p>
+            </div>
+          </template>
+          <label class="velocity-label" for="lateral-velocity">Chassis velocity across the shot <output id="velocity-output" for="lateral-velocity">1.0 m/s</output></label>
+          <input type="range" id="lateral-velocity" min="-2" max="2" step="0.1" value="1" aria-describedby="trajectory-caption">
+          <p class="trajectory-readout" id="trajectory-readout" aria-live="polite"></p>
+          <figcaption id="trajectory-caption">Simulated trajectories showing height and lateral drift.</figcaption>
+        </figure>
+        <figure class="study-figure sorting-demo" id="sorting-demo" data-cupid-demo hidden>
+          <div class="figure-heading"><span class="diagram-kicker">Try the cyclic planner</span><span>P = purple · G = green</span></div>
+          <div class="sort-controls"><label for="sort-current">Current slots<select id="sort-current"><option>PPG</option><option>PGP</option><option>GPP</option><option>PGG</option><option>GPG</option><option>GGP</option><option>PPP</option><option>GGG</option></select></label><label for="sort-target">Target motif<select id="sort-target"><option>PGP</option><option>PPG</option><option>GPP</option></select></label></div>
+          <div class="sort-workspace">
+            <svg viewBox="0 0 300 290" aria-hidden="true" class="sort-wheel"><circle class="wheel-ring" cx="150" cy="140" r="103"/><path class="figure-grid" d="M150 22v236M32 140h236"/><text x="150" y="17" class="svg-small slot-origin" text-anchor="middle">Read from here ↴</text><g id="sort-rotor"><path class="rotor-spokes" d="M150 140V65M150 140l65 37.5M150 140l-65 37.5"/><g class="artifact-node" transform="translate(150 65)"><circle r="28"/><text text-anchor="middle" dy=".35em">P</text></g><g class="artifact-node" transform="translate(215 177.5)"><circle r="28"/><text text-anchor="middle" dy=".35em">P</text></g><g class="artifact-node" transform="translate(85 177.5)"><circle r="28"/><text text-anchor="middle" dy=".35em">G</text></g></g><circle class="wheel-hub" cx="150" cy="140" r="9"/></svg>
+            <div class="sort-comparison"><table><caption>Candidate rotations</caption><thead><tr><th scope="col">Steps</th><th scope="col">Slots</th><th scope="col">Matches</th></tr></thead><tbody id="sort-candidates"></tbody></table><button type="button" class="study-button" id="sort-apply">Rotate to selected</button><p id="sort-result" role="status"></p></div>
+          </div>
+          <figcaption>Best positional match wins. Ties use the fewest steps.</figcaption>
+        </figure>
+        <noscript><p>Enable JavaScript to use the interactive demos.</p></noscript>
+      </details>
+      <details class="brief-details" id="hardware">
+        <summary>Annotated assembly</summary>
+        <figure class="study-figure hardware-overview">
+          <svg viewBox="0 0 780 664" role="img" aria-labelledby="assembly-title">
+            <title id="assembly-title">Cupid’s Regionals CAD assembly with numbered subsystem labels</title>
+            <image href="cupid-regionals.webp" width="780" height="664"/>
+            <g class="cad-annotation">
+              <g transform="translate(626 369)"><circle r="19"/><text dy=".35em">1</text></g>
+              <g transform="translate(403 378)"><circle r="19"/><text dy=".35em">2</text></g>
+              <g transform="translate(510 322)"><circle r="19"/><text dy=".35em">3</text></g>
+              <g transform="translate(477 250)"><circle r="19"/><text dy=".35em">4</text></g>
+              <g transform="translate(343 54)"><circle r="19"/><text dy=".35em">5</text></g>
+              <g transform="translate(153 463)"><circle r="19"/><text dy=".35em">6</text></g>
+            </g>
+          </svg>
+          <ol class="hardware-key">
+            <li><b>Intake</b><span>Front rollers and sprung linkage</span></li>
+            <li><b>Spindexer</b><span>Three-slot ring below the shooter</span></li>
+            <li><b>Turret</b><span>Geared rotating platform</span></li>
+            <li><b>Flywheel</b><span>Accelerates the artifact</span></li>
+            <li><b>Adjustable hood</b><span>Sets launch elevation</span></li>
+            <li><b>Drivetrain</b><span>Pocketed chassis and torsion box</span></li>
+          </ol>
+          <figcaption>Final Regionals assembly, from the team engineering portfolio.</figcaption>
+        </figure>
+      </details>
     </div>
-    <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
+    <figure class="study-figure hero-photo">
+      <img src="cupid-testing-1600.webp" srcset="cupid-testing-960.webp 960w, cupid-testing-1600.webp 1600w" sizes="(max-width: 1000px) 92vw, 980px" width="1600" height="1193" decoding="async" alt="Cupid during testing, with its flywheel shooter above the circular spindexer and green and purple artifacts on the floor.">
+    </figure>
   </main>
   <footer class="site-footer">
     <div class="wrap footer-inner">
@@ -98,7 +219,7 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
     </a>
     <span class="dock-sep" aria-hidden="true"></span>
-    <a href="#main" class="dock-top" aria-label="Back to top" title="Back to top">
+    <a href="#project-content" class="dock-top" aria-label="Back to top" title="Back to top">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
     </a>
   </nav>

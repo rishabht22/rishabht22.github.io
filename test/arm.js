@@ -92,6 +92,11 @@
       this.qt = this.solve(target);
     }
 
+    snapToTarget() {
+      this.q = this.qt.slice();
+      this.qd.fill(0);
+    }
+
     // Integrate the joint springs. Returns true while the arm is moving.
     step(dt) {
       const h = 1 / 240;

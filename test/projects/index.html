@@ -15,11 +15,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=29">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=33">
   <script>document.documentElement.classList.add('js');</script>
   <script src="/test/motion.js?v=29" defer></script>
-  <script src="/test/site.js?v=29" defer></script>
-  <script type="module" src="/test/projects/cupid/card.js?v=29"></script>
+  <script src="/test/site.js?v=30" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#project-content">Skip to content</a>
@@ -57,40 +56,28 @@
         </a>
       </li>
       <li>
-        <article class="feature feature-min is-reversed is-live" aria-labelledby="cupid-card-title">
-          <div class="feature-media live-media">
-            <model-viewer id="cupid-card-viewer" data-src="/test/projects/cupid/cupid-final.glb" poster="/test/projects/cupid/cupid-dark.webp"
-              alt="Interactive 3D CAD assembly of Cupid. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
-              camera-controls touch-action="pan-y" interaction-prompt="none"
-              camera-orbit="35deg 65deg 150%" field-of-view="35deg" min-camera-orbit="auto 5deg 30%" max-camera-orbit="auto 175deg 300%"
-              shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="lazy" reveal="auto">
-              <div slot="progress-bar" class="live-progress"><span></span></div>
-            </model-viewer>
+        <a class="feature feature-min is-reversed" href="/test/projects/cupid/">
+          <div class="feature-media is-contain cad-preview">
+            <img src="/test/projects/cupid/cupid-dark.webp?v=30" alt="" width="1200" height="900" loading="lazy" decoding="async">
           </div>
           <div class="feature-body">
-            <h2 class="feature-title" id="cupid-card-title" style="view-transition-name: title-cupid"><a class="feature-title-link" href="/test/projects/cupid/">Cupid</a></h2>
-            <p class="feature-summary">2025–26 FTC competition robot</p>
-            <a class="feature-cta" href="/test/projects/cupid/">Read the write-up <span class="arrow" aria-hidden="true">↗</span></a>
+            <h2 class="feature-title" style="view-transition-name: title-cupid">Cupid</h2>
+            <p class="feature-summary">FTC Decode Season 2025-2026</p>
+            <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
           </div>
-        </article>
+        </a>
       </li>
       <li>
-        <article class="feature feature-min is-live" aria-labelledby="purple-card-title">
-          <div class="feature-media live-media">
-            <model-viewer data-src="/test/projects/purple-emperor/purple-emperor.glb" poster="/test/projects/purple-emperor/purple-emperor.webp"
-              alt="Interactive 3D CAD assembly of Purple Emperor. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
-              camera-controls touch-action="pan-y" interaction-prompt="none"
-              camera-orbit="35deg 68deg 135%" field-of-view="35deg" min-camera-orbit="auto 5deg 30%" max-camera-orbit="auto 175deg 300%"
-              shadow-intensity="0.5" shadow-softness="0.8" exposure="1.05" environment-image="neutral" loading="lazy" reveal="auto">
-              <div slot="progress-bar" class="live-progress"><span></span></div>
-            </model-viewer>
+        <a class="feature feature-min" href="/test/projects/purple-emperor/">
+          <div class="feature-media is-contain cad-preview">
+            <img src="/test/projects/purple-emperor/purple-emperor.webp?v=31" alt="" width="1200" height="900" loading="lazy" decoding="async">
           </div>
           <div class="feature-body">
-            <h2 class="feature-title" id="purple-card-title" style="view-transition-name: title-purple"><a class="feature-title-link" href="/test/projects/purple-emperor/">Purple Emperor</a></h2>
-            <p class="feature-summary">2024–25 FTC competition robot</p>
-            <a class="feature-cta" href="/test/projects/purple-emperor/">Read the write-up <span class="arrow" aria-hidden="true">↗</span></a>
+            <h2 class="feature-title" style="view-transition-name: title-purple">Purple Emperor</h2>
+            <p class="feature-summary">FTC Into the Deep Season 2024-2025</p>
+            <span class="feature-cta">Read the write-up <span class="arrow" aria-hidden="true">↗</span></span>
           </div>
-        </article>
+        </a>
       </li>
     </ul>
   </main>
@@ -117,7 +104,7 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
     </a>
     <span class="dock-sep" aria-hidden="true"></span>
-    <a href="#main" class="dock-top" aria-label="Back to top" title="Back to top">
+    <a href="#project-content" class="dock-top" aria-label="Back to top" title="Back to top">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
     </a>
   </nav>

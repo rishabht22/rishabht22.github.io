@@ -221,13 +221,18 @@
     };
     const inReach = (p) => arm && Math.hypot(p.x - arm.base.x, p.y - arm.base.y) < arm.reach * .97 && p.y < arm.base.y - 10;
 
-    const updateArm = (dt) => {
+    const updateArm = (dt, instant = false) => {
       if (!arm || introOn) return false;
-      const moving = arm.step(dt);
-      // Gripper opening is its own little spring.
-      const ga = -320 * (grip - gripT) - 30 * gripV;
-      gripV += ga * dt;
-      grip += gripV * dt;
+      let moving = false;
+      if (instant) {
+        arm.snapToTarget();
+      } else {
+        moving = arm.step(dt);
+        // Gripper opening is its own little spring.
+        const acceleration = -320 * (grip - gripT) - 30 * gripV;
+        gripV += acceleration * dt;
+        grip += gripV * dt;
+      }
       const tip = arm.effector();
       const close = (p) => Math.hypot(tip.x - p.x, tip.y - p.y) < 3 && Math.max(...arm.qd.map(Math.abs)) < .25;
 
@@ -236,7 +241,7 @@
         pending = null;
         gripT = 0;
         armState = pointer.on ? 'track' : 'carry';
-        if (!pointer.on) setTarget(restPoint());
+        if (!pointer.on && !instant) setTarget(restPoint());
       } else if (armState === 'place' && held && close(arm.target)) {
         held.x = tip.x;
         held.y = tip.y;
@@ -245,8 +250,9 @@
         held = null;
         gripT = 1;
         armState = pointer.on ? 'track' : 'rest';
-        if (!pointer.on) setTarget(restPoint());
+        if (!pointer.on && !instant) setTarget(restPoint());
       }
+      if (instant) { grip = gripT; gripV = 0; }
       return moving || Math.abs(grip - gripT) > .01 || armState === 'reach' || armState === 'place';
     };
 
@@ -268,7 +274,11 @@
     };
     function wake() {
       if (running || !onScreen || document.hidden) return;
-      if (reducedMotion.matches) { draw(performance.now()); return; }
+      if (reducedMotion.matches) {
+        updateArm(0, true);
+        draw(performance.now());
+        return;
+      }
       running = true;
       idleFrames = 0;
       frame = window.requestAnimationFrame(loop);
@@ -280,7 +290,7 @@
     /* ---------- Input ---------- */
     const local = (e) => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
     hero.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse') return;
+      if (e.pointerType !== 'mouse' || reducedMotion.matches) return;
       const p = local(e);
       pointer.x = p.x; pointer.y = p.y; pointer.on = true;
       if (!introOn && (armState === 'rest' || armState === 'track' || armState === 'carry')) {
@@ -367,6 +377,12 @@
         if (onScreen) wake(); else { running = false; last = 0; window.cancelAnimationFrame(frame); }
       }).observe(hero);
     }
+    reducedMotion.addEventListener('change', () => {
+      running = false;
+      last = 0;
+      window.cancelAnimationFrame(frame);
+      wake();
+    });
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) { running = false; last = 0; window.cancelAnimationFrame(frame); } else wake();
     });

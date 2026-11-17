@@ -16,15 +16,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=29">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=33">
+  <link rel="stylesheet" href="/test/lab.css?v=31">
   <script>document.documentElement.classList.add('js');</script>
   <script src="/test/motion.js?v=29" defer></script>
-  <script src="/test/site.js?v=29" defer></script>
+  <script src="/test/site.js?v=30" defer></script>
   <script src="/test/textpoints.js?v=29" defer></script>
-  <script src="/test/arm.js?v=29" defer></script>
-  <script src="/test/home.js?v=29" defer></script>
+  <script src="/test/arm.js?v=30" defer></script>
+  <script src="/test/home.js?v=30" defer></script>
   <script src="/test/demos.js?v=29" defer></script>
   <script src="/test/fx.js?v=29" defer></script>
+  <script src="/test/lab.js?v=31" defer></script>
 </head>
 <body data-page="home">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -82,6 +84,26 @@
           </ul>
         </div>
       </div>
+      <figure class="home-lab" id="formation-lab" aria-labelledby="formation-title" hidden>
+        <div class="lab-copy">
+          <h3 id="formation-title">A formation with no leader</h3>
+          <p>Each robot corrects its spacing from two neighbors.</p>
+          <button type="button" id="disturb-formation">Nudge a robot <span aria-hidden="true">↗</span></button>
+          <output id="formation-status" aria-live="polite">All links at rest.</output>
+        </div>
+        <svg viewBox="0 0 340 150" role="img" aria-label="Four robots joined in a ring. The dashed outline marks the original formation.">
+          <path class="lab-guide" d="M32 75H308M170 17V133M128 42H212V108H128Z"/>
+          <g class="lab-links">
+            <line x1="128" y1="42" x2="212" y2="42"/><line x1="212" y1="42" x2="212" y2="108"/>
+            <line x1="212" y1="108" x2="128" y2="108"/><line x1="128" y1="108" x2="128" y2="42"/>
+          </g>
+          <g class="lab-nodes">
+            <circle cx="128" cy="42" r="6"/><circle cx="212" cy="42" r="6"/>
+            <circle cx="212" cy="108" r="6"/><circle cx="128" cy="108" r="6"/>
+          </g>
+          <circle class="lab-center" id="formation-center" cx="170" cy="75" r="2.5"/>
+        </svg>
+      </figure>
     </section>
 
     <!-- Things I've built ================================================= -->
@@ -96,21 +118,50 @@
           </a>
         </li>
         <li>
-          <a class="row" href="/test/projects/cupid/" data-preview="/test/projects/cupid/cupid-dark.webp">
+          <a class="row" href="/test/projects/cupid/" data-preview="/test/projects/cupid/cupid-dark.webp?v=30">
             <span class="row-name" style="view-transition-name: title-cupid">Cupid</span>
-            <span class="row-desc">2025–26 FTC competition robot</span>
+            <span class="row-desc">FTC Decode Season 2025-2026</span>
             <span class="row-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
         <li>
-          <a class="row" href="/test/projects/purple-emperor/" data-preview="/test/projects/purple-emperor/purple-emperor.webp">
+          <a class="row" href="/test/projects/purple-emperor/" data-preview="/test/projects/purple-emperor/purple-emperor.webp?v=31">
             <span class="row-name" style="view-transition-name: title-purple">Purple Emperor</span>
-            <span class="row-desc">2024–25 FTC competition robot</span>
+            <span class="row-desc">FTC Into the Deep Season 2024-2025</span>
             <span class="row-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
       </ul>
       <img class="row-preview" alt="" aria-hidden="true" width="320" height="200">
+      <figure class="home-lab drive-lab" id="drive-lab" aria-labelledby="drive-title" hidden>
+        <div class="lab-copy">
+          <h3 id="drive-title">Drive a mecanum chassis</h3>
+          <p>Strafe and turn by changing the direction of each wheel.</p>
+          <div class="drive-pad" role="group" aria-label="Drive commands">
+            <button type="button" data-drive="q" aria-label="Turn left" title="Turn left (Q)">↶</button>
+            <button type="button" data-drive="w" aria-label="Drive forward" title="Forward (W)">↑</button>
+            <button type="button" data-drive="e" aria-label="Turn right" title="Turn right (E)">↷</button>
+            <button type="button" data-drive="a" aria-label="Strafe left" title="Strafe left (A)">←</button>
+            <button type="button" data-drive="s" aria-label="Drive backward" title="Backward (S)">↓</button>
+            <button type="button" data-drive="d" aria-label="Strafe right" title="Strafe right (D)">→</button>
+          </div>
+          <output id="drive-status" aria-live="polite">Wheel power · signed</output>
+        </div>
+        <div class="drive-display">
+          <svg viewBox="0 0 340 160" tabindex="0" role="group" aria-label="Mecanum simulator. Drive with arrow keys or W A S D, and turn with Q and E.">
+            <path class="lab-guide" d="M85 0V160M170 0V160M255 0V160M0 40H340M0 80H340M0 120H340"/>
+            <polyline class="drive-trail" id="drive-trail"/>
+            <g id="drive-chassis" transform="translate(170 80)">
+              <rect class="drive-shell" x="-17" y="-21" width="34" height="42" rx="4"/>
+              <path class="drive-front" d="m-6-5 6-7 6 7"/>
+              <g class="drive-wheels">
+                <path d="M-20-16v10"/><path d="M20-16v10"/><path d="M-20 6v10"/><path d="M20 6v10"/>
+              </g>
+            </g>
+          </svg>
+          <dl class="wheel-powers" aria-label="Wheel power"><div><dt>FL</dt><dd>0</dd></div><div><dt>FR</dt><dd>0</dd></div><div><dt>RL</dt><dd>0</dd></div><div><dt>RR</dt><dd>0</dd></div></dl>
+        </div>
+      </figure>
     </section>
 
     <!-- Personal notes ==================================================== -->
@@ -130,6 +181,21 @@
           </a>
         </li>
       </ul>
+      <figure class="home-lab spring-lab" id="spring-lab" aria-labelledby="spring-title" hidden>
+        <div class="lab-copy">
+          <h3 id="spring-title">Tune a spring</h3>
+          <p>The step response behind the site’s motion.</p>
+          <label for="spring-zeta">Damping ratio <output for="spring-zeta" id="spring-value">0.38</output></label>
+          <input type="range" id="spring-zeta" min="0.15" max="2" value="0.38" step="0.01">
+          <span class="lab-status" id="spring-regime">Underdamped · overshoots</span>
+        </div>
+        <svg viewBox="0 0 340 150" role="img" aria-label="Spring displacement over time">
+          <path class="lab-guide" d="M20 116H320M20 18V116M95 18V116M170 18V116M245 18V116M320 18V116"/>
+          <path class="spring-target" d="M20 54H320"/>
+          <path class="spring-curve" id="spring-curve"/>
+          <g class="spring-axes"><text x="20" y="136">0 s</text><text x="320" y="136" text-anchor="end">3 s</text><text x="320" y="48" text-anchor="end">target</text></g>
+        </svg>
+      </figure>
     </section>
 
     <!-- Contact =========================================================== -->

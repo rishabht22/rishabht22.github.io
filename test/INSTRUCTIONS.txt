@@ -101,11 +101,12 @@ Work (homepage "Work." section, two columns):
 Projects ("Things I've built" + /test/projects/):
   - ArmSkillComp — "Learned robot-arm skill sequencing" (page has the full
     write-up, videos, benchmark: 99.7% success over 1,024 seeded resets)
-  - Cupid — "2025–26 FTC competition robot" (live 3D CAD viewer)
-  - Purple Emperor — "2024–25 FTC competition robot", FTC INTO THE DEEP season
-    (live 3D CAD viewer; the CAD shows team number 26216)
+  - Cupid — "FTC Decode Season 2025-2026" (short technical write-up,
+    live CAD, spindexer video, and optional technical demos)
+  - Purple Emperor — "FTC Into the Deep Season 2024-2025" (live 3D CAD)
   Do NOT show "Innov8rz, FTC Team 11039" on the project cards/pages.
-  Rishabh will add more write-up text to Cupid / Purple Emperor pages later.
+  Use one link around each full project card, including its media and title.
+  Place interactive CAD on the project page so the media stays clickable.
 
 Notes: "Residual Denoising vs. Action-Space Residuals in Diffusion Policies"
 (Oct 2026), "Bias and Convergence in Gradient-Clipped SGD" (Sep 2026).
@@ -136,8 +137,7 @@ motion.js             Shared on every page. Spring class (spring-mass-damper,
                       and the spring-driven nav indicator + nav label decode.
 site.js               Older shared helpers: sticky header, mobile menu, scroll
                       reveal ([data-reveal]), hover video on cards, copy email,
-                      footer Berkeley clock. (Also contains old unused code
-                      for .figure-0 and .build-row; safe to clean up.)
+                      footer Berkeley clock and back-to-top dock.
 arm.js                Pure math, no DOM: planar serial arm. FABRIK inverse
                       kinematics from the current pose -> relative joint
                       angles -> per-joint spring dynamics -> forward
@@ -154,48 +154,23 @@ textpoints.js         window.textPoints(el, originRect, step): redraws an
                       element's text on an offscreen canvas at its real
                       position/font and samples it into points. Used by the
                       name intro and section-title particle assembly.
-fx.js                 Homepage-only effects. SEE SECTION 6: still contains
-                      things that must be removed.
+fx.js                 Homepage section-heading motion, spring rails and previews.
+lab.js / lab.css      Homepage formation, mecanum, and spring response demos.
 projects/             index.html (3 minimal cards), arm-skill-comp/,
-                      cupid/ (viewer.js = full viewer, card.js = lazy live
-                      previews for all .live-media cards), purple-emperor/
-                      (uses ../cupid/viewer.js).
+                      cupid/ (shared viewer.js and Cupid-specific demo files),
+                      purple-emperor/ (uses ../cupid/viewer.js).
 notes/, coursework/   Subpages.
 vendor/               model-viewer 4.4.0 + Draco decoder.
-_render.html          Scratch page for rendering 3D posters. Do not link it.
-                      Untracked; delete when done.
 
 
-6. STATUS: DONE vs. STILL TO DO
--------------------------------
-DONE
-- Matte black + blue redesign, minimal sections, nav "Home. Projects. Notes.
-  Coursework. Contact." on every page, floating social dock.
-- Cursor customizations removed from CSS (crosshair, grab, help, spotlight).
-- Minimal project cards (title + short phrase + "Read the write-up").
-- View Transitions: project titles morph between list and page
-  (view-transition-name: title-arm / title-cupid / title-purple; CSS
-  @view-transition { navigation: auto }).
-- Spring nav indicator + nav label decode (tested: lands within 1px, no
-  layout shift).
-- Purple Emperor: FBX -> GLB (FBX2glTF), rotated Z-up -> Y-up, centered,
-  Draco-compressed with gltf-transform (165 MB -> 4.35 MB), poster rendered,
-  page + card + homepage row added.
-- Hero robot arm with pick-and-place, tested end to end.
+6. STATUS: DONE vs. - Removed dormant homepage code and CSS and the scratch CAD renderer.
+- Both FTC project pages open with live CAD. Cupid has technical bullets, a
+  launch equation, and expandable video, demos, and annotated CAD.
+- Regenerated both CAD posters on the matte background and tuned Purple Emperor's
+  web-model materials. The material edit leaves the compressed web geometry intact.
+- Project cards link across their full area. FTC previews use the CAD posters.
+- Homepage includes three additional demos: formation, mecanum drive, and damping.
 
-STILL TO DO
-- fx.js rewrite is DONE: removed magnetic name/burst/spotlight/progress;
-  heading assembly shortened to <1s; spring rail on .rows/.notes3; spring
-  project preview; decode on col labels, note dates, Copy->Copied; live note
-  demos (demos.js). All tested in headless Chrome: no errors, no overflow,
-  zero cursor rules.
-1. Remove dead code: old .figure-0 / .build-row code in site.js, unused CSS
-   blocks for removed effects (hero/feature v1 styles, .row::before sweep).
-2. Re-render Cupid's poster (projects/cupid/cupid-dark.webp) on the matte
-   black background using _render.html + headless Chrome, then DELETE
-   test/_render.html from the repo (it was committed by accident).
-3. Re-test phone (390x844) and reduced motion after the latest changes.
-4. Rishabh will add write-up text to the Cupid and Purple Emperor pages.
 
 7. 3D MODEL PIPELINE (for future robots)
 ----------------------------------------

@@ -77,7 +77,6 @@
   border-radius: 999px;
   color: var(--text-2);
   font-size: 13.5px;
-  cursor: pointer;
   transition: border-color var(--t-hover) var(--ease), background-color var(--t-hover) var(--ease);
 }
 .arm-scores label:hover { border-color: var(--arm-accent); }
