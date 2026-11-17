@@ -15,10 +15,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=10">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=13">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="/test/site.js?v=10" defer></script>
-  <script src="/test/disclosure.js?v=10" defer></script>
+  <script src="/test/site.js?v=13" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#coursework">Skip to content</a>
@@ -29,7 +28,8 @@
       <nav class="site-nav" id="site-nav" aria-label="Main">
         <a href="/test/">Home<b>.</b></a>
         <a href="/test/projects/">Projects<b>.</b></a>
-        <a href="/test/notes/">Writing<b>.</b></a>
+        <a href="/test/notes/">Notes<b>.</b></a>
+        <a href="/test/coursework/" aria-current="page">Coursework<b>.</b></a>
         <a href="/test/#contact">Contact<b>.</b></a>
       </nav>
     </div>
@@ -37,42 +37,22 @@
 
   <main class="page page-narrow coursework-page" id="coursework" aria-labelledby="coursework-heading">
     <header class="page-intro">
-      <p class="section-label"><b>School</b> / Coursework</p>
-      <h1 class="page-heading" id="coursework-heading">Coursework</h1>
-      <p class="page-lead">EECS at UC Berkeley, plus the college-level math and programming I took in high school.</p>
+      <h1 class="page-heading" id="coursework-heading">Coursework<span class="dot">.</span></h1>
+      <p class="page-lead">EECS at UC Berkeley, plus college-level math and programming I took in high school.</p>
     </header>
-    <details class="coursework-section">
-      <summary>Spring 2027 <span class="summary-meta">next term</span></summary>
-      <div class="disclosure-content">
-        <ul class="course-list">
-          <li><span class="course-code">CS 61B</span><span>Data Structures</span></li>
-          <li><span class="course-code">CS 189</span><span>Introduction to Machine Learning</span></li>
-          <li><span class="course-code">EECS 127</span><span>Optimization Models in Engineering</span></li>
-          <li><span class="course-code">BIOE 100</span><span>Ethics in Science and Engineering</span></li>
-        </ul>
-      </div>
-    </details>
-    <details class="coursework-section" open>
-      <summary>Fall 2026 <span class="summary-meta">this term</span></summary>
-      <div class="disclosure-content">
-        <ul class="course-list">
-          <li><span class="course-code">CS 61A</span><span>The Structure and Interpretation of Computer Programs</span></li>
-          <li><span class="course-code">CS 70</span><span>Discrete Mathematics and Probability Theory</span></li>
-          <li><span class="course-code">EE 66</span><span>Introduction to Signals, Dynamics, and Information</span></li>
-          <li><span class="course-code">ANTHRO 2AC</span><span>Introduction to Archaeology</span></li>
-        </ul>
-      </div>
-    </details>
-    <details class="coursework-section">
-      <summary>Taken in high school <span class="summary-meta">college-level</span></summary>
-      <div class="disclosure-content">
-        <ul class="course-list course-list-names">
-          <li>Linear Algebra &amp; Differential Equations</li>
-          <li>Calculus 3</li>
-          <li>Intermediate Programming Methodologies in C++</li>
-        </ul>
-      </div>
-    </details>
+    <ul class="courses">
+      <li><span class="course-code">CS 189</span><span class="course-name">Introduction to Machine Learning</span></li>
+      <li><span class="course-code">EECS 127</span><span class="course-name">Optimization Models in Engineering</span></li>
+      <li><span class="course-code">CS 61B</span><span class="course-name">Data Structures</span></li>
+      <li><span class="course-code">CS 61A</span><span class="course-name">Structure and Interpretation of Computer Programs</span></li>
+      <li><span class="course-code">CS 70</span><span class="course-name">Discrete Mathematics and Probability Theory</span></li>
+      <li><span class="course-code">EE 66</span><span class="course-name">Signals, Dynamics, and Information</span></li>
+      <li><span class="course-code">BIOE 100</span><span class="course-name">Ethics in Science and Engineering</span></li>
+      <li><span class="course-code">ANTHRO 2AC</span><span class="course-name">Introduction to Archaeology</span></li>
+      <li><span class="course-code">MATH</span><span class="course-name">Linear Algebra &amp; Differential Equations</span></li>
+      <li><span class="course-code">MATH</span><span class="course-name">Calculus 3</span></li>
+      <li><span class="course-code">CS</span><span class="course-name">Intermediate Programming Methodologies in C++</span></li>
+    </ul>
   </main>
   <footer class="site-footer">
     <div class="wrap footer-inner">

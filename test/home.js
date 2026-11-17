@@ -8,19 +8,25 @@
     const words = ['software', 'ML models', 'AI tools', 'robots'];
     let index = 0;
     window.setInterval(() => {
-      const current = rotator.querySelector('.is-in');
+      // Skip while the tab is in the background so swaps can't pile up.
+      if (document.hidden) return;
+      // Clear out anything left over, keeping only the word that's showing.
+      const words_ = Array.from(rotator.querySelectorAll('.rotator-word'));
+      const current = words_.find((w) => w.classList.contains('is-in')) || words_[words_.length - 1];
+      words_.forEach((w) => { if (w !== current) w.remove(); });
+
       index = (index + 1) % words.length;
       const next = document.createElement('span');
       next.className = 'rotator-word';
       next.textContent = words[index];
       rotator.append(next);
       // Size the slot to the incoming word so the sentence never jumps mid-swap.
-      rotator.style.width = `${next.offsetWidth}px`;
-      window.requestAnimationFrame(() => {
-        current?.classList.replace('is-in', 'is-out');
-        next.classList.add('is-in');
-      });
-      window.setTimeout(() => current?.remove(), 600);
+      rotator.style.width = `${Math.ceil(next.getBoundingClientRect().width)}px`;
+      void next.offsetWidth; // commit the start position before animating in
+      current?.classList.remove('is-in');
+      current?.classList.add('is-out');
+      next.classList.add('is-in');
+      window.setTimeout(() => current?.remove(), 560);
     }, 2400);
   }
 
