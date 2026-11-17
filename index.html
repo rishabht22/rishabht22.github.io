@@ -3,276 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rishabh Thakur | AI Research &amp; Software Engineering</title>
-  <meta name="description" content="Rishabh Thakur is an EECS student at UC Berkeley working on robot learning, embodied AI, machine learning, and software engineering.">
   <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="Rishabh Thakur is an EECS undergraduate at UC Berkeley working on robotics, robot learning, and autonomous systems at ICON Lab and Berkeley AI Research.">
   <meta name="google-site-verification" content="mGo4VIAP-g-h46opi4ibJsRtwdRNUp2PG5QnlIZ-N9c">
-  <meta name="theme-color" content="#0B1018">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#FBF8F3">
+  <meta name="color-scheme" content="light">
+  <title>Rishabh Thakur | UC Berkeley EECS</title>
   <link rel="canonical" href="https://rishabht.com/">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Rishabh Thakur">
-  <meta property="og:title" content="Rishabh Thakur | AI Research &amp; Software Engineering">
-  <meta property="og:description" content="EECS at UC Berkeley. Robot learning, multi-agent coordination, and building things that work on real hardware.">
-  <meta property="og:url" content="https://rishabht.com/">
-  <meta property="og:image" content="https://rishabht.com/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Rishabh Thakur's personal website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Rishabh Thakur | AI Research &amp; Software Engineering">
-  <meta name="twitter:description" content="EECS at UC Berkeley. Robot learning, multi-agent coordination, and building things that work on real hardware.">
-  <meta name="twitter:image" content="https://rishabht.com/og-image.png">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Rishabh Thakur",
-    "url": "https://rishabht.com/",
-    "email": "mailto:rishabh.thakur@berkeley.edu",
-    "affiliation": { "@type": "CollegeOrUniversity", "name": "University of California, Berkeley" },
-    "sameAs": ["https://github.com/rishabht22", "https://www.linkedin.com/in/rishabhthakur0"]
-  }
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
-  <link rel="stylesheet" href="/stylesheet.css?v=20261117-8">
-  <script>document.documentElement.classList.add('js');</script>
-  <script src="/site.js?v=20261117-8" defer></script>
+  <link rel="stylesheet" href="stylesheet.css?v=20261117">
+  <script src="navigation.js?v=20261017-3" defer></script>
 </head>
-<body data-page="home">
-  <a class="skip-link" href="#main">Skip to content</a>
-
+<body>
+  <a class="skip-link" href="#about">Skip to content</a>
   <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span></a>
-      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
-      <nav class="site-nav" id="site-nav" aria-label="Main">
-        <a href="/" aria-current="page">Home<b>.</b></a>
-        <a href="/projects/">Projects<b>.</b></a>
-        <a href="/notes/">Writing<b>.</b></a>
-        <a href="#contact">Contact<b>.</b></a>
+    <div class="header-inner">
+      <span class="site-name">Rishabh Thakur</span>
+      <nav aria-label="Main navigation">
+        <a href="./" aria-current="page">About</a>
+        <a href="coursework/">Coursework</a>
+        <a href="projects/">Projects</a>
+        <a href="notes/">Notes</a>
       </nav>
     </div>
   </header>
 
-  <main id="main">
-    <!-- 1. Intro ========================================================== -->
-    <section class="intro" aria-labelledby="intro-name">
-      <canvas class="swarm" aria-hidden="true"></canvas>
-      <div class="intro-inner wrap">
-        <p class="intro-hi" data-enter style="--d:0ms">Hi, I’m</p>
-        <h1 class="intro-name" id="intro-name" data-enter style="--d:80ms">Rishabh<span>.</span></h1>
-        <p class="typer" data-enter style="--d:220ms">
-          <span class="typer-prompt" aria-hidden="true">~/berkeley $</span>
-          <span class="typer-text" data-phrases='["I teach robots to work together.", "I train robot policies in MuJoCo.", "I write about the math behind them.", "I built competition robots for six seasons.", "I play soccer and take photos."]'>I teach robots to work together.</span><span class="typer-caret" aria-hidden="true"></span>
-        </p>
+  <main class="page home-page" id="about" aria-labelledby="site-title">
+    <div class="profile">
+      <img class="portrait" src="self-picture.jpeg" alt="Rishabh Thakur" width="400" height="400" fetchpriority="high">
+      <div class="profile-details">
+        <h1 class="page-heading" id="site-title">Rishabh Thakur</h1>
+        <dl class="contact-list">
+          <div><dt>email</dt><dd><a href="mailto:rishabh.thakur@berkeley.edu" target="_blank" rel="noopener noreferrer">rishabh.thakur@berkeley.edu</a></dd></div>
+        </dl>
       </div>
-      <p class="swarm-hint" aria-hidden="true">Each dot only sees its neighbors. Your cursor is one too.</p>
-      <a class="scroll-cue" href="#now">Scroll for more <span aria-hidden="true">↓</span></a>
-    </section>
-
-    <!-- 2. Counter + intro ================================================ -->
-    <section class="now wrap" id="now" aria-label="About me" data-reveal>
-      <p class="counter">
-        <span class="counter-value" data-since="2020-08-01T00:00:00-07:00" aria-hidden="true">6.000000000</span>
-        <span class="counter-unit">years of building robots</span>
-      </p>
-      <div class="now-body">
-        <img class="now-portrait" src="/self-picture.jpeg" alt="Portrait of Rishabh Thakur" width="400" height="400" loading="lazy" decoding="async">
-        <p>…and counting. I’m a student at <a class="pill pill-berkeley" href="https://www.berkeley.edu/" target="_blank" rel="noopener noreferrer">UC Berkeley</a> studying <span class="abbr" tabindex="0">EECS<span class="abbr-tip" role="tooltip">Electrical Engineering &amp; Computer Sciences</span></span> as a Regents’ and Chancellor’s Scholar. You’ll find me training robot policies, writing notes on the math, playing soccer, hunting for a new food spot, or taking photos.</p>
-      </div>
-    </section>
-
-    <!-- 3. Building things ================================================ -->
-    <section class="block wrap" id="projects" aria-labelledby="build-title">
-      <h2 class="block-title" id="build-title" data-reveal>Building things<span>.</span></h2>
-      <ul class="build-list" data-reveal>
-        <li>
-          <a class="build-row" href="/projects/arm-skill-comp/" data-preview="/projects/arm-skill-comp/showcase-side-by-side.webp">
-            <span class="build-name">ArmSkillComp</span>
-            <span class="build-desc">A small learned policy that picks which robot-arm skill to run next, and on which part, then re-decides after every step.</span>
-            <span class="badge badge-accent">99.7% success</span>
-          </a>
-        </li>
-        <li>
-          <a class="build-row" href="/projects/cupid/" data-preview="/projects/cupid/cupid-dark.webp">
-            <span class="build-name">Cupid</span>
-            <span class="build-desc">Our 2025–26 FTC robot. The full CAD assembly runs live in your browser: drag it, zoom it.</span>
-            <span class="badge">Live 3D</span>
-          </a>
-        </li>
-        <li>
-          <a class="build-row" href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">
-            <span class="build-name">Multi-agent coordination</span>
-            <span class="build-desc">Robots that only see their own surroundings, learning to coordinate by reusing skills they already have. At ICON Lab, BAIR.</span>
-            <span class="badge badge-live">In progress</span>
-          </a>
-        </li>
-        <li>
-          <a class="build-row" href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">
-            <span class="build-name">Robotic facial cues</span>
-            <span class="build-desc">Teaching robotic faces the small conversational cues that make talking to them feel natural. With the Berkeley Speech Group.</span>
-            <span class="badge badge-live">In progress</span>
-          </a>
-        </li>
-      </ul>
-      <a class="more-link" href="/projects/" data-reveal>See all projects <span class="arrow-right" aria-hidden="true">→</span></a>
-      <img class="row-preview" alt="" aria-hidden="true" width="320" height="200">
-    </section>
-
-    <!-- 4. Experience ===================================================== -->
-    <section class="block wrap" id="experience" aria-labelledby="exp-title">
-      <h2 class="block-label" id="exp-title" data-reveal>Experience</h2>
-      <ul class="chip-rows" data-reveal>
-        <li>
-          <a class="chip-org" href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab · BAIR</a>
-          <span class="chip">Multi-agent RL</span><span class="chip">Skill composition</span><span class="chip">Diffusion policies</span>
-          <span class="badge badge-accent">Started Oct 2026</span>
-        </li>
-        <li>
-          <a class="chip-org" href="https://ember-lab.eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer">Speech Group · EMBER</a>
-          <span class="chip">Robotic faces</span><span class="chip">Conversational cues</span>
-          <span class="badge badge-live">Now</span>
-        </li>
-        <li>
-          <a class="chip-org" href="https://www.ucsc.edu/" target="_blank" rel="noopener noreferrer">UC Santa Cruz</a>
-          <span class="chip">Visual odometry</span><span class="chip">Adversarial camera data</span>
-          <span class="badge">Summer 2025</span>
-        </li>
-        <li>
-          <a class="chip-org" href="https://www.respiris.com/" target="_blank" rel="noopener noreferrer">Respiris</a>
-          <span class="chip">Software engineer</span>
-          <span class="badge">Jan – Jul 2025</span>
-        </li>
-        <li>
-          <a class="chip-org" href="https://www.grasp.upenn.edu/" target="_blank" rel="noopener noreferrer">Penn GRASP Lab</a>
-          <span class="chip">Traffic drones</span><span class="chip">OpenCV</span><span class="chip">ROS</span><span class="chip">Kalman filtering</span>
-          <span class="badge">Oct 2024 – Apr 2025</span>
-        </li>
-      </ul>
-      <p class="aside-line" data-reveal>Advised by <a href="https://negarmehr.com/" target="_blank" rel="noopener noreferrer">Prof. Negar Mehr</a>, <a href="https://dayiethandong.com/" target="_blank" rel="noopener noreferrer">Dayi Ethan Dong</a>, and <a href="https://people.eecs.berkeley.edu/~sastry/" target="_blank" rel="noopener noreferrer">Prof. Shankar Sastry</a>.</p>
-    </section>
-
-    <!-- 5. Toolbox marquee ================================================ -->
-    <section class="block toolbox" aria-labelledby="tools-title">
-      <h2 class="block-label wrap" id="tools-title" data-reveal>Things I build with</h2>
-      <div class="marquee" data-reveal>
-        <ul class="marquee-track">
-          <li><b>PyTorch</b><span>policies</span></li>
-          <li><b>MuJoCo</b><span>simulation</span></li>
-          <li><b>ROS</b><span>robots</span></li>
-          <li><b>OpenCV</b><span>vision</span></li>
-          <li><b>Kalman filters</b><span>tracking</span></li>
-          <li><b>Diffusion policies</b><span>imitation</span></li>
-          <li><b>C++</b><span>classes</span></li>
-          <li><b>KaTeX</b><span>these notes</span></li>
-        </ul>
-        <ul class="marquee-track" aria-hidden="true">
-          <li><b>PyTorch</b><span>policies</span></li>
-          <li><b>MuJoCo</b><span>simulation</span></li>
-          <li><b>ROS</b><span>robots</span></li>
-          <li><b>OpenCV</b><span>vision</span></li>
-          <li><b>Kalman filters</b><span>tracking</span></li>
-          <li><b>Diffusion policies</b><span>imitation</span></li>
-          <li><b>C++</b><span>classes</span></li>
-          <li><b>KaTeX</b><span>these notes</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 6. Robotics ======================================================= -->
-    <section class="block wrap robotics" aria-labelledby="robotics-title">
-      <h2 class="visually-hidden" id="robotics-title">Competition robotics</h2>
-      <div class="stat-line" data-reveal>
-        <p class="stat"><span class="stat-big">#14</span><span class="stat-text">all-time in the FTC Hall of Fame<small>out of 30,000+ teams</small></span></p>
-        <p class="stat"><span class="stat-big">2×</span><span class="stat-text">World Championship qualifier<small>divisional semifinalist ’24</small></span></p>
-        <p class="stat"><span class="stat-big">’24</span><span class="stat-text">world record<small>since broken, still proud</small></span></p>
-      </div>
-      <p class="roles" data-reveal><span>Software Captain</span> <em>Innov8rz, FTC 11039 (’20–’26)</em> <span class="roles-sep" aria-hidden="true"></span> <span>NorCal Regional Champion</span> <em>2024</em></p>
-      <p class="callout" data-reveal>Our last robot is on here in full 3D. <a class="pill-link" href="/projects/cupid/">Spin Cupid around <span class="arrow" aria-hidden="true">↗</span></a></p>
-    </section>
-
-    <!-- 7. Writing ======================================================== -->
-    <section class="block wrap" id="writing" aria-labelledby="writing-title">
-      <h2 class="block-title" id="writing-title" data-reveal>I write things<span>.</span></h2>
-      <p class="block-lead" data-reveal>Mostly notes to myself. When something in a paper or lecture feels a little too easy, I work through the math until I actually believe it, then write it down so future me doesn’t have to do it again.</p>
-      <h3 class="block-label" data-reveal>Recent notes</h3>
-      <ul class="article-list" data-reveal>
-        <li>
-          <a href="/notes/residual-denoising/">
-            <span class="article-title">Residual Denoising vs. Action-Space Residuals in Diffusion Policies</span>
-            <span class="article-desc">Where should a correction live when you adapt a frozen diffusion policy? Score corrections, sampling dynamics, and when I’d use each.</span>
-            <time datetime="2026-10-16">Oct 16, 2026 · 6 min</time>
-          </a>
-        </li>
-        <li>
-          <a href="/notes/gradient-clipping/">
-            <span class="article-title">Bias and Convergence in Gradient-Clipped SGD</span>
-            <span class="article-desc">Clipping can flip the direction of an expected gradient. Also: why clip-then-average isn’t average-then-clip.</span>
-            <time datetime="2026-09-25">Sep 25, 2026 · 6 min</time>
-          </a>
-        </li>
-      </ul>
-      <a class="more-link" href="/notes/" data-reveal>See all notes <span class="arrow-right" aria-hidden="true">→</span></a>
-    </section>
-
-    <!-- 8. Math =========================================================== -->
-    <section class="block wrap" aria-labelledby="math-title">
-      <h2 class="block-title" id="math-title" data-reveal>Also, math<span>.</span></h2>
-      <ul class="math-grid" data-reveal>
-        <li><span class="math-big">1st</span><span>UC Berkeley Integration Bee</span><small>2026</small></li>
-        <li><span class="math-big">2×</span><span>AIME qualifier</span><small>high school</small></li>
-        <li><span class="math-big">4th</span><span>BMT Power Round</span><small>2025</small></li>
-        <li><span class="math-big">7×</span><span>SMT Distinguished Honor Roll</span><small>2025</small></li>
-      </ul>
-      <p class="aside-line" data-reveal>This term: CS 61A, CS 70, and EE 66. <a href="/coursework/">Full coursework <span class="arrow-right" aria-hidden="true">→</span></a></p>
-    </section>
-
-    <!-- 9. Contact ======================================================== -->
-    <section class="block wrap contact-block" id="contact" aria-labelledby="contact-title">
-      <h2 class="block-title" id="contact-title" data-reveal>Say hi<span>.</span></h2>
-      <p class="block-lead" data-reveal>I’m always up for talking about robot learning, multi-agent systems, or an ambitious idea that needs building. Email is the fastest way to reach me.</p>
-      <div class="email-row" data-reveal>
-        <a class="email-link" href="mailto:rishabh.thakur@berkeley.edu">rishabh.thakur@berkeley.edu</a>
-        <button class="copy-button" type="button" data-copy="rishabh.thakur@berkeley.edu" aria-describedby="copy-status">
-          <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
-          <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-          <span class="copy-label">Copy</span>
-        </button>
-        <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <p>© 2026 Rishabh Thakur · hand-written HTML, CSS, and a little JS</p>
-      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
     </div>
+    <div class="bio">
+        <p>I'm a <a href="https://www.berkeley.edu/" target="_blank" rel="noopener noreferrer">UC Berkeley</a> undergraduate studying Electrical Engineering and Computer Science (EECS) as a Regents’ and Chancellor’s Scholar.</p>
+        <h2>Current:</h2>
+        <ul>
+          <li>decentralized multi-agent robot learning with <a href="https://iconlab.negarmehr.com/" target="_blank" rel="noopener noreferrer">ICON Lab</a> at <a href="https://bair.berkeley.edu/" target="_blank" rel="noopener noreferrer">Berkeley AI Research</a>, advised by <a href="https://negarmehr.com/" target="_blank" rel="noopener noreferrer">Professor Negar Mehr</a> and <a href="https://dayiethandong.com/" target="_blank" rel="noopener noreferrer">Dayi Dong</a>.</li>
+          <li>conversational facial cue learning for robotic faces with the <a href="https://github.com/Berkeley-Speech-Group" target="_blank" rel="noopener noreferrer">Berkeley Speech Group</a> and <a href="https://ember-lab.eecs.berkeley.edu/" target="_blank" rel="noopener noreferrer">EMBER Center</a>, advised by <a href="https://people.eecs.berkeley.edu/~sastry/" target="_blank" rel="noopener noreferrer">Professor Shankar Sastry</a>.</li>
+        </ul>
+        <h2>Previous:</h2>
+        <ul>
+          <li>autonomous drones for traffic management at UPenn's GRASP Lab</li>
+          <li>autonomous vehicle perception &amp; safety research at UC Santa Cruz</li>
+          <li>software captain of Innov8rz, FTC Robotics Team 11039 (#14/30k)</li>
+        </ul>
+        <p>Outside of research and classes, I like playing soccer, finding new food spots to try, hiking, and taking cool photos!</p>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <p>© 2026 Rishabh Thakur</p>
   </footer>
-
-  <!-- Floating dock -->
-  <nav class="dock" aria-label="Elsewhere">
-    <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
-    </a>
-    <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
-    </a>
-    <a href="mailto:rishabh.thakur@berkeley.edu" aria-label="Email" title="Email">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
-    </a>
-    <span class="dock-sep" aria-hidden="true"></span>
-    <a href="#main" class="dock-top" aria-label="Back to top" title="Back to top">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
-    </a>
-  </nav>
 </body>
 </html>

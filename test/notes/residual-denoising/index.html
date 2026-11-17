@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Rishabh Thakur">
+  <meta name="description" content="Notes on the math behind action-space residuals and residual denoising, like score corrections, sampling, training, and when I'd use each one.">
+  <meta name="theme-color" content="#0B1018">
+  <meta name="color-scheme" content="dark">
+  <title>Residual Denoising vs. Action-Space Residuals in Diffusion Policies | Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/test/notes/residual-denoising/">
+  <link rel="icon" href="/test/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/test/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="/test/stylesheet.css?v=20261117-8">
+  <script>document.documentElement.classList.add('js');</script>
+  <script src="/test/site.js?v=20261117-8" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous"></script>
+  <script defer src="../math.js?v=20261102-1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#note">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="/test/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span class="brand-name">Rishabh Thakur</span></a>
+      <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
+      <nav class="site-nav" id="site-nav" aria-label="Main">
+        <a href="/test/">Home<b>.</b></a>
+        <a href="/test/projects/">Projects<b>.</b></a>
+        <a href="/test/notes/" aria-current="page">Writing<b>.</b></a>
+        <a href="/test/#contact">Contact<b>.</b></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page note-page" id="note">
+    <article>
+      <a class="back-link" href="../"><span class="arrow-left" aria-hidden="true">←</span> Notes</a>
+      <header class="note-header">
+        <p class="note-meta"><time datetime="2026-10-16">October 16, 2026</time> <span>robot learning · diffusion policies · 6 min read</span></p>
+        <h1 class="page-heading">Residual Denoising vs. Action-Space Residuals in Diffusion Policies</h1>
+      </header>
+
+      <h2>Intro</h2>
+      <p>Picture two robots cleaning a table. One moves a tray out of the way and the other wipes underneath it. They each know their own job. But if the first one puts the tray back too early, the second one can't finish.</p>
+      <p>One option is to keep the pretrained policies frozen and learn a correction on top <a href="#ref-5">[5]</a>. The obvious way is to add it to the final action. Residual denoising puts it inside the sampling process instead, at every step. I wanted to see how moving the correction changes the actions we end up with.</p>
+
+      <h2>Action-space residuals</h2>
+      <p>Let \(o\) be the robot's local observation and \(x\in\mathbb R^{Hd}\) a chunk of \(H\) actions, each with \(d\) coordinates <a href="#ref-1">[1]</a>. We sample a chunk from the base policy \(p_B\) and then add a correction.</p>
+      <div class="math-block">\[
+        x_B\sim p_B(\cdot\mid o),\qquad x_A=x_B+r_\phi(o,x_B).
+      \]</div>
+      <p>This is the idea from residual RL. The controller already does something useful, so we just learn what to add to it <a href="#ref-2">[2]</a>. You could also learn the correction from demonstrations.</p>
+      <p>First, say the residual only gets \(o\). Once the observation is fixed, every sampled chunk gets the same correction.</p>
+      <div class="math-block">\[
+        p_A(x\mid o)=p_B(x-r_\phi(o)\mid o),\qquad
+        \operatorname{Cov}(x_A\mid o)=\operatorname{Cov}(x_B\mid o).
+      \]</div>
+      <p>The distribution moves over but keeps its shape. Say the base samples \(-1\) or \(+1\) equally often. Adding a constant can't send both to \(+1\). The two outputs are still two units apart.</p>
+      <p>Now let the residual see the sample. If we pick \(r(x_B)=1-x_B\), both outputs go to \(+1\). So an action-space residual can change the shape of the distribution. We just have to be careful about which version we're comparing.</p>
+
+      <hr>
+      <h2>From a denoiser to a sampling direction</h2>
+      <p>Add Gaussian noise to a clean chunk to get \(y=x+\sigma\epsilon\), where \(\epsilon\sim\mathcal N(0,I)\). The noise level \(\sigma&gt;0\) controls how much noise we add. A denoiser \(D(y,\sigma,o)\) tries to get \(x\) back. With squared-error training, its best answer is the posterior mean, which is the average of the clean chunks that could have made \(y\), weighted by probability <a href="#ref-3">[3]</a>.</p>
+      <p>Call the noisy density \(p_\sigma\). If we differentiate its Gaussian convolution, we get</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        s_\sigma(y\mid o)
+        &amp;=\nabla_y\log p_\sigma(y\mid o)\\
+        &amp;=\mathbb E\!\left[\frac{x-y}{\sigma^2}\,\middle|\,y,o\right]
+        =\frac{D^*(y,\sigma,o)-y}{\sigma^2}.
+        \end{aligned}
+      \]</div>
+      <p>The gradient on the left is the <em>score</em>. It points toward noisy chunks that are more likely. A learned \(D\) gives us an estimate of it, and we can plug that into the probability-flow ODE <a href="#ref-3">[3]</a>, <a href="#ref-4">[4]</a>.</p>
+      <div class="math-block">\[
+        \frac{dy}{d\sigma}=-\sigma s_\sigma(y\mid o)
+        =\frac{y-D(y,\sigma,o)}{\sigma}.
+      \]</div>
+      <p>We follow this equation from high noise down toward zero. The observation stays fixed the whole time, and different starting noise gives different chunks. All of this happens before the robot does anything.</p>
+
+      <h2>Putting the residual inside the sampler</h2>
+      <p>Keep the base denoiser \(D_B\) frozen and learn \(D_R=D_B+\Delta_\phi\). The residual gets the noisy chunk, the noise level, and the local observation <a href="#ref-5">[5]</a>. Plug this into the score and ODE equations.</p>
+      <div class="math-block">\[
+        s_R=s_B+\frac{\Delta_\phi}{\sigma^2},\qquad
+        \frac{dy_R}{d\sigma}
+        =\frac{y_R-D_B(y_R,\sigma,o)}{\sigma}
+        -\frac{\Delta_\phi(y_R,\sigma,o)}{\sigma}.
+      \]</div>
+      <p>So we're changing the direction the sampler follows while it builds the chunk. This algebra works for the score estimates even if the networks aren't perfect.</p>
+      <p>The minus sign is easier to see in a discrete step. For decreasing noise levels \(\sigma_k\), let \(c_k=(\sigma_k-\sigma_{k+1})/\sigma_k\). An Euler step gives</p>
+      <div class="math-block">\[
+        y_{k+1}=(1-c_k)y_k+c_kD_B(y_k,\sigma_k,o)
+        +c_k\Delta_\phi(y_k,\sigma_k,o).
+      \]</div>
+      <p>The correction shows up as \(c_k\Delta_\phi\). It has a plus sign here because the step goes toward lower noise. I used Euler to keep the math short, but a higher-order solver would work too <a href="#ref-3">[3]</a>. These equations use clean-action predictions. With the same corruption rule, noise prediction gives \(D=y-\sigma\hat\epsilon\), so \(\Delta_D=-\sigma\Delta_\epsilon\).</p>
+
+      <h2>Why the final correction isn't just a sum</h2>
+      <p>After one correction, the next denoising step gets a different input. To see how this builds up, multiply the residual by \(\eta\) and start both samplers from the same noise. At \(\eta=0\) we just have the base sampler. Let \(v_k=\left.\partial y_k^\eta/\partial\eta\right|_{\eta=0}\), which tells us how the chunk starts to change when we turn the residual on. Differentiating gives</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        v_{k+1}&amp;=J_kv_k+c_k\Delta_k,\\
+        J_k&amp;=(1-c_k)I+c_k\nabla_yD_B(y_k^B,\sigma_k,o),
+        \end{aligned}
+      \]</div>
+      <p>Both \(\Delta_k\) and \(J_k\) are evaluated on the base path. The matrix \(J_k\) tells us how a change in the input passes through the next base step. Since \(v_0=0\), two steps give \(v_2=J_1c_0\Delta_0+c_1\Delta_1\). So the first correction goes through another step before it reaches the output, and that step can make it bigger, smaller, or rotate it. For small \(\eta\), the change after \(K\) steps is about \(\eta v_K\).</p>
+      <p>This means "small residual" needs some care. If we bound \(\|r\|\leq\varepsilon\), that directly bounds the output change before clipping. For a denoiser residual we also need to know how the later steps respond. And a small change in the action doesn't guarantee the robot moves safely.</p>
+
+      <hr>
+      <h2>What is the residual learning?</h2>
+      <p>For training, we take collaborative demonstrations \((x,o)\sim\mathcal D_C\), add noise to the chunks, and only update the adapter.</p>
+      <div class="math-block">\[
+        \mathcal L_C=\mathbb E_{\mathcal D_C,\sigma,\epsilon}
+        \left[w(\sigma)\left\|D_B(y,\sigma,o)+\Delta_\phi(y,\sigma,o)-x\right\|^2\right],
+        \quad y=x+\sigma\epsilon.
+      \]</div>
+      <p>If \(w(\sigma)&gt;0\) and the model is big enough, the best residual is \(\Delta^*=\mathbb E_C[x\mid y,\sigma,o]-D_B\). If the base is also an ideal denoiser, we can subtract their score identities.</p>
+      <div class="math-block">\[
+        \Delta^*(y,\sigma,o)=\sigma^2\nabla_y
+        \log\frac{p_{C,\sigma}(y\mid o)}{p_{B,\sigma}(y\mid o)}.
+      \]</div>
+      <p>I like this equation because it shows the ideal residual fixing the difference between the collaborative score and the base score. That difference can change which action modes the sampler prefers. Also, predicting a mean during training doesn't make every final sample the same. The mean depends on the noisy input, and that's different for each sample.</p>
+      <p>The adapter can still wreck an old skill even though the base weights never changed. One way to discourage that is to penalize \(\|\Delta_\phi\|^2\) on replay inputs from the original tasks <a href="#ref-5">[5]</a>. If the residual were zero along every source sampling path, we'd get the base back exactly. But a small penalty on training examples doesn't guarantee a zero residual on every path.</p>
+
+      <h2>Which would I use?</h2>
+      <p>If the plan is already good and the gripper just needs a small position fix, I'd start with an action-space residual. It adds one correction pass and could use a fresh observation after sampling. If coordination changes the whole action chunk, I'd try residual denoising. We can train it on noisy expert chunks with the denoising loss, but we pay for the adapter on every denoiser call.</p>
+      <p>I wouldn't say denoising is better just from this math. A strong output residual that sees the sample can change the distribution too. I'd want to compare them with the same base policy, data, and compute before deciding.</p>
+      <p>Both still rely on the robot's observations. Putting the correction inside the sampler won't tell a robot what its teammate is doing behind a box.</p>
+
+      <h2>Summary</h2>
+      <p>Action-space residuals edit a chunk after it's finished. Residual denoising changes the score by \(\Delta_\phi/\sigma^2\) while the chunk is being sampled, so the later steps affect how the correction reaches the output. Both can change the action distribution, and which one is better depends on the task and the compute budget.</p>
+
+      <hr>
+      <h2 id="references">References</h2>
+      <ol class="references">
+        <li id="ref-1">Cheng Chi et al. <a href="https://arxiv.org/abs/2303.04137" target="_blank" rel="noopener noreferrer">Diffusion Policy (Visuomotor Policy Learning via Action Diffusion)</a>. RSS, 2023.</li>
+        <li id="ref-2">Tobias Johannink et al. <a href="https://arxiv.org/abs/1812.03201" target="_blank" rel="noopener noreferrer">Residual Reinforcement Learning for Robot Control</a>. ICRA, 2019.</li>
+        <li id="ref-3">Tero Karras, Miika Aittala, Timo Aila, and Samuli Laine. <a href="https://arxiv.org/abs/2206.00364" target="_blank" rel="noopener noreferrer">Elucidating the Design Space of Diffusion-Based Generative Models</a>. NeurIPS, 2022.</li>
+        <li id="ref-4">Yang Song et al. <a href="https://arxiv.org/abs/2011.13456" target="_blank" rel="noopener noreferrer">Score-Based Generative Modeling through Stochastic Differential Equations</a>. ICLR, 2021.</li>
+        <li id="ref-5">Dayi Dong, Maulik Bhatt, Aayushi Shrivastava, Lasse Peters, and Negar Mehr. <a href="https://arxiv.org/abs/2609.32129" target="_blank" rel="noopener noreferrer">Residual Denoising Enables Sample-Efficient Multi-Agent Coordination on Demand</a>. 2026.</li>
+      </ol>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© 2026 Rishabh Thakur</p>
+      <nav class="footer-links" aria-label="Elsewhere">
+        <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="mailto:rishabh.thakur@berkeley.edu">Email</a>
+      </nav>
+      <p class="footer-clock" data-clock aria-label="Local time in Berkeley"></p>
+    </div>
+  </footer>
+  <!-- Floating dock -->
+  <nav class="dock" aria-label="Elsewhere">
+    <a href="https://github.com/rishabht22" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/rishabhthakur0" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>
+    </a>
+    <a href="mailto:rishabh.thakur@berkeley.edu" aria-label="Email" title="Email">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+    </a>
+    <span class="dock-sep" aria-hidden="true"></span>
+    <a href="#main" class="dock-top" aria-label="Back to top" title="Back to top">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+    </a>
+  </nav>
+</body>
+</html>
