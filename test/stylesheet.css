@@ -1775,7 +1775,7 @@ body::after {
   pointer-events: none;
   background:
     radial-gradient(ellipse 34% 26% at 50% 50%, rgba(14, 14, 15, .55), rgba(14, 14, 15, 0)),
-    linear-gradient(to bottom, rgba(14, 14, 15, 0) 72%, var(--bg));
+    linear-gradient(to bottom, rgba(14, 14, 15, 0) 88%, var(--bg));
 }
 .hero3-inner { text-align: center; pointer-events: none; }
 .hero3 [data-enter] { animation: rise 700ms var(--ease) both; animation-delay: var(--d, 0ms); }
