@@ -2189,3 +2189,4 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
 @media (max-width: 560px) { .rail { display: none; } }
 /* The rail replaces the old sweep underline on rows. */
 .has-rail .row::before { display: none; }
+.copy-label { display: inline-block; min-width: 6ch; text-align: left; }

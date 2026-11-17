@@ -110,12 +110,13 @@
         field.remove();
       }
       button.classList.add('is-copied');
-      if (label) label.textContent = 'Copied';
+      const setLabel = (t) => { if (!label) return; if (window.Motion?.decode) window.Motion.decode(label, t, { duration: 260, stagger: 30, jitter: 30 }); else label.textContent = t; };
+      setLabel('Copied');
       if (status) status.textContent = 'Email address copied to clipboard.';
       window.clearTimeout(timer);
       timer = window.setTimeout(() => {
         button.classList.remove('is-copied');
-        if (label) label.textContent = 'Copy';
+        setLabel('Copy');
         if (status) status.textContent = '';
       }, 1800);
     });
