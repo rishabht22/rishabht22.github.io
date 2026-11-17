@@ -2169,3 +2169,23 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
   transition: opacity 200ms var(--ease);
   box-shadow: 0 30px 60px rgba(0, 0, 0, .55), 0 0 0 1px rgba(91, 147, 255, .16);
 }
+
+/* Spring rail beside lists */
+.has-rail { position: relative; }
+.rail {
+  position: absolute;
+  top: 0;
+  left: -22px;
+  width: 2px;
+  height: 1px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform-origin: 50% 0;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+@media (max-width: 1240px) { .rail { left: -12px; } }
+@media (max-width: 560px) { .rail { display: none; } }
+/* The rail replaces the old sweep underline on rows. */
+.has-rail .row::before { display: none; }
