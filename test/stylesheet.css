@@ -2160,3 +2160,4 @@ html:not(.js) .scribble path { stroke-dashoffset: 0; }
   .site-nav.has-indicator a::after { display: none; }
 }
 @media (max-width: 760px) { .nav-indicator { display: none; } }
+.nav-label { display: inline-block; white-space: nowrap; }

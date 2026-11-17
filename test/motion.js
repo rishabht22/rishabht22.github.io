@@ -159,8 +159,14 @@
       span.className = 'nav-label';
       span.textContent = textNode.textContent;
       a.replaceChild(span, textNode);
-      a.addEventListener('pointerenter', () => { if (desktop.matches) go(a); });
-      a.addEventListener('focus', () => { if (desktop.matches) go(a); });
+      const word = span.textContent;
+      const scramble = () => {
+        // Lock the width first so the decode never nudges neighbouring links.
+        span.style.width = `${span.getBoundingClientRect().width}px`;
+        decode(span, word, { duration: 260, stagger: 22, jitter: 40 }).then(() => { span.style.width = ''; });
+      };
+      a.addEventListener('pointerenter', () => { if (desktop.matches) { go(a); scramble(); } });
+      a.addEventListener('focus', () => { if (desktop.matches) { go(a); scramble(); } });
     });
     nav.addEventListener('pointerleave', () => go(home));
     nav.addEventListener('focusout', (e) => { if (!nav.contains(e.relatedTarget)) go(home); });
