@@ -75,7 +75,7 @@ ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.
     if (active) {
       stage.setAttribute('role', 'dialog');
       stage.setAttribute('aria-modal', 'true');
-      stage.setAttribute('aria-label', 'Cupid 3D model');
+      stage.setAttribute('aria-label', `${document.getElementById('project-heading')?.textContent.trim() || 'Robot'} 3D model`);
       expand.focus();
     } else {
       stage.removeAttribute('role');
