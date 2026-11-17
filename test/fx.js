@@ -212,4 +212,56 @@
       a.addEventListener('focus', run);
     });
   }
+
+  /* ---------- Notes that demonstrate themselves ---------- */
+  // Hover or keyboard-focus a note: a small plot computes the note's idea live
+  // (see demos.js) and draws it in about a second, then holds still.
+  if (window.NoteDemos) {
+    document.querySelectorAll('.notes3 a[data-demo]').forEach((a) => {
+      const demo = window.NoteDemos.DEMOS[a.dataset.demo];
+      if (!demo) return;
+      const W = 190;
+      const H = 54;
+      const wrap = document.createElement('span');
+      wrap.className = 'note-demo';
+      wrap.setAttribute('aria-hidden', 'true');
+      const canvas = document.createElement('canvas');
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = `${W}px`;
+      canvas.style.height = `${H}px`;
+      const caption = document.createElement('span');
+      caption.className = 'note-demo-caption';
+      caption.textContent = demo.caption;
+      wrap.append(canvas, caption);
+      a.append(wrap);
+      const g = canvas.getContext('2d');
+      g.scale(dpr, dpr);
+      let data = null;
+      let raf = 0;
+      let lastRun = -1e9;
+      const run = () => {
+        wrap.classList.add('is-on');
+        if (performance.now() - lastRun < 2500) return;
+        lastRun = performance.now();
+        data = data || demo.data();
+        cancelAnimationFrame(raf);
+        const t0 = performance.now();
+        const frame = (now) => {
+          const k = Math.min(1, (now - t0) / 1100);
+          const p = 1 - (1 - k) ** 3;
+          g.clearRect(0, 0, W, H);
+          demo.draw(g, W, H, data, p);
+          if (k < 1) raf = requestAnimationFrame(frame);
+        };
+        raf = requestAnimationFrame(frame);
+      };
+      const stop = () => wrap.classList.remove('is-on');
+      a.addEventListener('mouseenter', run);
+      a.addEventListener('focus', run);
+      a.addEventListener('mouseleave', stop);
+      a.addEventListener('blur', stop);
+    });
+  }
 })();
