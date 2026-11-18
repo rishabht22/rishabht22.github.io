@@ -12,7 +12,6 @@
   const gripper = art.querySelector('.hero-arm-gripper');
   const status = hero.querySelector('#hero-arm-status');
   const hint = hero.querySelector('#hero-arm-hint');
-  const mode = hero.querySelector('#hero-arm-mode');
   const reset = hero.querySelector('#hero-arm-reset');
   const coarse = matchMedia('(pointer: coarse)');
   const extension = new Spring(0, { stiffness: 670, damping: 50 });
@@ -43,7 +42,6 @@
   let suppressUntil = 0;
   let returning = false;
   let restoring = [];
-  let arranging = false;
   let bounds;
   let scrollLeft = scrollX;
   let scrollTop = scrollY;
@@ -153,17 +151,13 @@
   }
 
   function syncControls() {
-    mode.setAttribute('aria-pressed', String(arranging));
-    mode.textContent = arranging ? 'Done' : 'Move text';
-    document.body.classList.toggle('hero-arranging-text', arranging);
     const wasMoving = hero.classList.contains('is-moving-text');
     const moving = Boolean(selection) || restoring.length > 0;
     hero.classList.toggle('is-moving-text', moving);
     if (wasMoving !== moving) hero.dispatchEvent(new Event('hero-move-state'));
     hint.textContent = restoring.length ? 'Resetting…' : selection
       ? (coarse.matches ? 'Tap to place.' : 'Click to place.')
-      : (arranging ? (coarse.matches ? 'Tap text to pick up.' : 'Drag or click text.')
-        : (coarse.matches ? 'Tap a word to move it.' : 'Drag or click a word.'));
+      : (coarse.matches ? 'Tap a word to move it.' : 'Drag or click a word.');
   }
 
   function release() {
@@ -299,7 +293,7 @@
     const item = items.get(event.target.closest('[data-move-text]'));
     cancelGesture();
     gesture = { id: event.pointerId, item, start: fromClient(event), placing: Boolean(selection) };
-    if (item?.element.matches('a') && !arranging && !selection && event.pointerType === 'touch') {
+    if (item?.element.matches('a') && !selection && event.pointerType === 'touch') {
       gesture.timer = setTimeout(() => {
         if (pick(item)) gesture.longPress = true;
       }, 350);
@@ -360,7 +354,7 @@
       return;
     }
     const item = items.get(event.target.closest('[data-move-text]'));
-    if (!item || (item.element.matches('a') && !arranging) || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+    if (!item || item.element.matches('a') || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
     if (!selection && pick(item, event.detail && event.pointerType !== 'touch' ? fromClient(event) : null)) {
       event.preventDefault();
       event.stopPropagation();
@@ -369,11 +363,9 @@
 
   const increments = { ArrowLeft: [-24, 0], ArrowRight: [24, 0], ArrowUp: [0, -24], ArrowDown: [0, 24] };
   document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && (selection || arranging)) {
+    if (event.key === 'Escape' && selection) {
       cancelPick();
       cancelGesture();
-      arranging = false;
-      syncControls();
       return;
     }
     const item = items.get(event.target.closest('[data-move-text]'));
@@ -393,16 +385,9 @@
     }
   });
 
-  mode.addEventListener('click', () => {
-    arranging = !arranging;
-    if (!arranging && selection) place(selection.point, true);
-    syncControls();
-  });
-
   reset.addEventListener('click', () => {
     if (restoring.length) return;
     cancelGesture();
-    arranging = false;
     returning = false;
     // Capture the painted positions, reset the layout, then animate between them.
     // Measuring after the text reset accounts for any change in the tagline width.
