@@ -165,7 +165,8 @@ vendor/               model-viewer 4.4.0 + Draco decoder.
 - Both FTC project pages show the season and live CAD. Cupid’s former
   write-up and media can be restored from commit 15926f5.
 - Regenerated both CAD posters on the matte background and tuned Purple Emperor's
-  web-model materials. The material edit leaves the compressed web geometry intact.
+  web-model materials. Its clear polycarbonate guards have a separate transparent
+  material. The compressed opaque geometry remains intact.
 - Project cards link across their full area. FTC previews use the CAD posters.
 
 
