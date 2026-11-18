@@ -110,7 +110,7 @@
       frame = window.requestAnimationFrame(loop);
     };
     function wake() {
-      if (running || !onScreen || document.hidden) return;
+      if (running || !onScreen || document.hidden || hero.classList.contains('is-moving-text')) return;
       if (reducedMotion.matches) {
         draw(performance.now());
         return;
@@ -126,7 +126,7 @@
     /* ---------- Input ---------- */
     const local = (e) => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
     hero.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse' || reducedMotion.matches) return;
+      if (e.pointerType !== 'mouse' || reducedMotion.matches || hero.classList.contains('is-moving-text')) return;
       const p = local(e);
       pointer.x = p.x; pointer.y = p.y; pointer.on = true;
       wake();
@@ -134,6 +134,15 @@
     hero.addEventListener('pointerleave', () => {
       pointer.on = false;
       wake();
+    });
+
+    // Keep the dot field still while the foreground text is moving.
+    hero.addEventListener('hero-move-state', () => {
+      if (hero.classList.contains('is-moving-text')) {
+        pointer.on = false;
+        running = false;
+        cancelAnimationFrame(frame);
+      } else wake();
     });
 
     /* ---------- Intro: the dots spell the name ---------- */

@@ -69,7 +69,7 @@
   font: 11px/1.4 var(--font-mono);
 }
 
-#hero-arm-reset {
+#hero-arm-mode, #hero-arm-reset {
   padding: 6px 0 6px 2px;
   border: 0;
   background: none;
@@ -77,12 +77,14 @@
   font: inherit;
 }
 
-#hero-arm-reset:hover { text-decoration: underline; }
+#hero-arm-mode:hover, #hero-arm-reset:hover { text-decoration: underline; }
+#hero-arm-mode[aria-pressed="true"] { color: var(--text); }
+.hero-arranging-text [data-move-text] { touch-action: none; }
 .hero3 .scroll-cue { z-index: 4; }
 
 @media (max-width: 760px) {
   .hero-arm-controls { bottom: 56px; }
-  #hero-arm-reset { padding-block: 10px; }
+  #hero-arm-mode, #hero-arm-reset { padding-block: 10px; }
 }
 
 @media (max-height: 480px) and (orientation: landscape) {
