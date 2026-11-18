@@ -955,8 +955,15 @@ a:focus-visible .arrow-right { transform: translateX(3px); }
 .cad-stage {
   position: relative;
   isolation: isolate;
+  width: 100%;
+  max-width: none;
+  max-height: none;
   height: min(560px, 70vh);
   min-height: 380px;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  transition-property: none;
   overflow: hidden;
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
@@ -979,15 +986,23 @@ a:focus-visible .arrow-right { transform: translateX(3px); }
 .cad-caption { margin-top: 14px; color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
 .cad-caption p { margin: 0; }
 .cad-error { margin-top: 18px; color: var(--muted); }
-.cad-stage.is-expanded { position: fixed; inset: 16px; z-index: 100; width: auto; height: auto; }
-body.viewer-open { overflow: hidden; }
-body.viewer-open::before { content: ""; position: fixed; inset: 0; z-index: 99; background: var(--bg); }
+.cad-stage.is-expanded {
+  position: fixed;
+  inset: 0;
+  height: 100%;
+  height: 100dvh;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--bg);
+}
+.cad-stage::backdrop { background: var(--bg); }
+html:has(.cad-stage.is-expanded) { overflow: hidden; }
 .project-prose { max-width: 640px; margin-top: 44px; color: var(--text-2); font-size: 17px; line-height: 1.75; }
 .project-prose h2 { margin: 0 0 12px; color: var(--text); font-size: 22px; letter-spacing: -.02em; }
 
 @media (max-width: 620px) {
   .cad-stage { height: 420px; }
-  .cad-stage.is-expanded { inset: 8px; }
   .note-page { font-size: 16px; }
   .note-page h2 { font-size: 21px; }
   .note-page pre { padding: 14px; }
