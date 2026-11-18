@@ -219,6 +219,7 @@
     hero?.addEventListener('reset-hero-text', () => {
       index = 0;
       decode(word, words[0], { duration: 0, stagger: 0, jitter: 0 });
+      word.textContent = words[0];
     });
     window.setInterval(() => {
       if (document.hidden || !visible || hero?.classList.contains('is-moving-text') || rotator.closest('.arm-displaced')) return;

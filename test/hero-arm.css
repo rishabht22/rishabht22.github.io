@@ -10,7 +10,7 @@
   user-select: none;
 }
 
-[data-page="home"] .site-header.is-scrolled [data-move-text] { translate: none; }
+[data-page="home"] .site-header.is-scrolled [data-move-text] { translate: none !important; }
 
 .hero3-inner { position: relative; z-index: 1; }
 
@@ -92,4 +92,5 @@
   .hero3-name { font-size: clamp(72px, 12vh, 116px); }
 }
 
-.site-header:not(.is-scrolled):has(.arm-displaced) .nav-indicator { visibility: hidden; }
+.site-header:not(.is-scrolled):has(.arm-displaced) .nav-indicator,
+.hero-resetting-text .site-header .nav-indicator { visibility: hidden; }

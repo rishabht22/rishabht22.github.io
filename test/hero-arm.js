@@ -15,9 +15,15 @@
   const mode = hero.querySelector('#hero-arm-mode');
   const reset = hero.querySelector('#hero-arm-reset');
   const coarse = matchMedia('(pointer: coarse)');
-  const extension = new Spring(0, { stiffness: 310, damping: 34 });
+  const extension = new Spring(0, { stiffness: 670, damping: 50 });
   const claw = new Spring(1, { stiffness: 310, damping: 34 });
-  const resetProgress = new Spring(0, { stiffness: 210, damping: 29 });
+  const resetDuration = 860;
+  // Sample the displacement of a critically damped spring for compositor playback.
+  const returnCurve = Array.from({ length: 53 }, (_, i) => {
+    const time = 8.7 * i / 52;
+    return (1 + time) * Math.exp(-time);
+  });
+  const restFraction = returnCurve.at(-1);
   const restAngles = [-2.57, -.74, -.44];
   const items = new Map([...document.querySelectorAll('[data-move-text]')].map(element => [
     element, { element, dx: 0, dy: 0 },
@@ -72,6 +78,10 @@
     needsSolve = true;
   }
 
+  function aimAtPointer(point) {
+    aim({ x: clamp(point.x, 6, bounds.width - 6), y: clamp(point.y, 6, bounds.height - 10) });
+  }
+
   function draw() {
     const points = arm.fk();
     const tip = points.at(-1);
@@ -110,26 +120,13 @@
       claw.step(dt);
     }
 
-    if (restoring.length) {
-      if (immediate) resetProgress.set(0);
-      else resetProgress.step(dt);
-      const done = resetProgress.settled || resetProgress.value < .004;
-      const fraction = done ? 0 : Math.max(0, resetProgress.value);
-      for (const { item, dx, dy } of restoring) moveText(item, dx * fraction, dy * fraction);
-      if (done) {
-        restoring = [];
-        status.textContent = 'Hero text restored.';
-        syncControls();
-      }
-    }
-
     if (returning && (immediate || (extension.settled && !arm.moving) ||
         (distance(arm.effector(), target) < 3 && Math.max(...arm.qd.map(Math.abs)) < .55))) {
       returning = false;
       aim(home, false);
     }
     draw();
-    return needsSolve || !extension.settled || arm.moving || !claw.settled || restoring.length > 0;
+    return needsSolve || !extension.settled || arm.moving || !claw.settled;
   }
 
   function stop() {
@@ -176,6 +173,21 @@
     syncControls();
   }
 
+  function finishReset(animations) {
+    if (restoring !== animations) return;
+    restoring = [];
+    document.body.classList.remove('hero-resetting-text');
+    status.textContent = 'Hero text restored.';
+    syncControls();
+  }
+
+  function syncAnimationVisibility() {
+    for (const animation of restoring) {
+      if (onScreen && !document.hidden && animation.playState === 'paused') animation.play();
+      else if ((!onScreen || document.hidden) && animation.playState === 'running') animation.pause();
+    }
+  }
+
   function cancelGesture() {
     if (!gesture) return;
     clearTimeout(gesture.timer);
@@ -190,7 +202,10 @@
     if (unchanged || !width || !height) return;
     stop();
     cancelGesture();
-    restoring = [];
+    if (restoring.length) {
+      restoring.forEach(animation => animation.cancel());
+      finishReset(restoring);
+    }
     returning = false;
     release();
     items.forEach(item => moveText(item, 0, 0));
@@ -198,7 +213,7 @@
     reach = wide ? height * .69 : Math.min(width * .81, height * .65);
     lengths = [.45, .38, .17].map(ratio => reach * ratio);
     const mount = { x: wide ? width * .79 : width - 25, y: height - (wide ? 54 : 92) };
-    arm = new window.Arm(mount, lengths, { stiffness: 320, dampingRatio: 1, floor: mount.y - 2 });
+    arm = new window.Arm(mount, lengths, { stiffness: 590, dampingRatio: 1, floor: height - 3 });
     arm.q = restAngles.slice();
     home = arm.effector();
     base.setAttribute('x', mount.x - 22);
@@ -232,7 +247,7 @@
     claw.target = 0;
     status.textContent = `Holding ${name(item)}. Choose a place to drop it.`;
     syncControls();
-    aim(point);
+    aimAtPointer(pointer ?? point);
     wake();
     return true;
   }
@@ -246,10 +261,10 @@
     };
     const next = selection.point;
     moveText(item, next.x - origin.x, next.y - origin.y);
-    aim(next);
+    aimAtPointer({ x: next.x - selection.offset.x, y: next.y - selection.offset.y });
     if (drop) {
       status.textContent = `Placed ${name(item)}.`;
-      returning = true;
+      returning = coarse.matches;
       release();
     }
     wake();
@@ -305,11 +320,20 @@
     if (selection) {
       if (gesture?.dragging || (!gesture && event.pointerType === 'mouse' &&
           hero.contains(event.target) && !event.target.closest(controls))) placeAtPointer(point);
-    } else if (!returning && !restoring.length && event.pointerType === 'mouse' && !reducedMotion.matches) {
-      const nearby = hero.contains(event.target) && distance(point, arm.base) < reach * .87 && point.y < arm.base.y - 14;
-      aim(nearby ? point : home, false);
+    } else if (event.pointerType === 'mouse' && !reducedMotion.matches) {
+      returning = false;
+      const inside = point.x >= 0 && point.x <= bounds.width && point.y >= 0 && point.y <= bounds.height;
+      if (inside) aimAtPointer(point);
+      else aim(home, false);
       wake();
     }
+  });
+
+  document.documentElement.addEventListener('pointerleave', event => {
+    if (event.pointerType !== 'mouse' || selection) return;
+    returning = false;
+    aim(home, false);
+    wake();
   });
 
   document.addEventListener('pointerup', event => {
@@ -376,19 +400,37 @@
   });
 
   reset.addEventListener('click', () => {
+    if (restoring.length) return;
     cancelGesture();
     arranging = false;
     returning = false;
-    restoring = [...items.values()].filter(item => item.dx || item.dy).map(item => ({
-      item, dx: item.dx, dy: item.dy,
-    }));
-    resetProgress.set(1);
-    resetProgress.target = 0;
+    // Capture the painted positions, reset the layout, then animate between them.
+    // Measuring after the text reset accounts for any change in the tagline width.
+    const before = [...items.values()].map(item => ({ item, rect: item.element.getBoundingClientRect() }));
+    hero.dispatchEvent(new Event('reset-hero-text'));
+    items.forEach(item => moveText(item, 0, 0));
+    if (!reducedMotion.matches && typeof reset.animate === 'function') {
+      restoring = before.map(({ item, rect }) => {
+        const next = item.element.getBoundingClientRect();
+        return { element: item.element, dx: rect.left - next.left, dy: rect.top - next.top, width: rect.width };
+      }).filter(({ element, dx, dy, width }) => width && Math.hypot(dx, dy) >= .5 &&
+        getComputedStyle(element).visibility !== 'hidden').map(({ element, dx, dy }) => {
+        const keyframes = returnCurve.map(value => {
+          const fraction = (value - restFraction) / (1 - restFraction);
+          return { translate: `${dx * fraction}px ${dy * fraction}px` };
+        });
+        return element.animate(keyframes, { duration: resetDuration, fill: 'backwards' });
+      });
+    }
+    document.body.classList.toggle('hero-resetting-text', restoring.length > 0);
     release();
     aim(home, false);
-    hero.dispatchEvent(new Event('reset-hero-text'));
-    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
     status.textContent = restoring.length ? 'Returning the hero text.' : 'Hero text restored.';
+    if (restoring.length) {
+      const animations = restoring;
+      Promise.allSettled(animations.map(animation => animation.finished)).then(() => finishReset(animations));
+      syncAnimationVisibility();
+    }
     wake();
   });
 
@@ -396,13 +438,19 @@
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => {
       onScreen = entry.isIntersecting;
+      syncAnimationVisibility();
       if (onScreen) wake();
       else stop();
     }).observe(hero);
   }
-  reducedMotion.addEventListener('change', () => { stop(); wake(); });
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) restoring.forEach(animation => animation.finish());
+    stop();
+    wake();
+  });
   coarse.addEventListener('change', syncControls);
   document.addEventListener('visibilitychange', () => {
+    syncAnimationVisibility();
     if (document.hidden) stop();
     else wake();
   });
