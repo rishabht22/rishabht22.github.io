@@ -2,44 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Rishabh Thakur">
-  <meta name="description" content="Interactive 3D CAD assembly of Cupid, our robot for the 2025–2026 FTC DECODE season.">
+  <meta name="description" content="Explore the interactive 3D CAD assembly of Purple Emperor, our robot for the 2024–2025 FIRST Tech Challenge INTO THE DEEP season.">
   <meta name="theme-color" content="#0E0E0F">
   <meta name="color-scheme" content="dark">
-  <title>Cupid | Rishabh Thakur</title>
-  <meta property="og:title" content="Cupid | Rishabh Thakur">
-  <meta property="og:description" content="FTC Decode Season 2025-2026">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rishabht.com/test/projects/cupid/">
-  <meta property="og:image" content="https://rishabht.com/test/projects/cupid/cupid-dark.webp?v=30">
-  <meta property="og:image:alt" content="3D CAD render of the Cupid robot.">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://rishabht.com/test/projects/cupid/">
-  <link rel="icon" href="/test/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/test/apple-touch-icon.png">
+  <title>Purple Emperor — Rishabh Thakur</title>
+  <link rel="canonical" href="https://rishabht.com/projects/purple-emperor/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
-  <link rel="stylesheet" href="/test/stylesheet.css?v=35">
+  <link rel="stylesheet" href="/stylesheet.css?v=35">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="/test/motion.js?v=30" defer></script>
-  <script src="/test/site.js?v=30" defer></script>
-  <script type="module" src="viewer.js?v=32"></script>
+  <script src="/motion.js?v=29" defer></script>
+  <script src="/site.js?v=30" defer></script>
+  <script type="module" src="/projects/cupid/viewer.js?v=32"></script>
 </head>
 <body>
   <a class="skip-link" href="#project-content">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/test/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span class="brand-name">Rishabh Thakur</span></a>
+      <a class="brand" href="/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span><span class="brand-name">Rishabh Thakur</span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
-        <a href="/test/">Home<b>.</b></a>
-        <a href="/test/projects/" aria-current="page">Projects<b>.</b></a>
-        <a href="/test/notes/">Notes<b>.</b></a>
-        <a href="/test/coursework/">Coursework<b>.</b></a>
-        <a href="/test/#contact">Contact<b>.</b></a>
+        <a href="/">Home<b>.</b></a>
+        <a href="/projects/" aria-current="page">Projects<b>.</b></a>
+        <a href="/notes/">Notes<b>.</b></a>
+        <a href="/coursework/">Coursework<b>.</b></a>
+        <a href="/#contact">Contact<b>.</b></a>
       </nav>
     </div>
   </header>
@@ -48,17 +40,17 @@
     <a class="project-back" href="../"><span class="arrow-left" aria-hidden="true">←</span> Projects</a>
     <div class="brief-overview">
       <header class="project-header">
-        <h1 class="page-heading" id="project-heading" style="view-transition-name: title-cupid">Cupid</h1>
-        <p class="project-lead">FTC Decode Season 2025-2026</p>
+        <h1 class="page-heading" id="project-heading" style="view-transition-name: title-purple">Purple Emperor</h1>
+        <p class="project-lead">FTC Into the Deep Season 2024-2025</p>
       </header>
       <div class="brief-cad">
-        <dialog class="cad-stage" id="cad-stage" open role="region" aria-label="Cupid 3D model">
+        <dialog class="cad-stage" id="cad-stage" open role="region" aria-label="Purple Emperor 3D model">
           <span class="cad-label">3D CAD</span>
-          <model-viewer id="cupid-viewer" data-src="cupid-final.glb" poster="cupid-dark.webp?v=30"
-            alt="Interactive 3D CAD assembly of the Cupid robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
+          <model-viewer id="cupid-viewer" data-src="purple-emperor.glb?v=32" poster="purple-emperor.webp?v=32"
+            alt="Interactive 3D CAD assembly of the Purple Emperor robot. Drag to rotate, scroll or pinch to zoom, and use arrow keys to orbit."
             auto-rotate-delay="0" rotation-per-second="20deg"
             camera-controls touch-action="pan-y" interaction-prompt="none"
-            camera-orbit="35deg 65deg 125%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
+            camera-orbit="35deg 68deg 125%" field-of-view="35deg" min-camera-orbit="auto 5deg 20%" max-camera-orbit="auto 175deg 250%"
             shadow-intensity="0.5" shadow-softness="0.8" exposure="1.1" environment-image="neutral" loading="eager">
             <div slot="progress-bar" class="cad-progress" id="cad-progress">
               <p id="cad-loading" role="status">Loading CAD…</p>
@@ -83,6 +75,7 @@
         <p class="cad-error" id="cad-error" hidden role="status">The 3D model couldn’t load. <button type="button" id="retry-model">Try again</button></p>
       </div>
     </div>
+
   </main>
   <footer class="site-footer">
     <div class="wrap footer-inner">

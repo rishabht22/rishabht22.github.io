@@ -5,13 +5,13 @@ ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.
 (() => {
   const viewer = document.querySelector('#cupid-viewer');
   const stage = document.querySelector('#cad-stage');
+  const defaultOrbit = viewer.getAttribute('camera-orbit');
   const rotate = document.querySelector('#rotate-model');
   const reset = document.querySelector('#reset-model');
   const expand = document.querySelector('#expand-model');
   const progress = document.querySelector('#cad-progress');
   const error = document.querySelector('#cad-error');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  let previousFocus;
   let lastProgress = -1;
 
   viewer.addEventListener('progress', (event) => {
@@ -57,48 +57,49 @@ ModelViewerElement.dracoDecoderLocation = new URL("../../vendor/draco/", import.
   reset.addEventListener('click', () => {
     setRotation(false);
     viewer.resetTurntableRotation();
-    viewer.cameraOrbit = '35deg 65deg 130%';
+    viewer.cameraOrbit = defaultOrbit;
     viewer.cameraTarget = 'auto auto auto';
     viewer.fieldOfView = '35deg';
     if (reducedMotion.matches) viewer.jumpCameraToGoal();
   });
   function setExpanded(active) {
-    if (active) previousFocus = document.activeElement;
+    // Switch the same viewer between inline and modal display without reloading it.
+    stage.close();
     stage.classList.toggle('is-expanded', active);
-    document.body.classList.toggle('viewer-open', active);
+    stage.setAttribute('role', active ? 'dialog' : 'region');
+    if (active) stage.showModal();
+    else stage.setAttribute('open', '');
     expand.setAttribute('aria-expanded', String(active));
     const label = active ? 'Close full screen' : 'Full screen';
     expand.setAttribute('aria-label', label);
     expand.title = label;
     expand.querySelector('.expand-corners').toggleAttribute('hidden', active);
     expand.querySelector('.collapse-corners').toggleAttribute('hidden', !active);
-    if (active) {
-      stage.setAttribute('role', 'dialog');
-      stage.setAttribute('aria-modal', 'true');
-      stage.setAttribute('aria-label', 'Cupid 3D model');
-      expand.focus();
-    } else {
-      stage.removeAttribute('role');
-      stage.removeAttribute('aria-modal');
-      stage.removeAttribute('aria-label');
-      previousFocus?.focus();
-    }
+    expand.focus({ preventScroll: true });
   }
-  expand.addEventListener('click', () => setExpanded(!stage.classList.contains('is-expanded')));
-  document.addEventListener('keydown', (event) => {
-    if (!stage.classList.contains('is-expanded')) return;
-    if (event.key === 'Escape') {
+  if (typeof stage.showModal === 'function') {
+    expand.addEventListener('click', () => setExpanded(!stage.classList.contains('is-expanded')));
+    stage.addEventListener('cancel', (event) => {
       event.preventDefault();
       setExpanded(false);
-    }
-    if (event.key === 'Tab') {
-      const controls = Array.from(stage.querySelectorAll('button:not(:disabled), model-viewer'));
-      const first = controls[0];
-      const last = controls[controls.length - 1];
-      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
-      if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
-    }
-  });
+    });
+    stage.addEventListener('keydown', (event) => {
+      if (event.key !== 'Tab' || !stage.classList.contains('is-expanded')) return;
+      // The model's keyboard surface lives inside its shadow root.
+      const modelInput = viewer.shadowRoot?.querySelector('[tabindex="0"]');
+      const first = modelInput ?? stage.querySelector('button:not(:disabled)');
+      const onFirst = document.activeElement === (modelInput ? viewer : first);
+      if (event.shiftKey && onFirst) {
+        event.preventDefault();
+        expand.focus();
+      } else if (!event.shiftKey && document.activeElement === expand) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  } else {
+    expand.hidden = true;
+  }
   viewer.src = viewer.dataset.src;
   customElements.whenDefined('model-viewer').then(() => {
     if (viewer.loaded) viewer.dispatchEvent(new Event('load'));

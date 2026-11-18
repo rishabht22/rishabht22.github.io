@@ -1,5 +1,5 @@
-INSTRUCTIONS FOR CONTINUING rishabht.com/test
-================================================
+INSTRUCTIONS FOR CONTINUING rishabht.com
+==========================================
 
 Everything an AI coding assistant (Codex, Claude, etc.) needs to keep building
 this site the way Rishabh wants it. Read all of it before changing anything.
@@ -8,23 +8,16 @@ this site the way Rishabh wants it. Read all of it before changing anything.
 1. WHAT THIS IS
 ---------------
 - Repo: rishabht22/rishabht22.github.io, served by GitHub Pages at rishabht.com.
-- The ROOT of the repo is the original, plain light-colored site. DO NOT TOUCH IT.
-  It must stay byte-for-byte as it was at commit 35fed28.
-- /test is the redesign in progress, at rishabht.com/test.
-  - It is NOT linked from the main site. You only get there by typing the URL.
-  - Every /test page has <meta name="robots" content="noindex, nofollow">.
-  - /test is fully self-contained: every file it uses (HTML, CSS, JS, images,
-    videos, 3D models, the model-viewer library in test/vendor) lives inside
-    /test. Never reference anything outside /test (no "/stylesheet.css", only
-    "/test/stylesheet.css" or relative paths that stay inside /test).
+- The repository root serves the current site. The original light-colored site
+  is archived at /old/.
+- The unlisted PPO note retains its noindex metadata.
 - Plain HTML + CSS + vanilla JS. No framework, no build step, no bundler.
   Edit a file, refresh, done.
 
 
 2. HOW TO WORK (Rishabh's preferences)
 --------------------------------------
-- Commit often in small, real steps. Messages are short, all lowercase, casual,
-  prefixed "test: " for /test work, e.g. "test: spring nav indicator".
+- Commit often in small, real steps. Messages are short, all lowercase, casual.
   No attribution / co-author lines in commits.
 - Push to origin main yourself at the end of a chunk of work.
 - When giving Rishabh shell commands, give them as ONE single bash block
@@ -37,7 +30,7 @@ this site the way Rishabh wants it. Read all of it before changing anything.
   the repo; only compressed .glb files.
 - Local preview: from the repo root run
       python3 -m http.server 8765
-  then open http://localhost:8765/test/
+  then open http://localhost:8765/
   (.claude/launch.json already has this as the "site" config.)
 - Bump the ?v=NN query string on CSS/JS <script>/<link> tags in the HTML
   whenever you change those files, so browsers fetch the new version.
@@ -50,7 +43,7 @@ this site the way Rishabh wants it. Read all of it before changing anything.
   real engineering when you interact.
 - Colors: solid matte black background (#0E0E0F) with a faint grain overlay.
   ONE accent: electric blue #5B93FF (hover #8DB4FF). No lime, no orange.
-  Tokens are the CSS variables at the top of test/stylesheet.css.
+  Tokens are the CSS variables at the top of stylesheet.css.
 - Type: "Instrument Serif" (italic) for the name, section titles and project
   titles; "Geist" for body; "Geist Mono" for small technical labels.
   All loaded from Google Fonts.
@@ -98,7 +91,7 @@ Work (homepage "Work." section, two columns):
   - UPenn GRASP Lab — Research intern · 2024–25 (Oct 2024–Apr 2025)
   - Innov8rz · FTC Team 11039 — Software captain · 2020–26
 
-Projects ("Things I've built" + /test/projects/):
+Projects ("Things I've built" + /projects/):
   - ArmSkillComp — "Learned robot-arm skill sequencing" (page has the full
     write-up, videos, benchmark: 99.7% success over 1,024 seeded resets)
   - Cupid — "FTC Decode Season 2025-2026" (live 3D CAD)
@@ -125,7 +118,7 @@ Hobbies: soccer, finding new food spots, hiking, taking photos.
 No resume PDF exists in the repo yet.
 
 
-5. FILE MAP (test/)
+5. FILE MAP
 -------------------
 index.html            Homepage: hero (dot field + arm + name), Work, Things
                       I've built, Personal notes, Let's talk, footer, dock.
@@ -179,7 +172,7 @@ vendor/               model-viewer 4.4.0 + Draco decoder.
   Purple Emperor). Check orientation by finding the drivetrain node's bounds.
 - Compress:  gltf-transform optimize in.glb out.glb --compress draco
              --texture-compress false --simplify-error 0.0008
-- Put the .glb + a rendered .webp poster in test/projects/<name>/.
+- Put the .glb + a rendered .webp poster in projects/<name>/.
 
 
 8. HOW TO TEST (be rigorous)
@@ -191,7 +184,7 @@ vendor/               model-viewer 4.4.0 + Draco decoder.
 - Check on every change: desktop 1440x900 and 1280x800, tablet ~900px, phone
   390x844; prefers-reduced-motion: reduce; keyboard focus; no horizontal
   overflow (document.documentElement.scrollWidth === innerWidth); no console
-  errors; every /test link resolves inside /test; nav has all five links on
+  errors; every internal link resolves; nav has all five links on
   every page.
 - Drag a word, RT or a nav label within the hero. Check that a plain click
   still follows a link, the scroll cue stays fixed and Reset restores text.
