@@ -1,0 +1,93 @@
+/* Preserve the text's layout slots while the arm moves what is painted. */
+[data-page="home"] [data-move-text] {
+  translate: var(--arm-offset, none);
+  transition-property: color;
+}
+
+.hero-arm-enabled [data-move-text] {
+  -webkit-touch-callout: none;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+[data-page="home"] .site-header.is-scrolled [data-move-text] { translate: none; }
+
+.hero3-inner { position: relative; z-index: 1; }
+
+.hero-word {
+  display: inline-block;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
+.hero-arm-enabled .hero-word { pointer-events: auto; }
+.hero-word:focus-visible { outline-offset: 4px; }
+.hero-word:focus-visible, [data-move-text].arm-gripped { color: var(--accent-hover); }
+.hero-period { color: var(--accent); font-style: normal; }
+.hero-rotator { vertical-align: top; }
+
+.hero-credentials {
+  display: grid;
+  gap: 3px;
+  justify-items: center;
+  margin: 17px 0 0;
+  color: var(--text-2);
+  font: 11px/1.55 var(--font-mono);
+}
+
+.hero-arm-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-arm-base { fill: var(--surface); stroke: var(--muted); }
+.hero-arm-sleeves { fill: none; stroke: var(--line); stroke-width: 5; stroke-linecap: round; }
+.hero-arm-links { fill: none; stroke: #c9c9cf; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hero-arm-joints { fill: var(--bg); stroke: #c9c9cf; stroke-width: 1.5; }
+.hero-arm-gripper { fill: none; stroke: #c9c9cf; stroke-width: 1.6; stroke-linecap: round; }
+.hero3.is-moving-text .hero-arm-gripper { stroke: var(--accent-hover); }
+
+.hero-arm-controls {
+  position: absolute;
+  z-index: 4;
+  right: var(--gutter);
+  bottom: 15px;
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  color: var(--text-2);
+  font: 11px/1.4 var(--font-mono);
+}
+
+#hero-arm-reset {
+  padding: 6px 0 6px 2px;
+  border: 0;
+  background: none;
+  color: var(--accent-hover);
+  font: inherit;
+}
+
+#hero-arm-reset:hover { text-decoration: underline; }
+.hero3 .scroll-cue { z-index: 4; }
+
+@media (max-width: 760px) {
+  .hero-arm-controls { bottom: 56px; }
+  #hero-arm-reset { padding-block: 10px; }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero3 { min-height: max(420px, calc(100svh - var(--header-h))); }
+  .hero3-name { font-size: clamp(72px, 12vh, 116px); }
+}
+
+.site-header:not(.is-scrolled):has(.arm-displaced) .nav-indicator { visibility: hidden; }

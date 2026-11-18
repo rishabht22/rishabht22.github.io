@@ -142,13 +142,9 @@ arm.js                Pure math, no DOM: planar serial arm. FABRIK inverse
                       angles -> per-joint spring dynamics -> forward
                       kinematics. Tested: sub-pixel tip error, exact link
                       lengths, ~1.5s settle.
-home.js               Homepage hero: dot grid (leans away from pointer), intro
-                      where dots assemble the name "Rishabh." then hand off to
-                      the real text, the robot arm state machine
-                      (rest/track/reach/carry/place: click a dot to pick it
-                      up, click elsewhere to place it; the grid remembers),
-                      live joint-angle readout, "I build ___" word decode.
-                      ?debug in the URL exposes window.__hero for testing.
+home.js               Homepage dots, name assembly and the rotating tagline.
+hero-arm.js            Telescoping arm and text interactions on the homepage.
+hero-arm.css           Hero text, arm styling and movable label layout.
 textpoints.js         window.textPoints(el, originRect, step): redraws an
                       element's text on an offscreen canvas at its real
                       position/font and samples it into points. Used by the
@@ -196,5 +192,6 @@ vendor/               model-viewer 4.4.0 + Draco decoder.
   overflow (document.documentElement.scrollWidth === innerWidth); no console
   errors; every /test link resolves inside /test; nav has all five links on
   every page.
-- Add ?debug to the homepage URL to get window.__hero (step, state, click,
-  dotNear) for testing the arm deterministically.
+- Drag a word, RT or a nav label within the hero. Check that a plain click
+  still follows a link, the scroll cue stays fixed and Reset restores text.
+- Check touch pick and drop, long-press on links, and Space + arrow keys.

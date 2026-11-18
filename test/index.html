@@ -17,12 +17,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..800&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
   <link rel="stylesheet" href="/test/stylesheet.css?v=35">
+  <link rel="stylesheet" href="/test/hero-arm.css?v=1">
   <script>document.documentElement.classList.add('js');</script>
   <script src="/test/motion.js?v=29" defer></script>
   <script src="/test/site.js?v=30" defer></script>
   <script src="/test/textpoints.js?v=29" defer></script>
-  <script src="/test/arm.js?v=30" defer></script>
-  <script src="/test/home.js?v=30" defer></script>
+  <script src="/test/arm.js?v=31" defer></script>
+  <script src="/test/home.js?v=31" defer></script>
+  <script src="/test/hero-arm.js?v=1" defer></script>
   <script src="/test/demos.js?v=29" defer></script>
   <script src="/test/fx.js?v=29" defer></script>
 </head>
@@ -31,14 +33,14 @@
 
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="brand" href="/test/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span></a>
+      <a class="brand" data-move-text draggable="false" href="/test/" aria-label="Rishabh Thakur, home"><span class="brand-mark" aria-hidden="true">RT</span></a>
       <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-text">Menu</span><span class="menu-icon" aria-hidden="true"></span></button>
       <nav class="site-nav" id="site-nav" aria-label="Main">
-        <a href="/test/" aria-current="page">Home<b>.</b></a>
-        <a href="/test/projects/">Projects<b>.</b></a>
-        <a href="/test/notes/">Notes<b>.</b></a>
-        <a href="/test/coursework/">Coursework<b>.</b></a>
-        <a href="#contact">Contact<b>.</b></a>
+        <a data-move-text draggable="false" href="/test/" aria-current="page">Home<b>.</b></a>
+        <a data-move-text draggable="false" href="/test/projects/">Projects<b>.</b></a>
+        <a data-move-text draggable="false" href="/test/notes/">Notes<b>.</b></a>
+        <a data-move-text draggable="false" href="/test/coursework/">Coursework<b>.</b></a>
+        <a data-move-text draggable="false" href="#contact">Contact<b>.</b></a>
       </nav>
     </div>
   </header>
@@ -47,16 +49,35 @@
     <!-- Hero ============================================================== -->
     <section class="hero3" aria-labelledby="hero-name">
       <canvas class="dots" aria-hidden="true"></canvas>
+      <svg class="hero-arm-art" aria-hidden="true" hidden>
+        <rect class="hero-arm-base" width="44" height="8"/>
+        <path class="hero-arm-sleeves"/>
+        <polyline class="hero-arm-links"/>
+        <g class="hero-arm-joints"><circle r="6"/><circle r="4.5"/><circle r="4.5"/></g>
+        <path class="hero-arm-gripper"/>
+      </svg>
       <div class="hero3-inner wrap">
-        <p class="hero3-hi" data-enter style="--d:0ms">Hi, I’m</p>
-        <h1 class="hero3-name" id="hero-name">Rishabh<span>.</span></h1>
+        <p class="hero3-hi" data-enter style="--d:0ms"><button class="hero-word" type="button" data-move-text>Hi,</button> <button class="hero-word" type="button" data-move-text>I’m</button></p>
+        <h1 class="hero3-name" id="hero-name"><button class="hero-word" type="button" data-move-text>Rishabh<span class="hero-period">.</span></button></h1>
         <p class="hero3-line" data-enter style="--d:240ms">
-          I build
-          <span class="rotator" aria-hidden="true"><span class="rotator-word is-in">software</span></span>
-          <span class="visually-hidden">software, machine learning systems, AI tools, and robots.</span>
+          <button class="hero-word" type="button" data-move-text>I</button>
+          <button class="hero-word" type="button" data-move-text>build</button>
+          <button class="hero-word hero-rotator" type="button" data-move-text>
+            <span class="rotator" aria-hidden="true"><span class="rotator-word is-in">software</span></span>
+            <span class="visually-hidden">software, machine learning systems, AI tools, and robots.</span>
+          </button>
+        </p>
+        <p class="hero-credentials">
+          <button class="hero-word" type="button" data-move-text>EECS at UC Berkeley</button>
+          <button class="hero-word" type="button" data-move-text>Regents’ and Chancellor’s Scholar</button>
         </p>
       </div>
-      <p class="hero3-hint" aria-hidden="true">move around · click anywhere</p>
+      <div class="hero-arm-controls" hidden>
+        <span id="hero-arm-hint">Move the text around.</span>
+        <button type="button" id="hero-arm-reset" aria-label="Reset the hero text layout">Reset</button>
+        <span class="visually-hidden" id="hero-arm-keys">Use Space to pick up text or a link. Use arrow keys to move it, then Space or Enter to drop it.</span>
+        <span class="visually-hidden" id="hero-arm-status" role="status"></span>
+      </div>
       <a class="scroll-cue" href="#work">Scroll for more <span aria-hidden="true">↓</span></a>
     </section>
 

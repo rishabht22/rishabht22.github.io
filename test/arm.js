@@ -92,6 +92,11 @@
       this.qt = this.solve(target);
     }
 
+    setLengths(lengths) {
+      this.L = lengths.slice();
+      this.reach = lengths.reduce((sum, length) => sum + length, 0);
+    }
+
     snapToTarget() {
       this.q = this.qt.slice();
       this.qd.fill(0);
