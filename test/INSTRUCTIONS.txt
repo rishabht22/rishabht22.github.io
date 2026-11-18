@@ -94,7 +94,7 @@ Work (homepage "Work." section, two columns):
   PAST
   - UC Santa Cruz AIEA Lab — Research intern · 2025 (Jul–Aug 2025)
   - Respiris — Software engineer · 2025 (Jan–Jul 2025)
-  - XTEN-AV — Software engineer · 2024–25 (no link known)
+  - XTEN-AV — Software engineer · 2024–25 (https://xtenav.com/)
   - UPenn GRASP Lab — Research intern · 2024–25 (Oct 2024–Apr 2025)
   - Innov8rz · FTC Team 11039 — Software captain · 2020–26
 
