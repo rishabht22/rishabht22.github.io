@@ -117,9 +117,10 @@ Calculus 3, Intermediate Programming Methodologies in C++.
 
 Highlights (verified from the old site's history): FTC Hall of Fame #14
 all-time of 30,000+ teams; 1st UC Berkeley Integration Bee 2026; 2x AIME
-qualifier; 2x World Championship qualifier, 2024 divisional semifinalist;
-2024 world record (since broken); 2024 NorCal Regional Champion; Jacobs
-Scholar; BMT 2025 Power Round 4th; SMT 2025 Distinguished Honor Roll 7x.
+qualifier; 6x NorCal FTC Regionals qualifier; 2024 World Championship
+divisional semifinalist; 2024 world record (since broken); 2024 NorCal
+Regional Champion; Jacobs Scholar; BMT 2025 Power Round 4th; SMT 2025
+Distinguished Honor Roll 7x.
 Hobbies: soccer, finding new food spots, hiking, taking photos.
 No resume PDF exists in the repo yet.
 
