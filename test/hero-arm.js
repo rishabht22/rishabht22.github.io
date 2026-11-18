@@ -157,7 +157,7 @@
     if (wasMoving !== moving) hero.dispatchEvent(new Event('hero-move-state'));
     hint.textContent = restoring.length ? 'Resetting…' : selection
       ? (coarse.matches ? 'Tap to place.' : 'Click to place.')
-      : (coarse.matches ? 'Tap a word to move it.' : 'Drag or click a word.');
+      : (coarse.matches ? 'Tap a word to pick it up.' : 'Drag a word to move it.');
   }
 
   function release() {

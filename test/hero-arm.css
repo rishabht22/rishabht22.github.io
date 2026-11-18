@@ -70,6 +70,11 @@
   font: 11px/1.4 var(--font-mono);
 }
 
+#hero-arm-hint {
+  color: var(--text);
+  font-size: 13px;
+}
+
 #hero-arm-reset {
   padding: 6px 0 6px 2px;
   border: 0;
