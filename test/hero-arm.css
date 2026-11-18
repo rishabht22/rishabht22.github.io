@@ -32,6 +32,7 @@
 .hero-word:focus-visible, [data-move-text].arm-gripped { color: var(--accent-hover); }
 .hero-period { color: var(--accent); font-style: normal; }
 .hero-rotator { vertical-align: top; }
+.hero-rotator .rotator { inline-size: 9ch; }
 
 .hero-credentials {
   display: grid;

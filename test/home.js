@@ -222,7 +222,7 @@
       word.textContent = words[0];
     });
     window.setInterval(() => {
-      if (document.hidden || !visible || hero?.classList.contains('is-moving-text') || rotator.closest('.arm-displaced')) return;
+      if (document.hidden || !visible || reducedMotion.matches) return;
       index = (index + 1) % words.length;
       decode(word, words[index], { duration: 380, stagger: 34, jitter: 50 });
     }, 3000);
