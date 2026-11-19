@@ -16,7 +16,7 @@
     const ctx = canvas.getContext('2d');
     const GAP = 26;
     const REACH = 120;
-    const DRIFT_SPEED = 6; // CSS pixels per second
+    const DRIFT_SPEED = 14; // CSS pixels per second
     const BURST_DURATION = 1550;
     const waveButton = hero.querySelector('.dot-wave-button');
     let width = 0;
