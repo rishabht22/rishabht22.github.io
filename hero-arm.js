@@ -27,7 +27,7 @@
   const items = new Map([...document.querySelectorAll('[data-move-text]')].map(element => [
     element, { element, dx: 0, dy: 0 },
   ]));
-  const controls = '.hero-arm-controls, .scroll-cue, .menu-button';
+  const controls = '.hero-arm-controls, .dot-wave-button, .scroll-cue, .menu-button';
   const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const clamp = (value, min, max) => Math.max(min, Math.min(Math.max(min, max), value));
 
@@ -260,6 +260,7 @@
       status.textContent = `Placed ${name(item)}.`;
       returning = coarse.matches;
       release();
+      hero.dispatchEvent(new CustomEvent('hero-text-placed', { detail: next }));
     }
     wake();
   }

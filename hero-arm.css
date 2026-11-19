@@ -86,9 +86,29 @@
 #hero-arm-reset:hover { text-decoration: underline; }
 .hero3 .scroll-cue { z-index: 4; }
 
+.dot-wave-button {
+  position: absolute;
+  z-index: 4;
+  left: var(--gutter);
+  bottom: 15px;
+  min-height: 32px;
+  padding: 0 6px;
+  border: 0;
+  background: none;
+  color: var(--text-2);
+  font: 13px/1.4 var(--font-mono);
+}
+
+.dot-wave-button:hover { color: var(--accent-hover); }
+.dot-wave-button:focus-visible { outline-offset: 3px; }
+.dot-wave-button:disabled { opacity: .45; }
+
+@media (prefers-reduced-motion: reduce) { .dot-wave-button { display: none; } }
+
 @media (max-width: 760px) {
   .hero-arm-controls { bottom: 56px; }
   #hero-arm-reset { padding-block: 10px; }
+  .dot-wave-button { bottom: 16px; min-height: 44px; }
 }
 
 @media (max-height: 480px) and (orientation: landscape) {

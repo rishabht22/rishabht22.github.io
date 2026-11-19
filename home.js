@@ -1,7 +1,7 @@
 // Homepage hero.
-//  - A field of dots that leans away from the pointer.
+//  - A field of dots that drifts right and leans away from the pointer.
 //  - On load, the dots stream into the shape of the name, then hand over to
-//    the real text and fall back into the grid.
+//    the real text and send a wave through the grid.
 //  - "I build ___" decodes from one word to the next.
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -16,11 +16,17 @@
     const ctx = canvas.getContext('2d');
     const GAP = 26;
     const REACH = 120;
+    const DRIFT_SPEED = 6; // CSS pixels per second
+    const BURST_DURATION = 1550;
+    const waveButton = hero.querySelector('.dot-wave-button');
     let width = 0;
     let height = 0;
+    let fieldWidth = 0;
+    let wrapRight = 0;
     let dots = [];
-    const ripples = [];
+    let burst = null;
     const pointer = { x: -1e4, y: -1e4, on: false };
+    let press = null;
     let introOn = false;
 
     const build = () => {
@@ -34,47 +40,69 @@
       dots = [];
       const ox = (width % GAP) / 2;
       const oy = (height % GAP) / 2;
+      // Recycle columns beyond the reach of visible dot displacement.
+      const wrapLeft = ox - 2 * GAP;
+      fieldWidth = (Math.ceil(width / GAP) + 4) * GAP;
+      wrapRight = wrapLeft + fieldWidth;
       for (let y = oy; y <= height; y += GAP) {
-        for (let x = ox; x <= width; x += GAP) {
+        for (let x = wrapLeft; x < wrapRight; x += GAP) {
           dots.push({ x, y, dx: 0, dy: 0, px: x, py: y, glow: 0, target: null, k: .07 + Math.random() * .05 });
         }
       }
     };
 
-    let settled = true;
-    const draw = (now) => {
+    const startWave = (x, y, { strength = 1, spin = 1, range = Infinity } = {}) => {
+      if (reducedMotion.matches || introOn || hero.classList.contains('is-moving-text')) return;
+      x = Math.max(0, Math.min(x, width));
+      y = Math.max(0, Math.min(y, height));
+      const farthestCorner = Math.hypot(Math.max(x, width - x), Math.max(y, height - y));
+      const travel = Math.min(farthestCorner, range) + 7 * GAP;
+      const duration = Math.min(BURST_DURATION, 450 + travel);
+      burst = { x, y, travel, duration, strength, spin, startedAt: performance.now() };
+      wake();
+    };
+
+    const draw = (now, drift = 0) => {
       ctx.clearRect(0, 0, width, height);
-      for (let i = ripples.length - 1; i >= 0; i -= 1) if (now - ripples[i].t > 1400) ripples.splice(i, 1);
-      settled = true;
+      if (burst && now - burst.startedAt >= burst.duration) burst = null;
+      const radius = burst ? (now - burst.startedAt) / burst.duration * burst.travel : 0;
+      const radial = press ? -27 : 14;
+      const tangent = press ? press.spin * 43 : 0;
 
       for (const d of dots) {
+        if (drift) {
+          const shift = d.x + drift >= wrapRight ? drift - fieldWidth : drift;
+          d.x += shift;
+          d.px += shift;
+        }
         let tx = 0;
         let ty = 0;
         let glow = 0;
-        if (pointer.on) {
+        if (press || pointer.on) {
           const vx = d.px - pointer.x;
           const vy = d.py - pointer.y;
           const dist = Math.hypot(vx, vy);
           if (dist < REACH && dist > .01) {
-            const f = (1 - dist / REACH) ** 2;
-            tx += (vx / dist) * f * 14;
-            ty += (vy / dist) * f * 14;
-            glow = Math.max(glow, f * .8);
+            const falloff = (1 - dist / REACH) ** 2;
+            const force = falloff / dist;
+            tx += (vx * radial - vy * tangent) * force;
+            ty += (vy * radial + vx * tangent) * force;
+            glow = falloff * (press ? 1 : .8);
           }
         }
-        for (const r of ripples) {
-          const age = (now - r.t) / 1400;
-          const radius = age * Math.max(width, height) * .7;
-          const vx = d.px - r.x;
-          const vy = d.py - r.y;
+        if (burst) {
+          const vx = d.x - burst.x;
+          const vy = d.y - burst.y;
           const dist = Math.hypot(vx, vy) || 1;
-          const band = 1 - Math.abs(dist - radius) / 40;
-          if (band > 0) {
-            const f = band * (1 - age);
-            tx += (vx / dist) * f * 10;
-            ty += (vy / dist) * f * 10;
-            glow = Math.max(glow, f);
-          }
+          const wake = (radius - dist) / GAP;
+          const crest = Math.max(0, 1 - Math.abs(wake) / 3.5) ** 2;
+          const rebound = Math.max(0, 1 - Math.abs(wake - 4) / 3) ** 2;
+          const strength = burst.strength * (1 - .38 * Math.min(dist / burst.travel, 1));
+          const outward = (52 * crest - 19 * rebound) * strength;
+          const sideways = (37 * crest + 10 * rebound) * strength * burst.spin;
+          tx += (vx * outward - vy * sideways) / dist;
+          ty += (vy * outward + vx * sideways) / dist;
+          glow = Math.max(glow, .88 * crest * strength, .35 * rebound * strength);
         }
         d.dx += (tx - d.dx) * .14;
         d.dy += (ty - d.dy) * .14;
@@ -83,7 +111,6 @@
         const k = d.target ? d.k : Math.max(d.k, .1);
         d.px += (bx + d.dx - d.px) * k;
         d.py += (by + d.dy - d.py) * k;
-        if (Math.abs(bx + d.dx - d.px) > .3 || Math.abs(by + d.dy - d.py) > .3) settled = false;
         const wantGlow = d.target ? .92 : glow;
         d.glow += (wantGlow - d.glow) * .1;
         const g = d.glow;
@@ -101,13 +128,19 @@
     let running = false;
     let frame = 0;
     let onScreen = true;
-    let idleFrames = 0;
+    let lastFrame = null;
     const loop = (now) => {
-      draw(now);
-      const busy = ripples.length || introOn || !settled;
-      idleFrames = busy ? 0 : idleFrames + 1;
-      if (idleFrames > 30) { running = false; return; }
+      if (reducedMotion.matches) { running = false; return; }
+      const elapsed = lastFrame === null ? 0 : Math.min(now - lastFrame, 50);
+      lastFrame = now;
+      draw(now, introOn ? 0 : DRIFT_SPEED * elapsed / 1000);
       frame = window.requestAnimationFrame(loop);
+    };
+    const pause = () => {
+      press = null;
+      pointer.on = false;
+      running = false;
+      window.cancelAnimationFrame(frame);
     };
     function wake() {
       if (running || !onScreen || document.hidden || hero.classList.contains('is-moving-text')) return;
@@ -116,7 +149,7 @@
         return;
       }
       running = true;
-      idleFrames = 0;
+      lastFrame = null;
       frame = window.requestAnimationFrame(loop);
     }
 
@@ -125,24 +158,52 @@
 
     /* ---------- Input ---------- */
     const local = (e) => { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
-    hero.addEventListener('pointermove', (e) => {
-      if (e.pointerType !== 'mouse' || reducedMotion.matches || hero.classList.contains('is-moving-text')) return;
-      const p = local(e);
-      pointer.x = p.x; pointer.y = p.y; pointer.on = true;
+    document.addEventListener('pointermove', (e) => {
+      if (!e.isPrimary || reducedMotion.matches || hero.classList.contains('is-moving-text')) return;
+      if (press?.id === e.pointerId && e.pointerType === 'mouse' && !(e.buttons & 1)) press = null;
+      const inside = hero.contains(e.target);
+      if (press ? press.id !== e.pointerId : e.pointerType !== 'mouse' || !inside) return;
+      const { x, y } = local(e);
+      if (press && Math.abs(x - press.lastX) > 8) {
+        press.spin = Math.sign(x - press.lastX);
+        press.lastX = x;
+      }
+      Object.assign(pointer, { x, y, on: e.pointerType === 'mouse' && inside });
       wake();
     });
-    hero.addEventListener('pointerleave', () => {
-      pointer.on = false;
-      wake();
+    hero.addEventListener('pointerleave', () => { pointer.on = false; });
+    hero.addEventListener('pointerdown', (e) => {
+      if (press || !e.isPrimary || e.button !== 0 || reducedMotion.matches || waveButton?.hidden ||
+          hero.classList.contains('is-moving-text') || e.target.closest('a, button, [data-move-text]')) return;
+      const { x, y } = local(e);
+      Object.assign(pointer, { x, y, on: e.pointerType === 'mouse' });
+      press = { id: e.pointerId, x, y, lastX: x, spin: 1 };
+    });
+    document.addEventListener('pointerup', (e) => {
+      if (press?.id !== e.pointerId) return;
+      const { x, y } = local(e);
+      const strength = .7 + .3 * Math.min(Math.hypot(x - press.x, y - press.y) / 150, 1);
+      const spin = press.spin;
+      press = null;
+      pointer.on = e.pointerType === 'mouse' && x >= 0 && x <= width && y >= 0 && y <= height;
+      startWave(x, y, { strength, spin });
+    });
+    document.addEventListener('pointercancel', (e) => { if (press?.id === e.pointerId) press = null; });
+    window.addEventListener('blur', () => { press = null; pointer.on = false; });
+    waveButton?.addEventListener('click', () => {
+      const r = waveButton.getBoundingClientRect();
+      const { x, y } = local({ clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+      startWave(x, y, { strength: .88 });
+    });
+    hero.addEventListener('hero-text-placed', ({ detail }) => {
+      startWave(detail.x, detail.y, { strength: .53, range: 175 });
     });
 
     // Keep the dot field still while the foreground text is moving.
     hero.addEventListener('hero-move-state', () => {
-      if (hero.classList.contains('is-moving-text')) {
-        pointer.on = false;
-        running = false;
-        cancelAnimationFrame(frame);
-      } else wake();
+      const movingText = hero.classList.contains('is-moving-text');
+      if (waveButton) waveButton.disabled = movingText;
+      if (movingText) pause(); else wake();
     });
 
     /* ---------- Intro: the dots spell the name ---------- */
@@ -150,14 +211,15 @@
     const formName = () => {
       if (!nameEl || !window.textPoints) return false;
       const origin = hero.getBoundingClientRect();
+      const visibleDots = dots.filter((d) => d.px >= 0 && d.px <= width);
       let step = 5;
       let points = window.textPoints(nameEl, origin, step);
-      while (points.length > dots.length * .5 && step < 16) { step += 1; points = window.textPoints(nameEl, origin, step); }
+      while (points.length > visibleDots.length * .5 && step < 16) { step += 1; points = window.textPoints(nameEl, origin, step); }
       if (!points.length) return false;
       for (const t of points) {
         let best = null;
         let bestD = Infinity;
-        for (const d of dots) {
+        for (const d of visibleDots) {
           if (d.target) continue;
           const dist = (d.px - t.x) ** 2 + (d.py - t.y) ** 2;
           if (dist < bestD) { bestD = dist; best = d; }
@@ -168,16 +230,25 @@
       wake();
       return true;
     };
-    const showName = () => nameEl?.classList.add('is-ready');
+    const showName = () => {
+      nameEl?.classList.add('is-ready');
+      if (waveButton) waveButton.hidden = false;
+    };
     const intro = () => {
-      if (reducedMotion.matches || !formName()) { showName(); startRotator(); wake(); return; }
+      if (reducedMotion.matches || nameEl?.classList.contains('is-ready') || !formName()) {
+        showName();
+        startRotator();
+        wake();
+        return;
+      }
       window.setTimeout(() => {
+        if (!introOn) return;
         showName();
         dots.forEach((d) => { d.target = null; });
         introOn = false;
         const r = nameEl.getBoundingClientRect();
-        const o = hero.getBoundingClientRect();
-        ripples.push({ x: r.left - o.left + r.width / 2, y: r.top - o.top + r.height / 2, t: performance.now() });
+        const { x, y } = local({ clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 });
+        startWave(x, y);
         startRotator();
         wake();
       }, 1100);
@@ -188,21 +259,29 @@
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => {
         onScreen = entry.isIntersecting;
-        if (onScreen) wake(); else { running = false; window.cancelAnimationFrame(frame); }
+        if (onScreen) wake(); else pause();
       }).observe(hero);
     }
     reducedMotion.addEventListener('change', () => {
-      running = false;
-      window.cancelAnimationFrame(frame);
+      pause();
+      if (reducedMotion.matches) {
+        burst = null;
+        introOn = false;
+        showName();
+        build();
+        draw(performance.now());
+        return;
+      }
+      if (nameEl?.classList.contains('is-ready')) startRotator();
       wake();
     });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) { running = false; window.cancelAnimationFrame(frame); } else wake();
+      if (document.hidden) pause(); else wake();
     });
     let resizeTimer;
     window.addEventListener('resize', () => {
       window.clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => { build(); wake(); }, 150);
+      resizeTimer = window.setTimeout(() => { burst = null; build(); wake(); }, 150);
     });
   }
 
