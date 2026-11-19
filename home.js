@@ -130,7 +130,7 @@
     let onScreen = true;
     let lastFrame = null;
     const loop = (now) => {
-      if (reducedMotion.matches) { running = false; return; }
+      if (reducedMotion.matches) { renderStatic(); return; }
       const elapsed = lastFrame === null ? 0 : Math.min(now - lastFrame, 50);
       lastFrame = now;
       draw(now, introOn ? 0 : DRIFT_SPEED * elapsed / 1000);
@@ -141,6 +141,14 @@
       pointer.on = false;
       running = false;
       window.cancelAnimationFrame(frame);
+    };
+    const renderStatic = () => {
+      pause();
+      burst = null;
+      introOn = false;
+      showName();
+      build();
+      draw(performance.now());
     };
     function wake() {
       if (running || !onScreen || document.hidden || hero.classList.contains('is-moving-text')) return;
@@ -263,15 +271,7 @@
       }).observe(hero);
     }
     reducedMotion.addEventListener('change', () => {
-      pause();
-      if (reducedMotion.matches) {
-        burst = null;
-        introOn = false;
-        showName();
-        build();
-        draw(performance.now());
-        return;
-      }
+      if (reducedMotion.matches) { renderStatic(); return; }
       if (nameEl?.classList.contains('is-ready')) startRotator();
       wake();
     });
