@@ -7,7 +7,6 @@
   --surface: #F3EADB;
   --line: #E4D7C3;
   --semester-line: var(--line);
-  --course-line: var(--line);
 }
 
 * { box-sizing: border-box; }
@@ -169,37 +168,30 @@ p { margin: 0 0 23px; }
   border-top: 1px solid var(--line);
 }
 
-.semester-heading {
-  margin: 0 0 16px;
-  font-size: 21px;
-  font-weight: 500;
-  line-height: 1.4;
-}
-.coursework-section + .coursework-section { margin-top: 36px; }
-.coursework-section summary { display: flex; justify-content: space-between; align-items: center; gap: 24px; cursor: pointer; list-style: none; font-size: 21px; font-weight: 500; }
-.coursework-section summary::-webkit-details-marker { display: none; }
-.coursework-section summary::after { content: ""; flex-shrink: 0; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-right: 6px; transition: transform 220ms ease; }
-.coursework-section[open]:not(.is-closing) summary::after { transform: rotate(225deg); }
-.disclosure-content { padding-top: 22px; }
-.course-list.course-list-names li { display: block; }
+.coursework-page .page-heading { margin-bottom: 8px; }
+.coursework-lead { margin: 0 0 26px; color: var(--muted); }
 .course-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
   margin: 0;
   padding: 0;
-  border-block: 1px solid var(--semester-line);
   list-style: none;
 }
 .course-list li {
-  display: grid;
-  grid-template-columns: 103px minmax(0, 1fr);
-  align-items: baseline;
-  gap: 19px;
-  margin: 0;
-  padding-block: 9px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 19px;
-  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface);
 }
-.course-list li + li { border-top: 1px solid var(--course-line); }
+.course-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.4;
+}
 .course-code {
   color: var(--muted);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -220,10 +212,7 @@ p { margin: 0 0 23px; }
   .bio { font-size: 17px; line-height: 1.8; }
   .contact-list { font-size: 14px; }
   .contact-list > div { flex-direction: row; gap: 16px; }
-  .coursework-section summary { font-size: 20px; }
-  .semester-heading { font-size: 20px; }
-  .course-list li { grid-template-columns: 110px minmax(0, 1fr); gap: 14px; padding-block: 9px; font-size: 18px; }
-  .course-code { font-size: 15px; }
+  .course-list { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 360px) {
@@ -232,7 +221,7 @@ p { margin: 0 0 23px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .page, nav a, .coursework-section summary::after { animation: none; transition: none; }
+  .page, nav a { animation: none; transition: none; }
   .page.is-leaving { opacity: 1; }
 }
 
