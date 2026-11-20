@@ -7,6 +7,7 @@
   --surface: #F3EADB;
   --line: #E4D7C3;
   --semester-line: var(--line);
+  --page-width: 736px;
 }
 
 * { box-sizing: border-box; }
@@ -53,11 +54,11 @@ a:hover { color: var(--text); }
   color: var(--background);
 }
 
-.site-header { width: min(623px, calc(100% - 57px)); margin-inline: auto; border-bottom: 1px solid var(--semester-line); }
+.site-header { width: min(var(--page-width), calc(100% - 57px)); margin-inline: auto; border-bottom: 1px solid var(--semester-line); }
 
 .header-inner,
 .page {
-  width: min(623px, calc(100% - 57px));
+  width: min(var(--page-width), calc(100% - 57px));
   margin-inline: auto;
 }
 
@@ -129,7 +130,7 @@ nav a:hover { color: var(--text); }
 .contact-list dt { flex: 0 0 50px; color: var(--link); }
 .contact-list dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .contact-list a { color: var(--muted); text-decoration: none; }
-.site-footer { width: min(623px, calc(100% - 57px)); margin-inline: auto; padding: 47px 0; border-top: 1px solid var(--semester-line); text-align: center; color: var(--muted); font-size: 15px; }
+.site-footer { width: min(var(--page-width), calc(100% - 57px)); margin-inline: auto; padding: 47px 0; border-top: 1px solid var(--semester-line); text-align: center; color: var(--muted); font-size: 15px; }
 .footer-links { display: flex; justify-content: center; gap: 26px; margin-bottom: 24px; }
 .footer-links a { color: var(--muted); text-decoration: none; }
 .footer-links a:hover { color: var(--text); }
@@ -246,7 +247,7 @@ p { margin: 0 0 23px; }
 .note-card-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .note-tag { padding: 3px 8px; border-radius: 5px; background: var(--line); color: var(--text); font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; line-height: 1.6; }
 .note-meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 14px; }
-.note-page { width: min(960px, calc(100% - 64px)); }
+.note-page { width: min(1024px, calc(100% - 64px)); }
 .back-link { display: inline-block; margin-bottom: 24px; text-decoration: none; font-size: 15px; }
 .note-header { margin-bottom: 36px; }
 .note-header .page-heading { margin-bottom: 16px; }
@@ -326,7 +327,7 @@ p { margin: 0 0 23px; }
 .project-arrow { position: absolute; top: 16px; right: 17px; color: var(--link); line-height: 1; }
 .project-meta { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
 .project-back { display: inline-block; margin-bottom: 24px; font-size: 14px; }
-.project-detail { width: min(820px, calc(100% - 57px)); padding-top: 30px; }
+.project-detail { width: min(884px, calc(100% - 57px)); padding-top: 30px; }
 .project-header { margin-bottom: 25px; text-align: center; }
 .project-header .page-heading {
   margin: 0 0 7px;
