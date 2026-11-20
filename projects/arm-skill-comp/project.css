@@ -1,20 +1,18 @@
 .research-page {
-  --arm-accent: #5B93FF;
-  --arm-accent-light: rgba(91, 147, 255, .13);
-  --arm-track: #232326;
+  --arm-accent: #2e635a;
+  --arm-accent-light: #e0ece4;
+  --arm-track: #ede4d6;
 }
 
 .arm-reading { max-width: 660px; margin-inline: auto; }
-.arm-section { margin-top: 56px; padding-top: 36px; border-top: 1px solid var(--line-soft); }
-.arm-reading { color: var(--text-2); font-size: 17px; line-height: 1.75; }
-.arm-reading h2 { color: var(--text); }
-.arm-section h2 { margin: 0 0 14px; font-size: 24px; font-weight: 560; line-height: 1.25; letter-spacing: -.025em; }
+.arm-section { margin-top: 38px; padding-top: 28px; border-top: 1px solid var(--line); }
+.arm-section h2 { margin: 0 0 10px; font-size: 25px; font-weight: 600; line-height: 1.25; letter-spacing: -.45px; }
 .arm-section p { margin: 0 0 16px; }
 .arm-section p:last-child { margin-bottom: 0; }
 
 .arm-video, .arm-figure { margin: 23px 0 0; }
 .research-page > .arm-video { margin-top: 0; }
-.arm-video video { display: block; width: 100%; height: auto; border: 1px solid var(--line-soft); border-radius: 12px; background: #0A0F16; }
+.arm-video video { display: block; width: 100%; height: auto; border-radius: 6px; background: #0c131b; }
 .research-page figcaption { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.55; }
 
 .arm-flow {
@@ -28,12 +26,12 @@
 .arm-flow li {
   position: relative;
   padding: 13px;
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
   line-height: 1.4;
 }
-.arm-flow li:nth-child(2) { border-color: var(--accent-line); background: var(--arm-accent-light); }
+.arm-flow li:nth-child(2) { border-color: #b7cfc3; background: var(--arm-accent-light); }
 .arm-flow li + li::before {
   content: "";
   position: absolute;
@@ -51,10 +49,9 @@
   margin-block: 16px;
   padding: 15px 12px;
   overflow-x: auto;
-  border: 1px solid var(--line-soft);
-  border-radius: 10px;
-  background: var(--bg-2);
-  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
   font-size: 1.14em;
 }
 .arm-equation math { font-family: math; }
@@ -63,21 +60,20 @@
 .arm-scores fieldset {
   margin: 0;
   padding: 12px 16px 16px;
-  border: 1px solid var(--line-soft);
-  border-radius: 12px;
-  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
   min-inline-size: 0;
 }
-.arm-scores legend { padding-inline: 6px; font-size: 15px; font-weight: 560; }
+.arm-scores legend { padding-inline: 5px; font-size: 16px; font-weight: 650; }
 .arm-scores label {
   display: inline-block;
   margin: 0 3px 4px 0;
   padding: 4px 10px;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--text-2);
-  font-size: 13.5px;
-  transition: border-color var(--t-hover) var(--ease), background-color var(--t-hover) var(--ease);
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
 }
 .arm-scores label:hover { border-color: var(--arm-accent); }
 .arm-scores input:checked + label { border-color: var(--arm-accent); background: var(--arm-accent-light); color: var(--arm-accent); }
@@ -95,7 +91,7 @@
   line-height: 1.3;
 }
 .arm-score-panel li > :last-child { text-align: right; }
-.arm-score-panel .is-selected { color: var(--accent-hover); font-weight: 560; }
+.arm-score-panel .is-selected { color: var(--arm-accent); font-weight: 650; }
 .arm-score-track { position: relative; height: 10px; background: var(--arm-track); }
 .arm-score-track::after {
   content: "";
@@ -106,7 +102,7 @@
 }
 .arm-score-track > span { position: absolute; inset-block: 0; width: var(--extent); }
 .arm-score-positive { left: 50%; background: var(--arm-accent); }
-.arm-score-negative { right: 50%; background: #45454C; }
+.arm-score-negative { right: 50%; background: #a68b76; }
 
 .arm-benchmark {
   width: 100%;
@@ -116,7 +112,7 @@
   font-size: 14px;
   font-variant-numeric: tabular-nums;
 }
-.arm-benchmark th, .arm-benchmark td { padding: 10px 6px; border-bottom: 1px solid var(--line-soft); }
+.arm-benchmark th, .arm-benchmark td { padding: 8px 6px; border-bottom: 1px solid var(--line); }
 .arm-benchmark th:first-child { width: 30%; text-align: left; }
 .arm-benchmark thead { color: var(--muted); line-height: 1.25; }
 .arm-benchmark thead th { font-weight: 600; }

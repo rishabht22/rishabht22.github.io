@@ -1,4 +1,4 @@
-INSTRUCTIONS FOR CONTINUING rishabht.com
+INSTRUCTIONS FOR CONTINUING rishabht.com/test
 ==========================================
 
 Everything an AI coding assistant (Codex, Claude, etc.) needs to keep building
@@ -8,9 +8,8 @@ this site the way Rishabh wants it. Read all of it before changing anything.
 1. WHAT THIS IS
 ---------------
 - Repo: rishabht22/rishabht22.github.io, served by GitHub Pages at rishabht.com.
-- The repository root serves the current site. The original light-colored site
-  is archived at /old/.
-- The unlisted PPO note retains its noindex metadata.
+- The original light-colored site is at the repository root and archived at /old/.
+- The redesign is served at /test/. All /test pages are marked noindex.
 - Plain HTML + CSS + vanilla JS. No framework, no build step, no bundler.
   Edit a file, refresh, done.
 
@@ -30,7 +29,7 @@ this site the way Rishabh wants it. Read all of it before changing anything.
   the repo; only compressed .glb files.
 - Local preview: from the repo root run
       python3 -m http.server 8765
-  then open http://localhost:8765/
+  then open http://localhost:8765/test/
   (.claude/launch.json already has this as the "site" config.)
 - Bump the ?v=NN query string on CSS/JS <script>/<link> tags in the HTML
   whenever you change those files, so browsers fetch the new version.
@@ -91,7 +90,7 @@ Work (homepage "Work." section, two columns):
   - UPenn GRASP Lab — Research intern · 2024–25 (Oct 2024–Apr 2025)
   - Innov8rz · FTC Team 11039 — Software captain · 2020–26
 
-Projects ("Things I've built" + /projects/):
+Projects ("Things I've built" + /test/projects/):
   - ArmSkillComp — "Learned robot-arm skill sequencing" (page has the full
     write-up, videos, benchmark: 99.7% success over 1,024 seeded resets)
   - Cupid — "FTC Decode Season 2025-2026" (live 3D CAD)
